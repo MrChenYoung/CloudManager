@@ -62,18 +62,33 @@
 <{block name="content"}>
 <div class="aw-content-wrap">
     <div class="mod">
+        <div class="drive-select-box">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <select id="plat_select" lay-filter="plat-list">
+                            <option value="">选择云盘类型</option>
+                        </select>
+                        <select id="plat_select" lay-filter="plat-list">
+                            <option value="">选择云盘</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="layui-form" style="text-align: center;">
             <table class="layui-table">
                 <colgroup>
                     <col width="150">
                     <col width="150">
-                    <col width="150">
                     <col width="200">
+                    <col width="100">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>名称</th>
-                    <th>类型</th>
+                    <th>大小</th>
+                    <th>上次修改时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
