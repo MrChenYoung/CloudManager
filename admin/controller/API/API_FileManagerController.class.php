@@ -40,4 +40,33 @@ class API_FileManagerController extends API_BaseController
 
         echo $this->success($data);
     }
+
+    // 获取文件列表
+    public function loadFileList(){
+        // 远程云盘名
+        if (!isset($_GET["remoteName"])){
+            echo $this->failed("缺少remoteName参数");
+            die;
+        }
+        $remoteName = $_GET["remoteName"];
+
+        // 路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        // rclone命令获取文件列表信息
+        $cmd = "rclone lsjson ".$remoteName.":".$path;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("获取文件列表失败");
+            die;
+        }
+
+        $fileList = $res["result"];
+        echo "<pre>";
+        var_dump($fileList);
+    }
 }
