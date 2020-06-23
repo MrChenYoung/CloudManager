@@ -30,6 +30,11 @@
         margin-left: 10px;
     }
 
+    .file-icon {
+        font-size: 25px;
+        height: 25px;
+        width: 25px;
+    }
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -160,7 +165,7 @@
         for(var i = 0; i < data.length; i++){
             var file = data[i];
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
-            dom += '<tr><td><i class="iconfont '+ file["icon"] +'"></i>';
+            dom += '<tr><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
             dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
