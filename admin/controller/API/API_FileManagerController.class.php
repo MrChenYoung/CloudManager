@@ -111,4 +111,9 @@ class API_FileManagerController extends API_BaseController
 
         echo $this->success($fileList);
     }
+
+    // 根据文件类型获取显示图标
+    private function getFileIcon($fileType){
+
+    }
 }
