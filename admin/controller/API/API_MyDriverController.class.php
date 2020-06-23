@@ -43,4 +43,21 @@ class API_MyDriverController extends API_BaseController
 
         echo $this->success($data);
     }
+
+    // 删除云盘
+    public function deleteDrive(){
+        if (!isset($_GET["name"])){
+            echo $this->failed("缺少name参数");
+            die;
+        }
+        $name = $_GET["name"];
+        // rclone删除命令
+        $cmd = "rclone config delete ".$name;
+        $res = ShellManager::exec($cmd);
+        if ($res["success"]){
+            echo $this->success("删除成功");
+        }else {
+            echo $this->failed("删除失败");
+        }
+    }
 }
