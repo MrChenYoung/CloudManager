@@ -24,8 +24,8 @@
     }
 
     .add-category-container {
-        width: 800px;
-        height: 600px;
+        width: 400px;
+        height: 300px;
         background-color: #FFF;
         margin: 100px auto;
         padding: 10px;
@@ -34,7 +34,7 @@
     }
 
     .layui-field-title{
-        width: 800px;
+        width: 400px;
     }
 
     .layui-input-inline .layui-btn {
@@ -91,7 +91,7 @@
         // 添加右键菜单
         var menu_data=[
             {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
-            {'type':2,'icon':'icon-beizhu','title':'添加备注'},
+            {'type':2,'icon':'icon-beizhu','title':'添加/修改备注'},
             {'type':3,'icon':'icon-xiangqing','title':'获取大小和文件数'},
             {'type':4,'icon':'icon-icon_del','title':'删除'},
         ];
@@ -103,8 +103,12 @@
                 case 1:
                     // 重命名
                 case 2:
-                    // 添加备注
+                    // 添加/修改备注
                     showEditCover(opeType);
+                    break;
+                case 3:
+                    // 获取大小和文件数
+
                     break;
                 case 4:
                     // 删除
@@ -116,6 +120,17 @@
 
     // 显示编辑界面
     function showEditCover(type) {
+        if (type == 1){
+            // 重命名
+            $("#legend_title").text("重命名");
+            $("#new_name_input").css("display","block");
+            $("#remark_area").css("display","none");
+        }else {
+            // 添加/修改备注
+            $("#legend_title").text("添加/修改备注");
+            $("#new_name_input").css("display","none");
+            $("#remark_area").css("display","block");
+        }
         $(".add-category-box").css("display","block");
     }
 
@@ -171,8 +186,8 @@
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend id="legend_title">重命名</legend>
         </fieldset>
-        <input id="add_user_desc" type="text" lay-verify="required" placeholder="请输入账户描述信息" autocomplete="off" class="layui-input">
-        <textarea style="resize: none;height: 150px" id="acc_remark" placeholder="请输入备注信息" class="layui-textarea"></textarea>
+        <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        <textarea id="remark_area" style="resize: none;height: 150px"  placeholder="请输入备注信息" class="layui-textarea"></textarea>
 
         <!--确定/取消按钮-->
         <div class="btns-box">
