@@ -49,6 +49,7 @@
             var driver = data[i];
             dom += '<tr><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
+            dom += '<td>--</td>';
             dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
 
