@@ -156,7 +156,8 @@
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td>';
-            dom += '<td><i title="删除" fileName="'+ file["Name"] +'" onclick="deleteFile(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+            dom += '<td><i title="获取详情" fileName="'+ file["Name"] +'" onclick="loadFileInfo(this)" style="cursor: pointer" class="icon icon-about"></i>';
+            dom += '<i title="删除" fileName="'+ file["Name"] +'" onclick="deleteFile(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
 
         // 添加分类一行
