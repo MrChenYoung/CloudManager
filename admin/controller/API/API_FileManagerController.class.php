@@ -107,13 +107,49 @@ class API_FileManagerController extends API_BaseController
             }
             $fileList[$key]["Size"] = $fileSize;
             $fileList[$key]["Count"] = $fileCount;
+            // 文件类型处理
+            $fileList[$key]["icon"] = $this->getFileIcon($file);
         }
 
         echo $this->success($fileList);
     }
 
     // 根据文件类型获取显示图标
-    private function getFileIcon($fileType){
+    private function getFileIcon($file){
+        if ($file["IsDir"]){
+            return "icon-wenjian";
+        }
 
+        $icon = "";
+        $pre = "";
+        $arr = explode("/",$file["MimeType"]);
+        if (count($arr) > 0){
+            $pre = $arr[0];
+        }
+
+        switch ($pre){
+            case "text":
+                // 文本文件
+                $icon = "icon-icontxt";
+                break;
+            case "video":
+                // 视频
+                $icon = "icon-video-f";
+                break;
+            case "audio":
+                // 音频
+                $icon = "icon-yinlemusic215";
+                break;
+            case "image":
+                // 图片
+                $icon = "icon-tupian";
+                break;
+            default:
+                // 其他
+                $icon = "icon-wenjian1";
+                break;
+        }
+
+        return $icon;
     }
 }
