@@ -43,6 +43,7 @@
 <{/block}>
 <{block name="scriptCode"}>
 <script>
+    var layerIndex;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
@@ -146,6 +147,26 @@
     // 重命名
     function renameDriver(driveName) {
         console.log("重命名:" + driveName);
+    }
+    
+    // 取消
+    function cancel() {
+
+        // 关闭浮层
+        layui.use('layer', function() {
+            var layer = layui.layer;
+            layer.close(layerIndex);
+        });
+    }
+    
+    // 确认
+    function confirm() {
+
+        // 关闭浮层
+        layui.use('layer', function() {
+            var layer = layui.layer;
+            layer.close(layerIndex);
+        });
     }
 
 </script>
