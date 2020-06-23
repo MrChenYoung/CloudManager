@@ -24,7 +24,7 @@ class API_MyDriverController extends API_BaseController
         $data = [];
         foreach ($driverList as $key=>$driver) {
             $type = "";
-            switch ($driver["scope"]){
+            switch ($driver["type"]){
                 case "drive":
                     $type = "谷歌云盘";
                     break;
