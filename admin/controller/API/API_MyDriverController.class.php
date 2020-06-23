@@ -40,10 +40,12 @@ class API_MyDriverController extends API_BaseController
 //            $detaileInfo = $this->loadDetaileInfo($key,"/");
             $size = "--";//$detaileInfo["size"];
             $remark = "--";
+            $count = "--";
             $data[] = [
                 "name"  =>  $key,
                 "type"  =>  $type,
                 "size"  =>  $size,
+                "count" =>  $count,
                 "remark"=>  $remark
             ];
         }
