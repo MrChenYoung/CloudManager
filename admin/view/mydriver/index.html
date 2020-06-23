@@ -121,8 +121,7 @@
             // $input.focus();
             // // 文字被选中
             // $input.select();
-            document.getElementById("new_name_input").focus();
-            document.getElementById("new_name_input").select();
+
 
             // $("#new_name_input").css("select",);
 
@@ -142,6 +141,10 @@
                 closeBtn: 0,
                 shadeClose: true,
                 content: $(".add-category-container"),
+                success: function(){
+                    document.getElementById("new_name_input").focus();
+                    document.getElementById("new_name_input").select();
+                },
                 end:function () {
                     $(".add-category-container").css("display","none");
                 }
