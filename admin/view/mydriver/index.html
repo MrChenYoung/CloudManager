@@ -100,7 +100,7 @@
                     break;
                 case 3:
                     // 获取大小和文件数
-
+                    loadDriverInfo();
                     break;
                 case 4:
                     // 删除
@@ -115,7 +115,7 @@
     }
 
     // 获取云盘文件大小和文件数量
-    function loadDriver() {
+    function loadDriverInfo() {
         var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadDriverDetailInfo&driverName=" + editDriverName + "&API=";
         console.log("获取云盘详情：" + url);
         get(url,function (data) {
