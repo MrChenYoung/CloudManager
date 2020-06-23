@@ -78,7 +78,12 @@
                 dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
             }
         }
-        $("#drive_type_select").html(dom);
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_type_select").html(dom);
+            form.render();
+        });
     }
 
     // 创建云盘选择列表
@@ -96,7 +101,11 @@
             }
         }
 
-        $("#drive_select").html(dom);
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_select").html(dom);
+            form.render();
+        });
     }
 
     // 创建云盘列表
