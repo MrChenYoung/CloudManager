@@ -191,21 +191,22 @@
 </div>
 
 <!--添加分类浮层-->
-<div class="add-category-box">
-    <div class="add-category-container">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend id="legend_title">重命名</legend>
-        </fieldset>
-        <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
-        <textarea id="remark_area" style="resize: none;height: 150px"  placeholder="请输入备注信息" class="layui-textarea"></textarea>
+<!--<div class="add-category-box">-->
+<!--    -->
+<!--</div>-->
+<div class="add-category-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend id="legend_title">重命名</legend>
+    </fieldset>
+    <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    <textarea id="remark_area" style="resize: none;height: 150px"  placeholder="请输入备注信息" class="layui-textarea"></textarea>
 
-        <!--确定/取消按钮-->
-        <div class="btns-box">
-            <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
-            <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
-        </div>
-        <!--选择图片上传-->
-        <input type="file" name="file" id="file_select_input" style="display:none">
+    <!--确定/取消按钮-->
+    <div class="btns-box">
+        <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
+        <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
     </div>
+    <!--选择图片上传-->
+    <input type="file" name="file" id="file_select_input" style="display:none">
 </div>
 <{/block}>
