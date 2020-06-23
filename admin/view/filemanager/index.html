@@ -1,0 +1,86 @@
+<{extends file="layout.html"}>
+<{block name="myStyles"}>
+<style type="text/css">
+    .aw-content-wrap .icon {
+        background-color: #393D49;
+        margin-right: 10px;
+    }
+
+    .layui-table thead th{
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+<{/block}>
+<{block name="scriptCode"}>
+<script>
+    $(document).ready(function () {
+        // 设置边栏服务器信息选中状态
+        $("#my_driver").addClass("active");
+
+        // 请求云盘列表
+        loadDriverList();
+    });
+
+    // 请求云盘列表
+    function loadDriverList() {
+        var url = "?m=admin&c=API_MyDriver&a=loadDriverList&API=";
+        get(url,function (data) {
+            // 创建云盘列表
+            createDriverDoms(data.data);
+        });
+    }
+
+    // 创建云盘列表
+    function createDriverDoms(data) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var driver = data[i];
+            dom += '<tr><td>'+ driver["name"] +'</td>';
+            dom += '<td>'+ driver["type"] +'</td>';
+            dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+        }
+
+        // 添加分类一行
+        $("tbody").html(dom);
+    }
+
+    // 删除云盘
+    function deleteDriver(obj) {
+        confirmAlert(function () {
+            var $this = $(obj);
+            var driveName = $this.attr("driverName");
+            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + driveName + "&API=";
+            get(url,function () {
+                // 刷新列表
+                loadDriverList();
+            },true,true);
+        });
+    }
+</script>
+<{/block}>
+<{block name="content"}>
+<div class="aw-content-wrap">
+    <div class="mod">
+        <div class="layui-form" style="text-align: center;">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<{/block}>
