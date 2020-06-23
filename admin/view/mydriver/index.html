@@ -113,12 +113,13 @@
     // 显示编辑界面
     function showEditCover(type,name) {
         editType = type;
+        var area = ['450px','200px'];
         if (type == 1){
             var $input = $("#new_name_input");
             // 重命名
             $("#legend_title").text("重命名");
-            // $input.css("display","block");
             $("#remark_area").css("display","none");
+            $(".add-category-container").css("height","180px");
             // 显示原来的名字
             $input.val(name);
             oldDriverName = name;
@@ -127,13 +128,15 @@
             $("#legend_title").text("添加/修改备注");
             $("#new_name_input").css("display","none");
             $("#remark_area").css("display","block");
+            $(".add-category-container").css("height","250px");
+            area = ['450px','270px'];
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
             var layer = layui.layer;
             layerIndex = layer.open({
                 type: 1,
-                area:['450px','200px'],
+                area:area,
                 title: false,
                 closeBtn: 0,
                 shadeClose: true,
