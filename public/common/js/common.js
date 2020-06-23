@@ -243,7 +243,7 @@ function mouseRightMenuInit($element,data,openAction=null) {
         //右键监听
         $element.bind("contextmenu",function(e){
             // var innerData = {content:$(this).attr("mouseRgihtData")}
-            mouseRightMenu.open(menu_data,false,function(d){
+            mouseRightMenu.open(data,false,function(d){
                 // d.data = innerData;
                 if (openAction){
                     openAction(d);
