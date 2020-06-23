@@ -242,9 +242,9 @@ function mouseRightMenuInit($element,data,openAction=null) {
         var mouseRightMenu = layui.mouseRightMenu,layer = layui.layer;
         //右键监听
         $element.bind("contextmenu",function(e){
-            var innerData = {content:$(this).attr("mouseRgihtData")}
+            // var innerData = {content:$(this).attr("mouseRgihtData")}
             mouseRightMenu.open(menu_data,false,function(d){
-                d.data = innerData;
+                // d.data = innerData;
                 if (openAction){
                     openAction(d);
                 }
