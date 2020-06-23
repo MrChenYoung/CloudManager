@@ -153,7 +153,8 @@
         var dom = "";
         for(var i = 0; i < data.length; i++){
             var file = data[i];
-            dom += '<tr><td>'+ file["Name"] +'</td>';
+            var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
+            dom += '<tr><td><div style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td>';
