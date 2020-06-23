@@ -84,7 +84,7 @@ class API_MyDriverController extends API_BaseController
         }
         $newName = $_GET["newName"];
 
-        $confPath = '/root/.config/rclone/rclone.conf';
+        $confPath = '/home/www/.config/rclone/rclone.conf';
         $confContent = file_get_contents($confPath);
         $confContent = str_replace("[".$oldName."]","[".$newName."]",$confContent);
         $res = file_put_contents($confPath,$confContent);
