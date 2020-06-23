@@ -4,6 +4,7 @@
 namespace admin\controller\API;
 
 
+use framework\tools\FileManager;
 use framework\tools\ShellManager;
 
 class API_FileManagerController extends API_BaseController
@@ -100,7 +101,7 @@ class API_FileManagerController extends API_BaseController
                 $fileSize = "--";
                 $fileCount = "--";
             }else if ($fileSize >= 0){
-                $fileSize = $this->formatBytes($fileSize);
+                $fileSize = FileManager::formatBytes($fileSize);
             }else {
                 $fileSize = "--";
             }
