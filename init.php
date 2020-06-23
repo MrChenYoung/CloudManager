@@ -13,8 +13,8 @@ function initConst()
 }
 
 // 初始化数据库
-//initDb();
-//function initDb(){
-//    require_once "./admin/controller/CreateTablesController.class.php";
-//    new \admin\controller\CreateTablesController();
-//}
+initDb();
+function initDb(){
+    require_once "./admin/controller/CreateTablesController.class.php";
+    new \admin\controller\CreateTablesController();
+}

@@ -17,7 +17,7 @@ class CreateTablesController
 //        $this->initCategoryTable();
 //        $this->initPlatformTable();
 //        $this->initAccountTable();
-//        $this->initPassWDTable();
+        $this->initPassWDTable();
 //        $this->initGeneralInfoTable();
 //        $this->initAttachmentTable();
     }

@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/admin/controller/API/API_MyDriverController.class.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/controller/MyDriverController.class.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/admin/view/mydriver/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/framework/tools/ShellManager.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/controller/CreateTablesController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/CreateTablesController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/init.php" beforeDir="false" afterPath="$PROJECT_DIR$/init.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +85,7 @@
       <workItem from="1592711120602" duration="4700000" />
       <workItem from="1592817638457" duration="1133000" />
       <workItem from="1592823019514" duration="431000" />
-      <workItem from="1592835966847" duration="6393000" />
+      <workItem from="1592835966847" duration="6518000" />
     </task>
     <servers />
   </component>
