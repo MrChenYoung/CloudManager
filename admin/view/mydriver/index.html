@@ -90,7 +90,6 @@
         ];
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
             var opeType = menuData.type;
-            console.log("type:" + typeof(opeType));
             switch (opeType) {
                 case 1:
                     // 重命名
@@ -108,7 +107,7 @@
                     break;
             }
         },function (obj) {
-            editDriverName = obj.parent().attr('mouseRgihtData');
+            editDriverName = obj.attr('mouseRgihtData');
             console.log("弹出菜单:" + editDriverName);
         });
     }
