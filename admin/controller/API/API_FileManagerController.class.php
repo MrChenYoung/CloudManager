@@ -69,13 +69,10 @@ class API_FileManagerController extends API_BaseController
         $fileList = implode("",$fileList);
         $fileList = json_decode($fileList,true);
         // 时间转换
-        date_default_timezone_set('PRC');
         foreach ($fileList as $key=>$file) {
             $timeStr = $file["ModTime"];
-            $timeStr = str_replace("T"," ",$timeStr);
-            $timeStr = str_replace("Z","",$timeStr);
-            $timeStr = gmdate('d.m.Y H:i:s', strtotime($timeStr));
-            $timeStr = date('Y-m-d H:i:s',$timeStr);
+            date_default_timezone_set('Asia/Shanghai');
+            $timeStr = date('Y-m-s H:i:s',strtotime($timeStr));
             $fileList[$key]["ModTime"] = $timeStr;
         }
 
