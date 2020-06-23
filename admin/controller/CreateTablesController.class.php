@@ -14,7 +14,7 @@ class CreateTablesController
         $this->dao = dao\DAOPDO::getSingleton();
 
         // 初始化数据表
-//        $this->initCategoryTable();
+        $this->initDriverListTable();
 //        $this->initPlatformTable();
 //        $this->initAccountTable();
         $this->initPassWDTable();
@@ -38,17 +38,16 @@ class CreateTablesController
         $GLOBALS["db_info"] = $option;
     }
 
-    // 创建分类表
-    public function initCategoryTable(){
-        $tableName = "acc_category";
+    // 创建云盘信息表
+    public function initDriverListTable(){
+        $tableName = "driver_list";
         // 创建视频数据表
         $sql = <<<EEE
                     CREATE TABLE $tableName(
-                        id int AUTO_INCREMENT PRIMARY KEY COMMENT '分类id',
-                        cat_icon varchar(64) DEFAULT '' COMMENT '分类图标',
-                        cat_title varchar(300) DEFAULT '' COMMENT '分类标题',
-                        platform_list varchar(300)  DEFAULT '' COMMENT '平台列表'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='分类表';
+                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        driver_name varchar(64) DEFAULT '' COMMENT '云盘名',
+                        remark varchar(300) DEFAULT '' COMMENT '备注'
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='云盘表';
 EEE;
         $this->dao->createTable($tableName,$sql);
     }

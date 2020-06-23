@@ -3,6 +3,7 @@
 
 namespace admin\controller\API;
 
+use framework\tools\DatabaseDataManager;
 use framework\tools\ShellManager;
 
 class API_MyDriverController extends API_BaseController
@@ -37,9 +38,14 @@ class API_MyDriverController extends API_BaseController
             }
 
             // 获取大小
-//            $detaileInfo = $this->loadDetaileInfo($key,"/");
-            $size = "--";//$detaileInfo["size"];
+            $size = "--";
+            // 备注
             $remark = "--";
+            $remarkInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key],["remark"]);
+            if ($remarkInfo){
+                $remark = $remarkInfo[0]["remark"];
+            }
+            // 文件数
             $count = "--";
             $data[] = [
                 "name"  =>  $key,
