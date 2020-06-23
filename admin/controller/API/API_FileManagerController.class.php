@@ -72,7 +72,7 @@ class API_FileManagerController extends API_BaseController
         foreach ($fileList as $key=>$file) {
             $timeStr = $file["ModTime"];
             date_default_timezone_set('Asia/Shanghai');
-            $timeStr = date('Y-m-s H:i:s',strtotime($timeStr));
+            $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
             $fileList[$key]["ModTime"] = $timeStr;
         }
 
