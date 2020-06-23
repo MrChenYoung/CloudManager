@@ -18,6 +18,7 @@
         padding: 10px;
         border-radius: 2px;
         position: relative;
+        display: none;
     }
 
     .layui-field-title{
@@ -143,6 +144,16 @@
         });
     }
 
+    // 隐藏编辑界面
+    function hideEditCover(){
+        // 关闭浮层
+        layui.use('layer', function() {
+            var layer = layui.layer;
+            layer.close(layerIndex);
+            $(".add-category-container").css("display","none");
+        });
+    }
+
     // 删除云盘
     function deleteDriver(driveName) {
         confirmAlert(function () {
@@ -161,22 +172,13 @@
     
     // 取消
     function cancel() {
-
-        // 关闭浮层
-        layui.use('layer', function() {
-            var layer = layui.layer;
-            layer.close(layerIndex);
-        });
+        hideEditCover();
     }
     
     // 确认
     function confirm() {
 
-        // 关闭浮层
-        layui.use('layer', function() {
-            var layer = layui.layer;
-            layer.close(layerIndex);
-        });
+        hideEditCover();
     }
 
 </script>
