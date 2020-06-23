@@ -19,6 +19,7 @@ class API_MyDriverController extends API_BaseController
         }
 
         $driverList = $res["result"];
+        $driverList = implode("",$driverList);
         $data = [];
         echo "<pre>";
         var_dump($driverList);
