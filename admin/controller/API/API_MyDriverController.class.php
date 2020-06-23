@@ -66,10 +66,13 @@ class API_MyDriverController extends API_BaseController
             die;
         }
         $name = $_GET["name"];
+
         // rclone删除命令
         $cmd = "rclone config delete ".$name;
         $res = ShellManager::exec($cmd);
         if ($res["success"]){
+            // 删除数据库数据
+            DatabaseDataManager::getSingleton()->delete('driver_list',['driver_name'=>$name]);
             echo $this->success("删除成功");
         }else {
             echo $this->failed("删除失败");
@@ -95,6 +98,8 @@ class API_MyDriverController extends API_BaseController
         $confContent = str_replace("[".$oldName."]","[".$newName."]",$confContent);
         $res = file_put_contents($confPath,$confContent);
         if ($res){
+            // 修改数据库内云盘名
+            DatabaseDataManager::getSingleton()->update('driver_list',['driver_name'=>$newName],['driver_name'=>$oldName]);
             echo $this->success("重命名成功");
         }else {
             echo $this->failed("重命名失败");
