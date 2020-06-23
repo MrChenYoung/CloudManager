@@ -236,17 +236,16 @@ function confirmAlert(confirmFunction,message="确定删除？") {
 }
 
 // 初始化右键菜单
-function mouseRightMenuInit() {
+function mouseRightMenuInit($element) {
+    layui.config({base: '/public/common/layui_exts/mouseRightMenu/'});
     layui.use(['mouseRightMenu','layer'],function(){
         var mouseRightMenu = layui.mouseRightMenu,layer = layui.layer;
         //右键监听
-        $('.content').bind("contextmenu",function(e){
+        $element.bind("contextmenu",function(e){
             var data = {content:$(this).html()}
             var menu_data=[
-                {'data':data,'type':1,'title':'右键操作1'},
-                {'data':data,'type':2,'title':'右键操作2'},
-                {'data':data,'type':3,'title':'右键操作3'},
-                {'data':data,'type':4,'title':'右键操作4'},
+                {'data':data,'type':1,'icon':'icon-zhongmingming','title':'重命名'},
+                {'data':data,'type':2,'icon':'icon-icon_del','title':'删除'}
 
             ]
             mouseRightMenu.open(menu_data,false,function(d){

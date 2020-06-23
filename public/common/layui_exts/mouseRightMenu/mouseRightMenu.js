@@ -65,6 +65,7 @@ layui.define(['jquery','layer'],function(exports){
 			h_son += '<div class="enian_menu">'
 			+'<div class="text" data-type="'+data[i].type+'" data-title="'+data[i].title+'">'
 				+'<a style="display:none;" data-type="'+dataType+'">'+data[i].data+'</a>'
+				+ '<i class="iconfont '+ data[i].icon +'"></i>'
 				+data[i].title
 			+'</div></div>'
 		}

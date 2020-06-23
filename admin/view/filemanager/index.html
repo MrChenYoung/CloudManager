@@ -51,7 +51,7 @@
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
         // 初始化右键菜单
-        mouseRightMenuInit();
+        mouseRightMenuInit($(".layui-table tbody tr"));
 
         // 监听select选择变化
         layui.use('form',function () {

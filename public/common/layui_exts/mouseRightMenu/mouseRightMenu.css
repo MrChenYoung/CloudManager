@@ -12,8 +12,13 @@
 
 .mouse-right-menu .enian_menu .text {
 	width: 100%;
-	margin-left: 10px;
+	margin-left: 20px;
 	line-height: 40px;
+	font-weight: 300;
+}
+
+.mouse-right-menu .enian_menu .text i {
+	margin-right: 5px;
 }
 
 .mouse-right-menu .enian_menu {
@@ -27,6 +32,6 @@
 .mouse-right-menu .enian_menu:hover {
 	cursor: pointer;
 	/*background: #009688;*/
-	background: #696969;
+	background: #393D49;
 	color: white;
 }
