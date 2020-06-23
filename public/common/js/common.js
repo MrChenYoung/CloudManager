@@ -234,3 +234,25 @@ function confirmAlert(confirmFunction,message="确定删除？") {
     ];
     showAlert(message,btns);
 }
+
+// 初始化右键菜单
+function mouseRightMenuInit() {
+    layui.use(['mouseRightMenu','layer'],function(){
+        var mouseRightMenu = layui.mouseRightMenu,layer = layui.layer;
+        //右键监听
+        $('.content').bind("contextmenu",function(e){
+            var data = {content:$(this).html()}
+            var menu_data=[
+                {'data':data,'type':1,'title':'右键操作1'},
+                {'data':data,'type':2,'title':'右键操作2'},
+                {'data':data,'type':3,'title':'右键操作3'},
+                {'data':data,'type':4,'title':'右键操作4'},
+
+            ]
+            mouseRightMenu.open(menu_data,false,function(d){
+                layer.alert(JSON.stringify(d));
+            })
+            return false;
+        });
+    });
+}
