@@ -9,7 +9,6 @@ layui.define(['jquery','layer'],function(exports){
 		}
 		layer.open({
 			title: false,
-			area: obj.area || '200px',//宽高
 			resize: false,
 			offset: obj.offset || calc(xx,yy),//坐标，默认鼠标当前
 			type: 1,
