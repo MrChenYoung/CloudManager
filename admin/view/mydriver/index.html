@@ -139,7 +139,10 @@
                 title: false,
                 closeBtn: 0,
                 shadeClose: true,
-                content: $(".add-category-container")
+                content: $(".add-category-container"),
+                end:function () {
+                    $(".add-category-container").css("display","none");
+                }
             });
         });
     }
@@ -147,7 +150,6 @@
     // 隐藏编辑界面
     function hideEditCover(){
         // 关闭浮层
-        $(".add-category-container").css("display","none");
         layui.use('layer', function() {
             var layer = layui.layer;
             layer.close(layerIndex);
