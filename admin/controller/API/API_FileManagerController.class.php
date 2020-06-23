@@ -97,6 +97,7 @@ class API_FileManagerController extends API_BaseController
 //
 //                    $fileSize = $this->formatBytes($fileSize);
 //                }
+                $fileSize = "--";
                 $fileCount = "--";
             }else if ($fileSize >= 0){
                 $fileSize = $this->formatBytes($fileSize);
