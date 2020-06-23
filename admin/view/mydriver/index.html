@@ -147,10 +147,10 @@
     // 隐藏编辑界面
     function hideEditCover(){
         // 关闭浮层
+        $(".add-category-container").css("display","none");
         layui.use('layer', function() {
             var layer = layui.layer;
             layer.close(layerIndex);
-            $(".add-category-container").css("display","none");
         });
     }
 
