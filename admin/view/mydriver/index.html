@@ -132,7 +132,7 @@
             $("#new_name_input").css("display","none");
             $("#remark_area").css("display","block");
             $(".add-category-container").css("height","250px");
-            $("#remark_area").val("6666");
+            $("#remark_area").val(oldRemark);
             area = ['450px','270px'];
         }
         $(".add-category-container").css("display","block");
@@ -190,6 +190,15 @@
             loadDriverList();
         },true,true);
     }
+    
+    // 修改备注
+    function modifyRemark(remark) {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=modifyRemark&driverName=" + editDriverName + "&API=&remark=" + remark;
+        get(url,function () {
+            // 刷新列表
+            loadDriverList();
+        },true,true);
+    }
 
     // 确认
     function confirm() {
@@ -206,7 +215,12 @@
             }
         }else {
             // 修改备注
-
+            var newRemark = $("#remark_area").val();
+            if (newRemark == oldRemark){
+                toast("备注未修改，无序保存");
+            }else {
+                modifyRemark(newRemark);
+            }
         }
     }
 

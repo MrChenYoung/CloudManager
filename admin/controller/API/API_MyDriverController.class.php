@@ -100,4 +100,36 @@ class API_MyDriverController extends API_BaseController
             echo $this->failed("重命名失败");
         }
     }
+
+    // 修改备注
+    public function modifyRemark(){
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        // 备注
+        if (!isset($_GET["remark"])){
+            echo $this->failed("缺少remark参数");
+            die;
+        }
+        $remark = $_GET["remark"];
+
+        // 先查询是否有该云盘记录，如果没有，先记录到数据库，再更改备注
+        $remarkInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$driverName]);
+        $res = false;
+        if (!$remarkInfo){
+            $res = DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$driverName,"remark"=>$remark]);
+        }else {
+            $res = DatabaseDataManager::getSingleton()->update("driver_list",["remark"=>$remark],["driver_name"=>$driverName]);
+        }
+
+        if ($res){
+            echo $this->success("备注修改成功");
+        }else {
+            echo $this->failed("备注修改失败");
+        }
+    }
 }
