@@ -10,6 +10,13 @@
         text-align: center;
         font-weight: bold;
     }
+
+    .drive-type-select,.drive-select {
+        width: 200px;
+        display: inline-block;
+    }
+
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -65,10 +72,10 @@
         <div class="drive-select-box">
             <form class="layui-form layui-form-pane" action="">
                 <div class="layui-form-item">
-                    <select id="drive_type_select" lay-filter="drive-type-list">
+                    <select class="drive-type-select" id="drive_type_select" lay-filter="drive-type-list">
                         <option value="">选择云盘类型</option>
                     </select>
-                    <select id="drive_select" lay-filter="drive-list">
+                    <select class="drive-select" id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
                 </div>
