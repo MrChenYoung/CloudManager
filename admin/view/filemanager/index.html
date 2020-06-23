@@ -28,6 +28,12 @@
 <{/block}>
 <{block name="scriptCode"}>
 <script>
+    // 云盘列表数据
+    var driverList;
+    // 选择的云盘类型
+    var selectDriveType;
+    // 选择的云盘
+    var selectDrive;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -40,9 +46,57 @@
     function loadDriverList() {
         var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
         get(url,function (data) {
-            // 创建云盘列表
-            createDriverDoms(data.data);
+            driverList = data.data;
+
+            // 默认选择的云盘类型
+            var driveTypes = Object.keys(driverList);
+            if (driveTypes.length > 0){
+                selectDriveType = [0];
+            }
+            // 默认选择的云盘
+            if (selectDriveType.length > 0){
+                selectDrive = driverList[selectDriveType][0];
+            }
+
+            // 创建云盘类型选择列表
+            createDriverTypeSelectDoms();
+            // 创建云盘选择列表
+            createDriverSelectDoms();
         });
+    }
+
+    // 创建云盘类型选择列表
+    function createDriverTypeSelectDoms() {
+        var dom = '<option value="">选择云盘类型</option>';
+        var driverTypes = Object.keys(driverList);
+
+        for(var i = 0; i < driverTypes.length; i++){
+            var driverT = driverTypes[i];
+            if (selectDriveType == driverT){
+                dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
+            }else {
+                dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
+            }
+        }
+        $("#drive_type_select").html(dom);
+    }
+
+    // 创建云盘选择列表
+    function createDriverSelectDoms() {
+        var dom = '<option value="">选择云盘</option>';
+        if (selectDriveType.length > 0){
+            var drives = driverList[selectDriveType];
+            for(var i = 0; i < drives.length; i++){
+                var driver = drives[i];
+                if (selectDrive == driver){
+                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+                }else {
+                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
+                }
+            }
+        }
+
+        $("#drive_select").html(dom);
     }
 
     // 创建云盘列表
