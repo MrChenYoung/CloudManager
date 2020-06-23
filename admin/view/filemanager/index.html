@@ -62,13 +62,12 @@
 
         // 请求云盘列表
         loadDriverList();
-        // 请求文件列表
-        loadFileList();
     });
 
     // 请求云盘列表
     function loadDriverList() {
         var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
+        showHud();
         get(url,function (data) {
             driverList = data.data;
 
@@ -87,7 +86,9 @@
             createDriverTypeSelectDoms();
             // 创建云盘选择列表
             createDriverSelectDoms();
-        });
+            // 请求文件列表
+            loadFileList(false);
+        },false);
     }
 
     // 创建云盘类型选择列表
@@ -134,13 +135,16 @@
     }
 
     // 请求文件列表
-    function loadFileList() {
+    function loadFileList(withHud=true) {
         var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + drivePath;
         console.log("获取文件列表:" + url);
         get(url,function (data) {
+            if (withHud){
+                hideHud();
+            }
             var fileList = data.data;
             createFilesDoms(fileList);
-        });
+        },withHud);
     }
     
     // 创建文件列表
