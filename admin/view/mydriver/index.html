@@ -52,6 +52,7 @@
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
             var opeType = menuData.type;
             var driveName = menuData.data.content;
+            console.log("type:" + typeof(opeType));
             switch (opeType) {
                 case 1:
                     // 重命名
