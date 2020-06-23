@@ -36,26 +36,49 @@
         var dom = "";
         for(var i = 0; i < data.length; i++){
             var driver = data[i];
-            dom += '<tr><td>'+ driver["name"] +'</td>';
+            dom += '<tr mouseRgihtData="'+ driver["name"] +'"><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
             dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
 
         // 添加分类一行
         $("tbody").html(dom);
+
+        // 添加右键菜单
+        var menu_data=[
+            {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
+            {'type':2,'icon':'icon-icon_del','title':'删除'}
+        ];
+        mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
+            var opeType = menuData.type;
+            var driveName = menuData.data.content;
+            switch (opeType) {
+                case 1:
+                    // 重命名
+                    renameDriver(driveName);
+                    break;
+                case 2:
+                    // 删除
+                    deleteDriver(driveName);
+                    break;
+            }
+        });
     }
 
     // 删除云盘
-    function deleteDriver(obj) {
+    function deleteDriver(driveName) {
         confirmAlert(function () {
-            var $this = $(obj);
-            var driveName = $this.attr("driverName");
             var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + driveName + "&API=";
             get(url,function () {
                 // 刷新列表
                 loadDriverList();
             },true,true);
         });
+    }
+
+    // 重命名
+    function renameDriver(driveName) {
+        console.log("重命名:" + driveName);
     }
 </script>
 <{/block}>
