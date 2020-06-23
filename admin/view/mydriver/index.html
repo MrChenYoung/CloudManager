@@ -143,10 +143,12 @@
                 shadeClose: true,
                 content: $(".add-category-container"),
                 success: function(){
-                    // 自动获取焦点
-                    $input.focus();
-                    // // 文字被选中
-                    $input.select();
+                    if (type == 1){
+                        // 自动获取焦点
+                        $input.focus();
+                        // // 文字被选中
+                        $input.select();
+                    }
                 },
                 end:function () {
                     $(".add-category-container").css("display","none");
