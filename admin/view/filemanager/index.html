@@ -38,7 +38,7 @@
 
     // 请求云盘列表
     function loadDriverList() {
-        var url = "?m=admin&c=API_MyDriver&a=loadDriverList&API=";
+        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
         get(url,function (data) {
             // 创建云盘列表
             createDriverDoms(data.data);
