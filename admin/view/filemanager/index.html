@@ -63,7 +63,7 @@
         // 请求云盘列表
         loadDriverList();
         // 请求文件列表
-        createFilesDoms();
+        loadFileList();
     });
 
     // 请求云盘列表
@@ -148,9 +148,10 @@
         for(var i = 0; i < data.length; i++){
             var file = data[i];
             dom += '<tr><td>'+ file["Name"] +'</td>';
-            dom += '<td>'+ file["type"] +'</td>';
-            dom += '<td>--</td>';
-            dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+            dom += '<td>'+ file["Size"] +'</td>';
+            dom += '<td>'+ file["Count"] +'</td>';
+            dom += '<td>'+ file["ModTime"] +'</td>';
+            dom += '<td><i title="删除" fileName="'+ file["Name"] +'" onclick="deleteFile(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
 
         // 添加分类一行
@@ -191,6 +192,7 @@
                 <colgroup>
                     <col width="150">
                     <col width="150">
+                    <col width="150">
                     <col width="200">
                     <col width="100">
                 </colgroup>
@@ -198,6 +200,7 @@
                 <tr>
                     <th>名称</th>
                     <th>大小</th>
+                    <th>文件数</th>
                     <th>上次修改时间</th>
                     <th>操作</th>
                 </tr>
