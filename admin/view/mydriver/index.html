@@ -71,7 +71,7 @@
         var dom = "";
         for(var i = 0; i < data.length; i++){
             var driver = data[i];
-            dom += '<tr mouseRgihtData="'+ driver["name"] +'"><td>'+ driver["name"] +'</td>';
+            dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
             dom += '<td>'+ driver["size"] +'</td>';
             dom += '<td>'+ driver["count"] +'</td>';
@@ -107,13 +107,13 @@
                     break;
             }
         },function (obj) {
-            editDriverName = obj.attr('mouseRgihtData');
-            console.log("弹出菜单:" + editDriverName);
+            editDriverName = obj.attr('driverName');
+            oldRemark = obj.attr('remark');
         });
     }
 
     // 显示编辑界面
-    function showEditCover(type,name,remark='') {
+    function showEditCover(type) {
         editType = type;
         var area = ['450px','200px'];
         if (type == 1){
@@ -125,13 +125,14 @@
             $(".add-category-container").css("height","180px");
             // 显示原来的名字
             $input.val(name);
-            oldDriverName = name;
+            oldDriverName = editDriverName;
         }else {
             // 添加/修改备注
             $("#legend_title").text("添加/修改备注");
             $("#new_name_input").css("display","none");
             $("#remark_area").css("display","block");
             $(".add-category-container").css("height","250px");
+            $("#remark_area").val("6666");
             area = ['450px','270px'];
         }
         $(".add-category-container").css("display","block");
@@ -170,9 +171,9 @@
     }
 
     // 删除云盘
-    function deleteDriver(driveName) {
+    function deleteDriver() {
         confirmAlert(function () {
-            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + driveName + "&API=";
+            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + editDriverName + "&API=";
             get(url,function () {
                 // 刷新列表
                 loadDriverList();
