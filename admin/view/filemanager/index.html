@@ -46,9 +46,11 @@
             form.on('select(drive-type-list)', function(data){
                 // 选择的云盘类型
                 selectDriveType = data.value;
+                console.log("选择类型:" + selectDriveType);
                 // 刷新云盘列表
                 if (selectDriveType.length > 0){
                     selectDrive = driverList[selectDriveType][0];
+                    console.log("选择：" + selectDrive);
                 }
                 createDriverDoms();
             });
