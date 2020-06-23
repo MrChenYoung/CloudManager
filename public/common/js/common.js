@@ -236,21 +236,19 @@ function confirmAlert(confirmFunction,message="确定删除？") {
 }
 
 // 初始化右键菜单
-function mouseRightMenuInit($element) {
+function mouseRightMenuInit($element,data,openAction=null) {
     layui.config({base: '/public/common/layui_exts/mouseRightMenu/'});
     layui.use(['mouseRightMenu','layer'],function(){
         var mouseRightMenu = layui.mouseRightMenu,layer = layui.layer;
         //右键监听
         $element.bind("contextmenu",function(e){
-            var data = {content:$(this).html()}
-            var menu_data=[
-                {'data':data,'type':1,'icon':'icon-zhongmingming','title':'重命名'},
-                {'data':data,'type':2,'icon':'icon-icon_del','title':'删除'}
-
-            ]
+            var innerData = {content:$(this).attr("mouseRgihtData")}
             mouseRightMenu.open(menu_data,false,function(d){
-                layer.alert(JSON.stringify(d));
-            })
+                d.data = innerData;
+                if (openAction){
+                    openAction(d);
+                }
+            });
             return false;
         });
     });
