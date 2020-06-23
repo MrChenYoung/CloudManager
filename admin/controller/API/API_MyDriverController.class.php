@@ -18,26 +18,26 @@ class API_MyDriverController extends API_BaseController
             die;
         }
         $driverList = $res["result"];
-        $data = [];
-        foreach ($driverList as $key=>$driver) {
-            $type = "";
-            switch ($driver["scope"]){
-                case "drive":
-                    $type = "谷歌云盘";
-                    break;
-                case "onedrive":
-                    $type = "微软oneDriver";
-                    break;
-                default:
-                    $type = "未知";
-                    break;
-            }
-            $data[] = [
-                "name"  =>  $key,
-                "type"  =>  $type
-            ];
-        }
+//        $data = [];
+//        foreach ($driverList as $key=>$driver) {
+//            $type = "";
+//            switch ($driver["scope"]){
+//                case "drive":
+//                    $type = "谷歌云盘";
+//                    break;
+//                case "onedrive":
+//                    $type = "微软oneDriver";
+//                    break;
+//                default:
+//                    $type = "未知";
+//                    break;
+//            }
+//            $data[] = [
+//                "name"  =>  $key,
+//                "type"  =>  $type
+//            ];
+//        }
 
-        echo $this->success($data);
+        echo $this->success($driverList);
     }
 }
