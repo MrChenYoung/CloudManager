@@ -1,0 +1,244 @@
+<{extends file="layout.html"}>
+<{block name="myStyles"}>
+<style type="text/css">
+    .aw-content-wrap .icon {
+        background-color: #393D49;
+        margin-right: 10px;
+    }
+
+    .layui-table thead th{
+        font-weight: bold;
+    }
+
+    .layui-table tbody tr{
+        text-align: left;
+    }
+
+    .layui-form-select dl dd.layui-this {
+        background-color: #393D49;
+    }
+
+    .select-box .layui-form-select {
+        width: 150px;
+        display: inline-block;
+    }
+
+    .file-name {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 10px;
+    }
+
+    .file-icon {
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+    }
+</style>
+<{/block}>
+<{block name="scriptCode"}>
+<script>
+    // 云盘列表数据
+    var driverList;
+    // 选择的云盘类型
+    var selectDriveType;
+    // 选择的云盘
+    var selectDrive;
+    // 云盘路径，默认根路径
+    var drivePath = '/';
+    $(document).ready(function () {
+        // 设置边栏服务器信息选中状态
+        $("#setting").addClass("active");
+
+        // 监听select选择变化
+        layui.use('form',function () {
+            var form = layui.form;
+
+            // 监听云盘类型选择
+            form.on('select(drive-type-list)', function(data){
+                // 选择的云盘类型
+                selectDriveType = data.value;
+                // 刷新云盘列表
+                createDriverSelectDoms();
+            });
+
+            // 监听云盘选择
+            form.on('select(drive-list)', function(data){
+                // 选择的云盘
+                selectDrive = data.value;
+                // 刷新列表
+                loadFileList();
+            });
+        });
+
+        // 请求云盘列表
+        loadDriverList();
+    });
+
+    // 请求云盘列表
+    function loadDriverList() {
+        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
+        showHud();
+        get(url,function (data) {
+            driverList = data.data;
+
+            // 默认选择的云盘类型
+            var driveTypes = Object.keys(driverList);
+            if (driveTypes.length > 0){
+                selectDriveType = driveTypes[0];
+            }
+
+            // 默认选择的云盘
+            if (selectDriveType.length > 0){
+                selectDrive = driverList[selectDriveType][0];
+            }
+
+            // 创建云盘类型选择列表
+            createDriverTypeSelectDoms();
+            // 创建云盘选择列表
+            createDriverSelectDoms();
+            // 请求文件列表
+            loadFileList(false);
+        },false);
+    }
+
+    // 创建云盘类型选择列表
+    function createDriverTypeSelectDoms() {
+        var dom = '<option value="">选择云盘类型</option>';
+        var driverTypes = Object.keys(driverList);
+
+        for(var i = 0; i < driverTypes.length; i++){
+            var driverT = driverTypes[i];
+            if (selectDriveType == driverT){
+                dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
+            }else {
+                dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_type_select").html(dom);
+            form.render();
+        });
+    }
+
+    // 创建云盘选择列表
+    function createDriverSelectDoms() {
+        var dom = '<option value="">选择云盘</option>';
+        if (selectDriveType.length > 0){
+            var drives = driverList[selectDriveType];
+            for(var i = 0; i < drives.length; i++){
+                var driver = drives[i];
+                if (selectDrive == driver){
+                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+                }else {
+                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
+                }
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_select").html(dom);
+            form.render();
+        });
+    }
+
+    // 请求文件列表
+    function loadFileList(withHud=true) {
+        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + drivePath;
+        console.log("获取文件列表:" + url);
+        get(url,function (data) {
+            if (!withHud){
+                hideHud();
+            }
+            var fileList = data.data;
+            createFilesDoms(fileList);
+        },withHud);
+    }
+    
+    // 创建文件列表
+    function createFilesDoms(data) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var file = data[i];
+            var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
+            dom += '<tr mouseRgihtData="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<td>'+ file["Size"] +'</td>';
+            dom += '<td>'+ file["Count"] +'</td>';
+            dom += '<td>'+ file["ModTime"] +'</td>';
+            dom += '<td><i title="获取详情" fileName="'+ file["Name"] +'" onclick="loadFileInfo(this)" style="cursor: pointer" class="icon icon-about"></i>';
+            dom += '<i title="删除" fileName="'+ file["Name"] +'" onclick="deleteFile(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+        }
+
+        // 添加分类一行
+        $("tbody").html(dom);
+
+        // 添加右键菜单
+        var menu_data=[
+            {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
+            {'type':2,'icon':'icon-icon_del','title':'删除'}
+        ];
+        mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
+            var fileName = menuData.data.content;
+            console.log(fileName);
+        });
+    }
+
+    // 删除云盘
+    function deleteDriver(obj) {
+        confirmAlert(function () {
+            var $this = $(obj);
+            var driveName = $this.attr("driverName");
+            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + driveName + "&API=";
+            get(url,function () {
+                // 刷新列表
+                loadDriverList();
+            },true,true);
+        });
+    }
+</script>
+<{/block}>
+<{block name="content"}>
+<div class="aw-content-wrap">
+    <div class="mod">
+        <div class="drive-select-box">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item select-box">
+                    <select id="drive_type_select" lay-filter="drive-type-list">
+                        <option value="">选择云盘类型</option>
+                    </select>
+                    <select id="drive_select" lay-filter="drive-list">
+                        <option value="">选择云盘</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="layui-form" style="text-align: center;">
+            <table class="layui-table" lay-skin="nob">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col width="100">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>大小</th>
+                    <th>文件数</th>
+                    <th>上次修改时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<{/block}>

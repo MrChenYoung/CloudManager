@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/admin/view/mydriver/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/mydriver/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/controller/SettingController.class.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin/view/setting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/layout.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +43,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin/view/filemanager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin/view/setting" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="ReadonlyStatusHandler">
@@ -48,11 +51,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/admin/view/setting" />
       <recent name="$PROJECT_DIR$/admin/view/filemanager" />
       <recent name="$PROJECT_DIR$/admin/view/mydriver" />
       <recent name="$PROJECT_DIR$/admin/controller" />
       <recent name="$PROJECT_DIR$/admin/view/attachment" />
-      <recent name="$PROJECT_DIR$/admin/view/general" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -83,7 +86,7 @@
       <workItem from="1592711120602" duration="4700000" />
       <workItem from="1592817638457" duration="1133000" />
       <workItem from="1592823019514" duration="431000" />
-      <workItem from="1592835966847" duration="43966000" />
+      <workItem from="1592835966847" duration="44496000" />
     </task>
     <servers />
   </component>
@@ -108,10 +111,10 @@
       <screen x="0" y="23" width="1680" height="974" />
     </state>
     <state x="551" y="187" key="#jsencrypt.min.js/0.23.1680.974@0.23.1680.974" timestamp="1592328478505" />
-    <state x="493" y="322" key="NewPhpClassDialog" timestamp="1592899208857">
+    <state x="493" y="322" key="NewPhpClassDialog" timestamp="1592949709401">
       <screen x="0" y="23" width="1680" height="973" />
     </state>
-    <state x="493" y="322" key="NewPhpClassDialog/0.23.1680.973@0.23.1680.973" timestamp="1592899208857" />
+    <state x="493" y="322" key="NewPhpClassDialog/0.23.1680.973@0.23.1680.973" timestamp="1592949709401" />
     <state x="493" y="322" key="NewPhpClassDialog/0.23.1680.974@0.23.1680.974" timestamp="1592338910533" />
     <state x="493" y="324" key="NewPhpClassDialog/0.23.1680.977@0.23.1680.977" timestamp="1591432968811" />
     <state x="493" y="324" key="NewPhpClassDialog/0.23.1680.978@0.23.1680.978" timestamp="1591859585914" />
