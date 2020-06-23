@@ -189,7 +189,7 @@
     function confirm() {
         if (editType == 1){
             // 重命名
-            var newName = $('new_name_input').val();
+            var newName = $('#new_name_input').val();
             if (newName.length == 0){
                 toast("名称不能为空");
             }else if(newName == oldDriverName){
