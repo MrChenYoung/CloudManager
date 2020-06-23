@@ -68,6 +68,14 @@ class API_FileManagerController extends API_BaseController
         $fileList = $res["result"];
         $fileList = implode("",$fileList);
         $fileList = json_decode($fileList,true);
+        // 时间转换
+        date_default_timezone_set('PRC');
+        foreach ($fileList as $key=>$file) {
+            $timeStr = $file["ModTime"];
+            $timeStr = date('Y-m-d H:i:s',$timeStr);
+            $fileList[$key]["ModTime"] = $timeStr;
+        }
+
         echo $this->success($fileList);
     }
 }
