@@ -107,82 +107,27 @@
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
 
-        // 监听添加平台输入平台名
-        var addPlatInput = $("#add_plat_name");
-        addPlatInput.bind("input propertychange", function (event) {
-            addPlatformName = addPlatInput.val();
-        });
-
-        // 监听分类选择
-        layui.use('form',function () {
-            var form = layui.form;
-            form.on('select(cat-list)', function(data){
-                // 选择的catid
-                var catid = data.value;
-                selectedCatId = catid;
-                console.log("catid选择:" + catid);
-            });
-        });
-
-        // 请求平台列表
-        // loadPlatformList();
+        // 请求云盘列表
+        loadDriverList();
     });
 
-    // 获取平台列表
-    function loadPlatformList() {
-        var url = baseUrl + "?m=admin&c=API_Platform&a=loadPlatformList&API=";
+    // 请求云盘列表
+    function loadDriverList() {
+        var url = "?m=admin&c=API_MyDriver&a=loadDriverList&API=";
         get(url,function (data) {
-            // 创建分类列表
-            createPlatformDom(data.data);
+            // 创建云盘列表
+            createDriverDoms(data.data);
         },false);
     }
 
-    // 请求分类列表
-    function loadCatList() {
-        var url = baseUrl + "?m=admin&c=API_Category&a=loadCategotyList&API=";
-        get(url, function (data) {
-            layui.use('form', function(){
-                var form = layui.form;
-                var catData = data.data;
-                // 创建要选择的分类列表
-                var dom = '<option value="">请选择分类</option>';
-                for (var i = 0; i < catData.length; i++){
-                    var cat = catData[i];
-                    dom += '<option value="'+ cat["id"] +'" >'+ cat["cat_title"] +'</option>';
-                }
-                $("#cat_select").html(dom);
-                $("#cat_select").val(selectedCatId);
-                form.render();
-                // 显示添加界面
-                showEditCatCover();
-            });
-        })
-    }
-
-    // 添加平台
-    function addData() {
-        isEdit = false;
-        selectedCatId = "";
-        addPlatformName = "";
-        loadCatList();
-    }
-
-    // 创建平台列表
-    function createPlatformDom(data) {
+    // 创建云盘列表
+    function createDriverDoms(data) {
         var dom = "";
         for(var i = 0; i < data.length; i++){
-            var platform = data[i];
-            dom += '<tr><td>'+ platform["plat_name"] +'</td>';
-            dom += '<td><ul class="acc_list_ul">';
-            var accList = platform["acc_list"];
-            for (var j = 0; j < accList.length; j++){
-                var acc = accList[j];
-                dom += '<li>'+ acc +'</li>';
-            }
-            dom += '</ul></td>';
-            dom += '<td>' + platform["cat_title"] + '</td>';
-            dom += '<td><i onclick="editPlatform(this)" platId="'+ platform["id"] +'" style="cursor: pointer" class="icon icon-edit"></i>';
-            dom += '<i catId="'+ platform["cat_id"] +'" platId="'+ platform["id"] +'" onclick="deletePlatform(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+            var driver = data[i];
+            dom += '<tr><td>'+ driver["name"] +'</td>';
+            dom += '<td>'+ driver["type"] +'</td>';
+            dom += '<td><i driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
 
         // 添加分类一行
