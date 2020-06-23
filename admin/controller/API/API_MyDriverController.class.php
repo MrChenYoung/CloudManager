@@ -18,8 +18,6 @@ class API_MyDriverController extends API_BaseController
             die;
         }
 
-        echo $this->success($res);
-        die;
         $driverList = $res["result"];
         $data = [];
         foreach ($driverList as $key=>$driver) {
