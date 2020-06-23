@@ -92,7 +92,7 @@
                     // 重命名
                 case 2:
                     // 添加/修改备注
-                    showEditCover(opeType);
+                    showEditCover(opeType,driveName);
                     break;
                 case 3:
                     // 获取大小和文件数
@@ -107,12 +107,22 @@
     }
 
     // 显示编辑界面
-    function showEditCover(type) {
+    function showEditCover(type,name) {
         if (type == 1){
+            var $input = $("#new_name_input");
             // 重命名
             $("#legend_title").text("重命名");
-            $("#new_name_input").css("display","block");
+            // $input.css("display","block");
             $("#remark_area").css("display","none");
+            // 显示原来的名字
+            $input.text(name);
+            // 自动获取焦点
+            $input.focus();
+            // 文字被选中
+            $input.select();
+
+            // $("#new_name_input").css("select",);
+
         }else {
             // 添加/修改备注
             $("#legend_title").text("添加/修改备注");
@@ -199,10 +209,7 @@
     </div>
 </div>
 
-<!--添加分类浮层-->
-<!--<div class="add-category-box">-->
-<!--    -->
-<!--</div>-->
+<!--浮层弹窗-->
 <div class="add-category-container">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend id="legend_title">重命名</legend>
