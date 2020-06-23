@@ -141,6 +141,7 @@
         get(url,function (data) {
             if (withHud){
                 hideHud();
+                console.log("隐藏hud");
             }
             var fileList = data.data;
             createFilesDoms(fileList);
