@@ -51,7 +51,7 @@
             // 默认选择的云盘类型
             var driveTypes = Object.keys(driverList);
             if (driveTypes.length > 0){
-                selectDriveType = [0];
+                selectDriveType = driveTypes[0];
             }
 
             console.log("数据：" + JSON.stringify(driverList));
