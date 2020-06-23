@@ -39,7 +39,8 @@
             dom += '<tr mouseRgihtData="'+ driver["name"] +'"><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
             dom += '<td>'+ driver["size"] +'</td>';
-            dom += '<td>--</td></tr>';
+            dom += '<td>'+ driver["count"] +'</td>';
+            dom += '<td>'+ driver["remark"] +'</td></tr>';
         }
 
         // 添加分类一行
@@ -48,7 +49,9 @@
         // 添加右键菜单
         var menu_data=[
             {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
-            {'type':2,'icon':'icon-icon_del','title':'删除'}
+            {'type':2,'icon':'icon-icon_del','title':'添加备注'},
+            {'type':3,'icon':'icon-icon_del','title':'获取大小和文件数'},
+            {'type':4,'icon':'icon-icon_del','title':'删除'},
         ];
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
             var opeType = menuData.type;
@@ -59,7 +62,7 @@
                     // 重命名
                     renameDriver(driveName);
                     break;
-                case 2:
+                case 4:
                     // 删除
                     deleteDriver(driveName);
                     break;
@@ -93,6 +96,7 @@
                     <col width="150">
                     <col width="150">
                     <col width="150">
+                    <col width="150">
                     <col width="200">
                 </colgroup>
                 <thead>
@@ -100,6 +104,7 @@
                     <th>名称</th>
                     <th>类型</th>
                     <th>大小</th>
+                    <th>文件数量</th>
                     <th>备注</th>
                 </tr>
                 </thead>

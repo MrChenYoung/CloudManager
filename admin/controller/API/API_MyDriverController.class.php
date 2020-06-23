@@ -39,10 +39,12 @@ class API_MyDriverController extends API_BaseController
             // 获取大小
 //            $detaileInfo = $this->loadDetaileInfo($key,"/");
             $size = "--";//$detaileInfo["size"];
+            $remark = "--";
             $data[] = [
                 "name"  =>  $key,
                 "type"  =>  $type,
-                "size"  =>  $size
+                "size"  =>  $size,
+                "remark"=>  $remark
             ];
         }
 
