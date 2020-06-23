@@ -236,15 +236,16 @@ function confirmAlert(confirmFunction,message="确定删除？") {
 }
 
 // 初始化右键菜单
-function mouseRightMenuInit($element,data,openAction=null) {
+function mouseRightMenuInit($element,data,openAction=null,bindAction=null) {
     layui.config({base: '/public/common/layui_exts/mouseRightMenu/'});
     layui.use(['mouseRightMenu','layer'],function(){
         var mouseRightMenu = layui.mouseRightMenu,layer = layui.layer;
         //右键监听
         $element.bind("contextmenu",function(e){
-            var innerData = {content:$(this).attr("mouseRgihtData")}
+            if (bindAction){
+                bindAction($(this));
+            }
             mouseRightMenu.open(data,false,function(d){
-                d.data = innerData;
                 if (openAction){
                     openAction(d);
                 }

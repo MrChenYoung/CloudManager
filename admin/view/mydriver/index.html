@@ -45,6 +45,7 @@
 <{block name="scriptCode"}>
 <script>
     var layerIndex;
+    var editDriverName;
     var editType;
     var oldDriverName;
     var oldRemark;
@@ -89,14 +90,13 @@
         ];
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
             var opeType = menuData.type;
-            var driveName = menuData.data.content;
             console.log("type:" + typeof(opeType));
             switch (opeType) {
                 case 1:
                     // 重命名
                 case 2:
                     // 添加/修改备注
-                    showEditCover(opeType,driveName);
+                    showEditCover(opeType);
                     break;
                 case 3:
                     // 获取大小和文件数
@@ -104,14 +104,17 @@
                     break;
                 case 4:
                     // 删除
-                    deleteDriver(driveName);
+                    deleteDriver();
                     break;
             }
+        },function (obj) {
+            editDriverName = obj.parent().attr('mouseRgihtData');
+            console.log("弹出菜单:" + editDriverName);
         });
     }
 
     // 显示编辑界面
-    function showEditCover(type,name) {
+    function showEditCover(type,name,remark='') {
         editType = type;
         var area = ['450px','200px'];
         if (type == 1){
