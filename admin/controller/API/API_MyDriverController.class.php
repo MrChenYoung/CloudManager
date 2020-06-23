@@ -20,6 +20,9 @@ class API_MyDriverController extends API_BaseController
 
         $driverList = $res["result"];
         $data = [];
+        echo "<pre>";
+        var_dump($driverList);
+        die;
         foreach ($driverList as $key=>$driver) {
 //            $type = "";
 //            switch ($driver["scope"]){
