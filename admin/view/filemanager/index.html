@@ -23,6 +23,10 @@
         display: inline-block;
     }
 
+    .file-name {
+        display: inline-block;
+        
+    }
 
 </style>
 <{/block}>
@@ -155,7 +159,7 @@
             var file = data[i];
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
             dom += '<tr><td><i class="iconfont '+ file["icon"] +'"></i>';
-            dom += '<div style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td>';
