@@ -38,6 +38,30 @@
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
 
+        // 监听select选择变化
+        layui.use('form',function () {
+            var form = layui.form;
+
+            // 监听云盘类型选择
+            form.on('select(drive-type-list)', function(data){
+                // 选择的云盘类型
+                selectDriveType = data.value;
+                // 刷新云盘列表
+                if (selectDriveType.length > 0){
+                    selectDrive = driverList[selectDriveType][0];
+                }
+                createDriverDoms();
+            });
+
+            // 监听云盘选择
+            form.on('select(drive-list)', function(data){
+                // 选择的云盘
+                selectDrive = data.value;
+                // 刷新列表
+
+            });
+        });
+
         // 请求云盘列表
         loadDriverList();
     });
@@ -53,11 +77,6 @@
             if (driveTypes.length > 0){
                 selectDriveType = driveTypes[0];
             }
-
-            console.log("数据：" + JSON.stringify(driverList));
-            console.log("云盘类型:" + JSON.stringify(driveTypes));
-            console.log("选择类型:" + selectDriveType);
-            console.log("云盘:" + JSON.stringify(driverList[selectDriveType]));
 
             // 默认选择的云盘
             if (selectDriveType.length > 0){
