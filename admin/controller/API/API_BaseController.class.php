@@ -66,7 +66,12 @@ class API_BaseController extends Controller
         echo "<script>window.location.href='index.php?logout='</script>";
     }
 
-    // 获取云盘指定路径下的详细信息(文件总大小和文件数量)
+    /**
+     * 获取云盘指定路径下的详细信息(总大小和文件总数量)
+     * @param $remoteName   云盘名字
+     * @param $path         路径
+     * @return array        包含大小和文件数量的数组
+     */
     public function loadDetaileInfo($remoteName,$path){
         $fileSize = "--";
         $fileCount = 0;

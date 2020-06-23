@@ -137,4 +137,17 @@ class API_MyDriverController extends API_BaseController
             echo $this->failed("备注修改失败");
         }
     }
+
+    // 获取云盘所有文件大小和文件总数量
+    public function loadDriverDetailInfo(){
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        $res = $this->loadDetaileInfo($driverName,"/");
+        echo $this->success($res);
+    }
 }

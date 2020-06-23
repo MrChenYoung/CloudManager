@@ -49,6 +49,7 @@
     var editType;
     var oldDriverName;
     var oldRemark;
+    var editRow;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
@@ -73,8 +74,8 @@
             var driver = data[i];
             dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
-            dom += '<td>'+ driver["size"] +'</td>';
-            dom += '<td>'+ driver["count"] +'</td>';
+            dom += '<td class="driver-size">'+ driver["size"] +'</td>';
+            dom += '<td class="file-count">'+ driver["count"] +'</td>';
             dom += '<td>'+ driver["remark"] +'</td></tr>';
         }
 
@@ -107,8 +108,21 @@
                     break;
             }
         },function (obj) {
+            editRow = obj;
             editDriverName = obj.attr('driverName');
             oldRemark = obj.attr('remark');
+        });
+    }
+
+    // 获取云盘文件大小和文件数量
+    function loadDriver() {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadDriverDetailInfo&driverName=" + editDriverName + "&API=";
+        get(url,function (data) {
+            var info = data.data;
+            var size = info["size"];
+            var count = info["count"];
+            editRow.find(".driver-size").text(size);
+            editRow.find(".file-count").text(count);
         });
     }
 
