@@ -38,7 +38,8 @@
             var driver = data[i];
             dom += '<tr mouseRgihtData="'+ driver["name"] +'"><td>'+ driver["name"] +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
-            dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
+            dom += '<td>'+ driver["size"] +'</td>';
+            dom += '<td>--</td></tr>';
         }
 
         // 添加分类一行
@@ -98,7 +99,8 @@
                 <tr>
                     <th>名称</th>
                     <th>类型</th>
-                    <th>操作</th>
+                    <th>大小</th>
+                    <th>备注</th>
                 </tr>
                 </thead>
                 <tbody>

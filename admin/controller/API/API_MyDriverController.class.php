@@ -35,9 +35,14 @@ class API_MyDriverController extends API_BaseController
                     $type = "未知";
                     break;
             }
+
+            // 获取大小
+            $detaileInfo = $this->loadDetaileInfo($key,"/");
+            $size = $detaileInfo["size"];
             $data[] = [
                 "name"  =>  $key,
-                "type"  =>  $type
+                "type"  =>  $type,
+                "size"  =>  $size
             ];
         }
 

@@ -3,7 +3,9 @@
 
 namespace admin\controller\API;
 use framework\core\Controller;
+use framework\tools\FileManager;
 use framework\tools\SessionManager;
+use framework\tools\ShellManager;
 
 class API_BaseController extends Controller
 {
@@ -62,5 +64,28 @@ class API_BaseController extends Controller
 
         // 跳转到登录页面
         echo "<script>window.location.href='index.php?logout='</script>";
+    }
+
+    // 获取云盘指定路径下的详细信息(文件总大小和文件数量)
+    public function loadDetaileInfo($remoteName,$path){
+        $fileSize = "--";
+        $fileCount = 0;
+        $getSizeCmd = "rclone size ".$remoteName.":".$path;
+        $sizeRes = ShellManager::exec($getSizeCmd);
+        if (!$sizeRes["success"]){
+            // 获取文件详情失败
+        }else {
+            $sizeRes = $sizeRes["result"];
+            $fileCount = (int)trim(str_replace("Total objects:","",$sizeRes[0]));
+            preg_match("/\((.*)\)/",$sizeRes[1],$match);
+            if (count($match) > 1){
+                $fileSize = $match[1];
+                $fileSize = trim(str_replace("Bytes","",$fileSize));
+            }
+
+            $fileSize = FileManager::formatBytes($fileSize);
+        }
+
+        return ["size"=>$fileSize,"count"=>$fileCount];
     }
 }
