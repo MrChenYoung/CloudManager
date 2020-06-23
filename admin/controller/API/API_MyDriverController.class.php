@@ -69,4 +69,29 @@ class API_MyDriverController extends API_BaseController
             echo $this->failed("删除失败");
         }
     }
+
+    // 重命名
+    public function renameDrive(){
+        if (!isset($_GET["oldName"])){
+            echo $this->failed("缺少oldName参数");
+            die;
+        }
+        $oldName = $_GET["oldName"];
+
+        if (!isset($_GET["newName"])){
+            echo $this->failed("缺少newName参数");
+            die;
+        }
+        $newName = $_GET["newName"];
+
+        $confPath = '/root/.config/rclone/rclone.conf';
+        $confContent = file_get_contents($confPath);
+        $confContent = str_replace("[".$oldName."]","[".$newName."]",$confContent);
+        $res = file_put_contents($confPath,$confContent);
+        if ($res){
+            echo $this->success("重命名成功");
+        }else {
+            echo $this->failed("重命名失败");
+        }
+    }
 }

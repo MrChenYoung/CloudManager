@@ -45,6 +45,9 @@
 <{block name="scriptCode"}>
 <script>
     var layerIndex;
+    var editType;
+    var oldDriverName;
+    var oldRemark;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
@@ -109,6 +112,7 @@
 
     // 显示编辑界面
     function showEditCover(type,name) {
+        editType = type;
         if (type == 1){
             var $input = $("#new_name_input");
             // 重命名
@@ -117,6 +121,7 @@
             $("#remark_area").css("display","none");
             // 显示原来的名字
             $input.val(name);
+            oldDriverName = name;
         }else {
             // 添加/修改备注
             $("#legend_title").text("添加/修改备注");
@@ -168,7 +173,11 @@
 
     // 重命名
     function renameDriver(driveName) {
-        console.log("重命名:" + driveName);
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=renameDrive&oldName=" + oldDriverName + "&API=&newName=" + driveName;
+        get(url,function () {
+            // 刷新列表
+            loadDriverList();
+        });
     }
     
     // 取消
@@ -178,7 +187,20 @@
     
     // 确认
     function confirm() {
+        if (editType == 1){
+            // 重命名
+            var newName = $('new_name_input').val();
+            if (newName.length == 0){
+                toast("名称不能为空");
+            }else if(newName == oldDriverName){
+                toast("请输入不同的名称");
+            }else {
+                renameDriver(newName);
+            }
+        }else {
+            // 修改备注
 
+        }
         hideEditCover();
     }
 
