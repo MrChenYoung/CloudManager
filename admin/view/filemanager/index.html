@@ -11,6 +11,15 @@
         font-weight: bold;
     }
 
+    .layui-form-select dl dd.layui-this {
+        background-color: #393D49;
+    }
+
+    .select-box .layui-form-select {
+        width: 110px;
+        display: inline-block;
+    }
+
     .drive-type-select,.drive-select {
         width: 200px;
         display: inline-block;
@@ -71,7 +80,7 @@
     <div class="mod">
         <div class="drive-select-box">
             <form class="layui-form layui-form-pane" action="">
-                <div class="layui-form-item">
+                <div class="layui-form-item select-box">
                     <select class="drive-type-select" id="drive_type_select" lay-filter="drive-type-list">
                         <option value="">选择云盘类型</option>
                     </select>
