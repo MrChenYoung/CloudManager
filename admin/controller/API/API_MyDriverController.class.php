@@ -18,8 +18,8 @@ class API_MyDriverController extends API_BaseController
             die;
         }
         $driverList = $res["result"];
-//        $data = [];
-//        foreach ($driverList as $key=>$driver) {
+        $data = [];
+        foreach ($driverList as $key=>$driver) {
 //            $type = "";
 //            switch ($driver["scope"]){
 //                case "drive":
@@ -36,8 +36,9 @@ class API_MyDriverController extends API_BaseController
 //                "name"  =>  $key,
 //                "type"  =>  $type
 //            ];
-//        }
+            $data[] = $driver;
+        }
 
-        echo $this->success($driverList);
+        echo $this->success($data);
     }
 }
