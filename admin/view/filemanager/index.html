@@ -53,6 +53,10 @@
             if (driveTypes.length > 0){
                 selectDriveType = [0];
             }
+
+            console.log("选择类型:" + selectDriveType);
+            console.log("云盘:" + JSON.stringify(driverList[selectDriveType]));
+            
             // 默认选择的云盘
             if (selectDriveType.length > 0){
                 selectDrive = driverList[selectDriveType][0];
