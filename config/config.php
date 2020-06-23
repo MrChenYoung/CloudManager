@@ -8,12 +8,12 @@ return [
     'host'              =>      'localhost',
     'user'              =>      'root',
     'pass'              =>      '199156',
-    'dbname'            =>      'account_db',
+    'dbname'            =>      'cloud_manager_db',
     'port'              =>      3306,
     'charset'           =>      'utf8',
 
     //默认的模块
-    'default_module'     =>      'home',
-    'default_controller'=>      'Common',
+    'default_module'     =>      'admin',
+    'default_controller'=>      'MyDriver',
     'default_action'    =>      'index',
 ];

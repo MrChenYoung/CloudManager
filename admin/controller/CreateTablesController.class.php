@@ -14,12 +14,12 @@ class CreateTablesController
         $this->dao = dao\DAOPDO::getSingleton();
 
         // 初始化数据表
-        $this->initCategoryTable();
-        $this->initPlatformTable();
-        $this->initAccountTable();
-        $this->initPassWDTable();
-        $this->initGeneralInfoTable();
-        $this->initAttachmentTable();
+//        $this->initCategoryTable();
+//        $this->initPlatformTable();
+//        $this->initAccountTable();
+//        $this->initPassWDTable();
+//        $this->initGeneralInfoTable();
+//        $this->initAttachmentTable();
     }
 
     // 初始化数据库信息
