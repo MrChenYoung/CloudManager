@@ -139,9 +139,8 @@
         var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + drivePath;
         console.log("获取文件列表:" + url);
         get(url,function (data) {
-            if (withHud){
+            if (!withHud){
                 hideHud();
-                console.log("隐藏hud");
             }
             var fileList = data.data;
             createFilesDoms(fileList);
