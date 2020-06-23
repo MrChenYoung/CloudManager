@@ -131,7 +131,17 @@
             $("#new_name_input").css("display","none");
             $("#remark_area").css("display","block");
         }
-        $(".add-category-box").css("display","block");
+        // $(".add-category-box").css("display","block");
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                content: $(".add-category-container")
+            });
+        });
     }
 
     // 删除云盘
