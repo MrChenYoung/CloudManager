@@ -117,14 +117,6 @@
             $("#remark_area").css("display","none");
             // 显示原来的名字
             $input.val(name);
-            // 自动获取焦点
-            // $input.focus();
-            // // 文字被选中
-            // $input.select();
-
-
-            // $("#new_name_input").css("select",);
-
         }else {
             // 添加/修改备注
             $("#legend_title").text("添加/修改备注");
@@ -142,9 +134,10 @@
                 shadeClose: true,
                 content: $(".add-category-container"),
                 success: function(){
-                    // document.getElementById("new_name_input").focus();
-                    // document.getElementById("new_name_input").select();
-                    // $input.select();
+                    // 自动获取焦点
+                    $input.focus();
+                    // // 文字被选中
+                    $input.select();
                 },
                 end:function () {
                     $(".add-category-container").css("display","none");
