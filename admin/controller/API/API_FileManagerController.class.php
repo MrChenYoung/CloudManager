@@ -80,27 +80,28 @@ class API_FileManagerController extends API_BaseController
             // 文件数量
             $fileCount = 1;
             if ($file["IsDir"]){
-                $getSizeCmd = "rclone size ".$remoteName.":".$path;
-                $sizeRes = ShellManager::exec($getSizeCmd);
-                if (!$sizeRes["success"]){
-                    // 获取文件大小失败
-                    $fileSize = "未知";
-                    $fileCount = 0;
-                }else {
-                    $sizeRes = $sizeRes["result"];
-                    $fileCount = trim(str_replace("Total objects:","",$sizeRes[0]));
-                    preg_match("/\((.*)\)/",$sizeRes[1],$match);
-                    if (count($match) > 1){
-                        $fileSize = $match[1];
-                        $fileSize = trim(str_replace("Bytes","",$fileSize));
-                    }
-
-                    $fileSize = $this->formatBytes($fileSize);
-                }
+//                $getSizeCmd = "rclone size ".$remoteName.":".$path;
+//                $sizeRes = ShellManager::exec($getSizeCmd);
+//                if (!$sizeRes["success"]){
+//                    // 获取文件大小失败
+//                    $fileSize = "未知";
+//                    $fileCount = 0;
+//                }else {
+//                    $sizeRes = $sizeRes["result"];
+//                    $fileCount = trim(str_replace("Total objects:","",$sizeRes[0]));
+//                    preg_match("/\((.*)\)/",$sizeRes[1],$match);
+//                    if (count($match) > 1){
+//                        $fileSize = $match[1];
+//                        $fileSize = trim(str_replace("Bytes","",$fileSize));
+//                    }
+//
+//                    $fileSize = $this->formatBytes($fileSize);
+//                }
+                $fileCount = "--";
             }else if ($fileSize >= 0){
                 $fileSize = $this->formatBytes($fileSize);
             }else {
-                $fileSize = "未知";
+                $fileSize = "--";
             }
             $fileList[$key]["Size"] = $fileSize;
             $fileList[$key]["Count"] = $fileCount;
