@@ -68,7 +68,6 @@ class API_FileManagerController extends API_BaseController
         $fileList = $res["result"];
         $fileList = implode("",$fileList);
         $fileList = json_decode($fileList,true);
-        echo "<pre>";
-        var_dump($fileList);
+        echo $this->success($fileList);
     }
 }
