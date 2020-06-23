@@ -34,6 +34,8 @@
     var selectDriveType;
     // 选择的云盘
     var selectDrive;
+    // 云盘路径，默认根路径
+    var drivePath = '/';
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -60,6 +62,8 @@
 
         // 请求云盘列表
         loadDriverList();
+        // 请求文件列表
+        createFilesDoms();
     });
 
     // 请求云盘列表
@@ -129,13 +133,22 @@
         });
     }
 
-    // 创建云盘列表
-    function createDriverDoms(data) {
+    // 请求文件列表
+    function loadFileList() {
+        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + drivePath;
+        get(url,function (data) {
+            var fileList = data.data;
+            createFilesDoms(fileList);
+        });
+    }
+    
+    // 创建文件列表
+    function createFilesDoms(data) {
         var dom = "";
         for(var i = 0; i < data.length; i++){
-            var driver = data[i];
-            dom += '<tr><td>'+ driver["name"] +'</td>';
-            dom += '<td>'+ driver["type"] +'</td>';
+            var file = data[i];
+            dom += '<tr><td>'+ file["Name"] +'</td>';
+            dom += '<td>'+ file["type"] +'</td>';
             dom += '<td>--</td>';
             dom += '<td><i title="删除" driverName="'+ driver["name"] +'" onclick="deleteDriver(this)" style="cursor: pointer" class="icon icon-trash"></i></td></tr>';
         }
