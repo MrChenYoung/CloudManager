@@ -17,6 +17,9 @@ class API_MyDriverController extends API_BaseController
             echo $this->failed("获取云盘列表失败");
             die;
         }
+        
+        echo $res;
+        die;
         $driverList = $res["result"];
         $data = [];
         foreach ($driverList as $key=>$driver) {
