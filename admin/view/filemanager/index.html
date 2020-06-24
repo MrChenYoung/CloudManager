@@ -277,7 +277,7 @@
 
     // 打开目录
     function openDir(obj) {
-        var $this = $(this);
+        var $this = $(obj);
         console.log("进入目录:" + $this.attr("isDir"));
         var isDir = $this.attr("isDir") == '1' ? true : false;
         if (!isDir) return;
