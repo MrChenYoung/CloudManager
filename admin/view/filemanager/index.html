@@ -312,6 +312,7 @@
         // 判断返回上一级目录是否可以点击
         var canBack = pathArray.length > 2 ? true : false;
         var $backBtn = $(".back-btn");
+        console.log("可以返回：" + canBack);
         if (canBack){
             // 可以返回
             $backBtn.removeClass("layui-btn-disabled");
@@ -461,7 +462,7 @@
                     <select id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
-                    <button onclick="backLastDir()" type="button" class="layui-btn back-btn"><i class="layui-icon layui-icon-return"></i></button>
+                    <button onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
                     <span class="layui-breadcrumb">
                         <a href="/">首页</a>
                         <a href="/demo/">演示</a>
