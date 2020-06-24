@@ -139,6 +139,9 @@ class API_FileManagerController extends API_BaseController
             $cmd = "rclone purge ".$remoteName.":".$path;
         }
         $res = ShellManager::exec($cmd);
+
+        echo $cmd;
+        die;
         if (!$res["success"]){
             echo $this->failed("删除失败");
             die;
