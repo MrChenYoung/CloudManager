@@ -252,6 +252,7 @@
     // 重命名
     function renameFile(name) {
         var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + drivePath + "&oldName=" + oldFileName + "&newName=" + name;
+        console.log("文件重命名:" + url);
         get(url,function () {
             // 刷新列表
             loadFileList();
