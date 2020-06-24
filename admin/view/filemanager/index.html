@@ -179,10 +179,12 @@
 
         // 添加右键菜单
         var menu_data=[
-            {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
-            {'type':2,'icon':'icon-beizhu','title':'添加/修改备注'},
-            {'type':3,'icon':'icon-xiangqing','title':'获取大小和文件数'},
-            {'type':4,'icon':'icon-icon_del','title':'删除'},
+            {'type':1,'icon':'icon-yidong','title':'移动'},
+            {'type':2,'icon':'icon-zhongmingming','title':'重命名'},
+            {'type':3,'icon':'icon-xiazai','title':'下载'},
+            {'type':4,'icon':'icon-beizhu','title':'添加/修改备注'},
+            {'type':5,'icon':'icon-xiangqing','title':'获取大小和文件数'},
+            {'type':6,'icon':'icon-icon_del','title':'删除'},
         ];
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
             var opeType = menuData.type;
