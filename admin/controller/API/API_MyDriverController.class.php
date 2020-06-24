@@ -160,7 +160,7 @@ class API_MyDriverController extends API_BaseController
         }
         $driverName = $_GET["driverName"];
 
-        $res = $this->loadDetaileInfo($driverName,"/");
+        $res = parent::loadDriverDetailInfo($driverName,"/");
         echo $this->success($res);
     }
 }

@@ -51,6 +51,7 @@
     var editFileName;
     // 正在编辑的文件是否是文件夹
     var editDir;
+    var editRow;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -172,8 +173,8 @@
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
             dom += '<tr isDir="'+ dirFlag +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
             dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
-            dom += '<td>'+ file["Size"] +'</td>';
-            dom += '<td>'+ file["Count"] +'</td>';
+            dom += '<td class="driver-size">'+ file["Size"] +'</td>';
+            dom += '<td class="file-count">'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td></tr>';
         }
 
@@ -197,7 +198,7 @@
                     // 添加/修改备注
                     showEditCover(opeType);
                     break;
-                case 3:
+                case 4:
                     // 获取大小和文件数
                     loadDriverInfo();
                     break;
@@ -207,7 +208,7 @@
                     break;
             }
         },function (obj) {
-            // editRow = obj;
+            editRow = obj;
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
         });
@@ -223,6 +224,20 @@
             },true,true);
         });
     }
+
+    // 获取文件大小和文件数量
+    function loadDriverInfo() {
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadDriverDetailInfo&driverName=" + selectDrive + "&API=&path=" + drivePath + editFileName;
+        console.log("获取文件详情：" + url);
+        get(url,function (data) {
+            var info = data.data;
+            var size = info["size"];
+            var count = info["count"];
+            editRow.find(".driver-size").text(size);
+            editRow.find(".file-count").text(count);
+        });
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>

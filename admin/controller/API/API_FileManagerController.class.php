@@ -149,6 +149,26 @@ class API_FileManagerController extends API_BaseController
         echo $this->success("删除成功");
     }
 
+    // 获取云盘所有文件大小和文件总数量
+    public function loadDriverDetailInfo(){
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        // 路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        $res = parent::loadDriverDetailInfo($driverName,$path);
+        echo $this->success($res);
+    }
+
     // 根据文件类型获取显示图标
     private function getFileIcon($file){
         if ($file["IsDir"]){

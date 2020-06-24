@@ -93,4 +93,10 @@ class API_BaseController extends Controller
 
         return ["size"=>$fileSize,"count"=>$fileCount];
     }
+
+    // 获取云盘所有文件大小和文件总数量
+    public function loadDriverDetailInfo($driverName,$path){
+        $res = $this->loadDetaileInfo($driverName,$path);
+        return $this->success($res);
+    }
 }
