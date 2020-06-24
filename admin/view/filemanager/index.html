@@ -14,6 +14,35 @@
         text-align: left;
     }
 
+    .add-category-container {
+        width: 420px;
+        height: 180px;
+        background-color: #FFF;
+        padding: 10px;
+        border-radius: 2px;
+        position: relative;
+        display: none;
+    }
+
+    .layui-field-title{
+        width: 430px;
+    }
+
+    .layui-input-inline .layui-btn {
+        color: #cdcdcd
+    }
+
+    .btns-box {
+        width: 146px;
+        position: absolute;
+        right: 10px;
+        bottom: 20px;
+    }
+
+    .btns-box .confirm-btn{
+        background-color: #393D49;
+    }
+
     .layui-form-select dl dd.layui-this {
         background-color: #393D49;
     }
@@ -49,6 +78,7 @@
     var drivePath = '/';
     // 正在编辑的文件名
     var editFileName;
+    var oldFileName;
     // 正在编辑的文件是否是文件夹
     var editDir;
     var editRow;
@@ -193,7 +223,7 @@
             var opeType = menuData.type;
             switch (opeType) {
                 case 1:
-                // 重命名
+                    // 移动
                 case 2:
                     // 重命名
                     showEditCover(opeType);
@@ -218,6 +248,12 @@
         });
     }
 
+    // 重命名
+    function renameFile() {
+
+
+    }
+
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
@@ -239,6 +275,63 @@
             var count = info["count"];
             editRow.find(".driver-size").text(size);
             editRow.find(".file-count").text(count);
+        });
+    }
+
+    // 显示编辑界面
+    function showEditCover(type) {
+        editType = type;
+        var area = ['450px','200px'];
+        if (type == 2){
+            var $input = $("#new_name_input");
+            // 重命名
+            $("#legend_title").text("重命名");
+            $input.css("display","block");
+            $(".add-category-container").css("height","180px");
+            // 显示原来的名字
+            $input.val(editFileName);
+            oldFileName = editFileName;
+        }else {
+            // 添加/修改备注
+            $("#legend_title").text("添加/修改备注");
+            $("#new_name_input").css("display","none");
+            $("#remark_area").css("display","block");
+            $(".add-category-container").css("height","250px");
+            $("#remark_area").val(oldRemark);
+            area = ['450px','270px'];
+        }
+        $(".add-category-container").css("display","block");
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            layerIndex = layer.open({
+                type: 1,
+                area:area,
+                title: false,
+                offset:'200px',
+                closeBtn: 0,
+                shadeClose: true,
+                content: $(".add-category-container"),
+                success: function(){
+                    if (type == 1){
+                        // 自动获取焦点
+                        $input.focus();
+                        // // 文字被选中
+                        $input.select();
+                    }
+                },
+                end:function () {
+                    $(".add-category-container").css("display","none");
+                }
+            });
+        });
+    }
+
+    // 隐藏编辑界面
+    function hideEditCover(){
+        // 关闭浮层
+        layui.use('layer', function() {
+            var layer = layui.layer;
+            layer.close(layerIndex);
         });
     }
 
@@ -281,4 +374,21 @@
         </div>
     </div>
 </div>
+
+<!--浮层弹窗-->
+<div class="add-category-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend id="legend_title">重命名</legend>
+    </fieldset>
+    <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+
+    <!--确定/取消按钮-->
+    <div class="btns-box">
+        <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
+        <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
+    </div>
+    <!--选择图片上传-->
+    <input type="file" name="file" id="file_select_input" style="display:none">
+</div>
+
 <{/block}>
