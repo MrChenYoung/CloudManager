@@ -88,6 +88,16 @@
     cite {
         cursor: default;
     }
+
+    .back-btn {
+        background-color: #393D49;
+        text-align: center;
+    }
+
+    .layui-btn-disabled {
+        background-color: #FBFBFB;
+    }
+    
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -278,7 +288,6 @@
     // 打开目录
     function openDir(obj) {
         var $this = $(obj);
-        console.log("进入目录:" + $this.attr("isDir"));
         var isDir = $this.attr("isDir") == '1' ? true : false;
         if (!isDir) return;
         var dirName = $this.text();
@@ -428,6 +437,7 @@
                     <select id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
+                    <button type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
                     <span class="layui-breadcrumb">
                         <a href="/">首页</a>
                         <a href="/demo/">演示</a>
