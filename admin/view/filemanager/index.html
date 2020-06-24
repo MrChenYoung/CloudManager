@@ -314,6 +314,27 @@
         loadFileList();
     }
 
+    // 返回到指定文件夹下
+    function pathDirClicked(obj) {
+        var $this = $(obj);
+        var dirIndex = parseInt($this.attr('dirIndex'));
+
+        if (dirName == 0){
+            // 回到根目录
+            pathArray = [""];
+        }else {
+            var newPathArray = [""];
+            for (var i = 1; i <= dirIndex; i++){
+                var p = pathArray[i];
+                newPathArray.push(p);
+            }
+            pathArray = newPathArray;
+        }
+
+        // 刷新文件列表
+        loadFileList();
+    }
+
     // 更新路径显示
     function updatePathUI() {
         // 判断返回上一级目录是否可以点击
@@ -336,10 +357,10 @@
 
             if (i == pathArray.length - 1){
                 // 最后一个
-                dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)"><cite>'+ path +'</cite></a>';
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="pathDirClicked(this)"><cite>'+ path +'</cite></a>';
             }else {
                 // 不是最后一个
-                dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)">'+ path +'</a>';
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="pathDirClicked(this)">'+ path +'</a>';
                 dom += '<span lay-separator="">/</span>';
             }
         }
