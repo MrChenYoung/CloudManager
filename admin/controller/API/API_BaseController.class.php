@@ -76,6 +76,9 @@ class API_BaseController extends Controller
         $fileSize = "--";
         $fileCount = 0;
         $getSizeCmd = "rclone size ".$remoteName.":".$path;
+        echo $getSizeCmd;
+        die;
+        
         $sizeRes = ShellManager::exec($getSizeCmd);
         if (!$sizeRes["success"]){
             // 获取文件详情失败
