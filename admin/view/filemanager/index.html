@@ -249,9 +249,12 @@
     }
 
     // 重命名
-    function renameFile() {
-
-
+    function renameFile(name) {
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + drivePath + "&oldName=" + oldFileName + "&newName=" + name;
+        get(url,function () {
+            // 刷新列表
+            loadFileList();
+        },true,true);
     }
 
     // 删除文件
@@ -337,7 +340,7 @@
 
     // 确认
     function confirm() {
-        if (editType == 1){
+        if (editType == 2){
             // 重命名
             var newName = $('#new_name_input').val();
             if (newName.length == 0){
@@ -345,7 +348,7 @@
             }else if(newName == oldDriverName){
                 toast("请输入不同的名称");
             }else {
-                renameDriver(newName);
+                renameFile(newName);
                 hideEditCover();
             }
         }else {

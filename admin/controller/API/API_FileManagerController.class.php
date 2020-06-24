@@ -169,6 +169,47 @@ class API_FileManagerController extends API_BaseController
         echo $this->success($res);
     }
 
+    // 重命名
+    public function renameFile(){
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        // 路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        // 原来的名字
+        if (!isset($_GET["oldName"])){
+            echo $this->failed("缺少oldName参数");
+            die;
+        }
+        $oldName = $_GET["oldName"];
+
+        // 新名字
+        if (!isset($_GET["newName"])){
+            echo $this->failed("缺少newName参数");
+            die;
+        }
+        $newName = $_GET["newName"];
+
+        $oldFullPath = $path.$oldName;
+        $newFullPath = $path.$newName;
+        $cmd = 'rclone moveto '.$oldFullPath." ".$newFullPath;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("文件移动失败");
+            die;
+        }
+        echo $this->success("文件移动成功");
+    }
+
     // 根据文件类型获取显示图标
     private function getFileIcon($file){
         if ($file["IsDir"]){
