@@ -227,7 +227,7 @@
 
     // 获取文件大小和文件数量
     function loadDriverInfo() {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadDriverDetailInfo&driverName=" + selectDrive + "&API=&path=" + drivePath + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadFileDetailInfo&driverName=" + selectDrive + "&API=&path=" + drivePath + editFileName;
         console.log("获取文件详情：" + url);
         get(url,function (data) {
             var info = data.data;

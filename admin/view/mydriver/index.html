@@ -116,7 +116,7 @@
 
     // 获取云盘文件大小和文件数量
     function loadDriverInfo() {
-        var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadDriverDetailInfo&driverName=" + editDriverName + "&API=";
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadFileDetailInfo&driverName=" + editDriverName + "&API=";
         console.log("获取云盘详情：" + url);
         get(url,function (data) {
             var info = data.data;

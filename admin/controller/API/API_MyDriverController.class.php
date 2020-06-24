@@ -152,7 +152,7 @@ class API_MyDriverController extends API_BaseController
     }
 
     // 获取云盘所有文件大小和文件总数量
-    public function loadDriverDetailInfo(){
+    public function loadFileDetailInfo(){
         // 云盘名
         if (!isset($_GET["driverName"])){
             echo $this->failed("缺少driverName参数");
@@ -160,7 +160,7 @@ class API_MyDriverController extends API_BaseController
         }
         $driverName = $_GET["driverName"];
 
-        $res = parent::loadDriverDetailInfo($driverName,"/");
+        $res = $this->loadDriverDetailInfo($driverName,"/");
         echo $this->success($res);
     }
 }
