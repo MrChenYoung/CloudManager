@@ -168,8 +168,9 @@
         var dom = "";
         for(var i = 0; i < data.length; i++){
             var file = data[i];
+            var dirFlag = file['IsDir'] ? "1" : "0";
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
-            dom += '<tr isDir="'+ file['IsDir'] +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<tr isDir="'+ dirFlag +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
             dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
@@ -215,9 +216,7 @@
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
-            console.log("是否是文件夹:" + editDir);
-            var deleteDir = editDir ? "1" : "0";
-            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + editFileName + "&isDir=" + deleteDir;
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + editFileName + "&isDir=" + editDir;
             get(url,function () {
                 // 刷新列表
                 loadFileList();
