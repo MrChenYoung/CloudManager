@@ -342,7 +342,11 @@
                 dom += '<a dir="'+ path +'" href="javascript:;" onclick="pathDirClicked(this)">'+ path +'</a>';
             }
         }
-        $("layui-breadcrumb").html(dom);
+
+        layui.use('element',function () {
+            var element = layui.element;
+            $("layui-breadcrumb").html(dom);
+        });
     }
 
     // 获取目录路径
