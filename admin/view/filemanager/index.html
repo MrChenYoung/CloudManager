@@ -310,9 +310,8 @@
     // 更新路径显示
     function updatePathUI() {
         // 判断返回上一级目录是否可以点击
-        var canBack = pathArray.length > 2 ? true : false;
+        var canBack = pathArray.length >= 2 ? true : false;
         var $backBtn = $(".back-btn");
-        console.log("可以返回：" + canBack);
         if (canBack){
             // 可以返回
             $backBtn.removeClass("layui-btn-disabled");
