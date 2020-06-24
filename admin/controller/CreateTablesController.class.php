@@ -15,8 +15,9 @@ class CreateTablesController
 
         // 初始化数据表
         $this->initDriverListTable();
-//        $this->initPlatformTable();
-//        $this->initAccountTable();
+        // 创建设置表
+        $this->initSettingTable();
+        // 创建云盘信息表
         $this->initPassWDTable();
 //        $this->initGeneralInfoTable();
 //        $this->initAttachmentTable();
@@ -52,19 +53,24 @@ EEE;
         $this->dao->createTable($tableName,$sql);
     }
 
-    // 创建平台表
-    public function initPlatformTable(){
-        $tableName = "acc_platform";
+    // 创建设置表
+    public function initSettingTable(){
+        $tableName = "driver_setting";
         // 创建视频数据表
         $sql = <<<EEE
                     CREATE TABLE $tableName(
-                        id int AUTO_INCREMENT PRIMARY KEY COMMENT '平台id',
-                        plat_name varchar(300) DEFAULT '' COMMENT '平台名称',
-                        acc_list varchar(300) DEFAULT '' COMMENT '账号列表',
-                        cat_id int  DEFAULT 0 COMMENT '所属分类'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='平台表';
+                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        flag varchar(64) DEFAULT '' COMMENT '标志',
+                        status tinyint DEFAULT 0 COMMENT '状态'
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='设置表';
 EEE;
         $this->dao->createTable($tableName,$sql);
+
+        // 添加登录密码
+        $data = [
+            "flag"     =>  "'load_file_detail_info'"
+        ];
+        $this->dao->insertData($tableName,"flag",$data);
     }
 
     // 创建账号表

@@ -2,26 +2,66 @@
 <{block name="myStyles"}>
 <style type="text/css">
     .layui-form-label {
-        width: 200px!important;
+        width: 120px!important;
     }
+
+    .layui-form-item .layui-input-inline{
+        width: 60px;
+    }
+
+    .layui-form-onswitch {
+        border-color: #393D49;
+        background-color: #393D49;
+    }
+
+    .layui-form-mid {
+        line-height: 30px;
+    }
+
+    .file-detail-des-box {
+        display: inline-block;
+        font-weight: 300;
+        height: 36px;
+        line-height: 36px;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
 <script>
+    $(document).ready(function () {
+        // 设置边栏服务器信息选中状态
+        $("#setting").addClass("active");
+
+        // 加载设置项
+        loadSettingData()
+    });
+
+    // 加载设置项
+    function loadSettingData() {
+        var url = "?m=admin&c=API_Setting&a=loadSetting&API=";
+        get(url,function (data) {
+            var settingData = data.data;
+            // 设置页面按钮开关
+            for (var i = 0; i < settingData.length; i++){
+                // if (setting)
+            }
+        });
+    }
 
 </script>
 <{/block}>
 <{block name="content"}>
 <div class="aw-content-wrap">
-    <div class="mod">
-        <form class="layui-form layui-form-pane" action="">
-            <div class="layui-form-item" pane="">
-                <label class="layui-form-label">加载文件额外信息</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关">
-                </div>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">加载文件额外信息</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
             </div>
-        </form>
-    </div>
+            <div class="layui-form-mid layui-word-aux">加载云盘/文件列表时同时加载文件总大小和文件总数量，开启后列表加载速度慢</div>
+        </div>
+    </form>
 </div>
+
 <{/block}>
