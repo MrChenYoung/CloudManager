@@ -215,6 +215,7 @@
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
+            console.log("是否是文件夹:"+editDir);
             var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + "/" + editFileName + "&isDir=" + editDir;
             get(url,function () {
                 // 刷新列表
