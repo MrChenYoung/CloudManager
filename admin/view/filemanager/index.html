@@ -252,6 +252,12 @@
 
         // 添加分类一行
         $("tbody").html(dom);
+        // 绑定双击事件
+        $('tr').dblclick(function () {
+            console.log("双击了");
+            openDir(this);
+        });
+
         // 更新路径显示
         updatePathUI();
 
