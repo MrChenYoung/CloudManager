@@ -88,8 +88,9 @@
         $("#file_manager").addClass("active");
 
         // 监听select选择变化
-        layui.use('form',function () {
-            var form = layui.form;
+        layui.use(['form','element'],function () {
+            var form = layui.form,
+                element = layui.element;;
 
             // 监听云盘类型选择
             form.on('select(drive-type-list)', function(data){
