@@ -202,9 +202,6 @@ class API_FileManagerController extends API_BaseController
         $oldFullPath = $path.$oldName;
         $newFullPath = $path.$newName;
         $cmd = 'rclone moveto '.$driverName.":".$oldFullPath." ".$driverName.":".$newFullPath;
-
-        echo $cmd;
-        die;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("文件移动失败");
