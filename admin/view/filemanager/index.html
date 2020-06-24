@@ -65,8 +65,12 @@
         width: 20px;
     }
 
+    .layui-breadcrumb {
+        vertical-align: bottom;
+    }
+
     .layui-breadcrumb>* {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .layui-breadcrumb span[lay-separator] {
@@ -92,6 +96,9 @@
     .back-btn {
         background-color: #393D49;
         text-align: center;
+        padding: 0 10px;
+        height: 30px;
+        line-height: 30px;
     }
 
     .layui-btn-disabled {
@@ -145,7 +152,7 @@
         });
 
         // 请求云盘列表
-        loadDriverList();
+        // loadDriverList();
     });
 
     // 请求云盘列表
