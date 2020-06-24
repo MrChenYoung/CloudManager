@@ -327,22 +327,25 @@
             $backBtn.addClass("layui-btn-disabled");
         }
         // 创建路径显示dom
-        var dom = "";
-        for (var i = 0; i < pathArray.length; i ++){
-            var path = pathArray[i];
-            if (i == 0 && path == ""){
-                path = "根";
-            }
+        // var dom = "";
+        // for (var i = 0; i < pathArray.length; i ++){
+        //     var path = pathArray[i];
+        //     if (i == 0 && path == ""){
+        //         path = "根";
+        //     }
+        //
+        //     if (i == pathArray.length - 1){
+        //         // 最后一个
+        //         dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)"><cite>'+ path +'</cite></a>';
+        //     }else {
+        //         // 不是最后一个
+        //         dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)">'+ path +'</a>';
+        //     }
+        // }
 
-            if (i == pathArray.length - 1){
-                // 最后一个
-                dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)"><cite>'+ path +'</cite></a>';
-            }else {
-                // 不是最后一个
-                dom += '<a dir="'+ path +'" href="/" onclick="pathDirClicked(this)">'+ path +'</a>';
-            }
-        }
-
+        var dom = '<a href="/">首页</a>\n' +
+            '  <a href="/demo/">演示</a>\n' +
+            '  <a><cite>导航元素</cite></a>';
         layui.use('element',function () {
             var element = layui.element;
             $(".layui-breadcrumb").html(dom);
