@@ -47,6 +47,8 @@
     var selectDrive;
     // 云盘路径，默认根路径
     var drivePath = '/';
+    // 正在编辑的文件名
+    var editFileName;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -165,7 +167,7 @@
         for(var i = 0; i < data.length; i++){
             var file = data[i];
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
-            dom += '<tr mouseRgihtData="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
             dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
@@ -196,27 +198,24 @@
                     // 获取大小和文件数
                     loadDriverInfo();
                     break;
-                case 4:
+                case 5:
                     // 删除
-                    deleteDriver();
+                    deleteFile();
                     break;
             }
         },function (obj) {
-            editRow = obj;
-            editDriverName = obj.attr('driverName');
-            oldRemark = obj.attr('remark');
+            // editRow = obj;
+            editFileName = obj.attr("fileName");
         });
     }
 
-    // 删除云盘
-    function deleteDriver(obj) {
+    // 删除文件
+    function deleteFile() {
         confirmAlert(function () {
-            var $this = $(obj);
-            var driveName = $this.attr("driverName");
-            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + driveName + "&API=";
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + "/" + editFileName;
             get(url,function () {
                 // 刷新列表
-                loadDriverList();
+                loadFileList();
             },true,true);
         });
     }

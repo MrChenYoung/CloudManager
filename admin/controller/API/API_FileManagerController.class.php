@@ -110,6 +110,33 @@ class API_FileManagerController extends API_BaseController
         echo $this->success($fileList);
     }
 
+    // 删除文件
+    public function deleteFile(){
+        // 远程云盘名
+        if (!isset($_GET["remoteName"])){
+            echo $this->failed("缺少remoteName参数");
+            die;
+        }
+        $remoteName = $_GET["remoteName"];
+
+        // 文件路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        // rclone命令删除
+        $cmd = "rclone delete ".$remoteName.":".$path;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("删除失败");
+            die;
+        }
+
+        echo $this->success("删除成功");
+    }
+
     // 根据文件类型获取显示图标
     private function getFileIcon($file){
         if ($file["IsDir"]){
