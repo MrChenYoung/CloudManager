@@ -49,6 +49,8 @@
     var drivePath = '/';
     // 正在编辑的文件名
     var editFileName;
+    // 正在编辑的文件是否是文件夹
+    var editDir;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -167,7 +169,7 @@
         for(var i = 0; i < data.length; i++){
             var file = data[i];
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
-            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<tr isDir="'+ file['IsDir'] +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
             dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td>'+ file["Size"] +'</td>';
             dom += '<td>'+ file["Count"] +'</td>';
@@ -206,13 +208,14 @@
         },function (obj) {
             // editRow = obj;
             editFileName = obj.attr("fileName");
+            editDir = obj.attr("isDir");
         });
     }
 
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
-            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + "/" + editFileName;
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + "/" + editFileName + "&isDir=" + editDir;
             get(url,function () {
                 // 刷新列表
                 loadFileList();

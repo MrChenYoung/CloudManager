@@ -126,8 +126,18 @@ class API_FileManagerController extends API_BaseController
         }
         $path = $_GET["path"];
 
+        // 是否是文件夹
+        if (!isset($_GET["isDir"])){
+            echo $this->failed("缺少isDir参数");
+            die;
+        }
+        $isDir = $_GET["isDir"];
+
         // rclone命令删除
-        $cmd = "rclone purge ".$remoteName.":".$path;
+        $cmd = "rclone delete ".$remoteName.":".$path;
+        if ($isDir){
+            $cmd = "rclone purge ".$remoteName.":".$path;
+        }
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("删除失败");
