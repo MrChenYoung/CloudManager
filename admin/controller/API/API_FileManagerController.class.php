@@ -4,6 +4,7 @@
 namespace admin\controller\API;
 
 
+use framework\tools\DatabaseDataManager;
 use framework\tools\FileManager;
 use framework\tools\ShellManager;
 
@@ -66,6 +67,13 @@ class API_FileManagerController extends API_BaseController
             die;
         }
 
+        // 获取是否要同时加载文件详细信息设置项
+        $switchData = DatabaseDataManager::getSingleton()->find("driver_setting",["flag"=>"load_file_detail_info"],["status"]);
+        $switchStatus = false;
+        if ($switchData){
+            $switchStatus = $switchData[0]["status"];
+        }
+
         $fileList = $res["result"];
         $fileList = implode("",$fileList);
         $fileList = json_decode($fileList,true);
@@ -81,25 +89,13 @@ class API_FileManagerController extends API_BaseController
             // 文件数量
             $fileCount = 1;
             if ($file["IsDir"]){
-//                $getSizeCmd = "rclone size ".$remoteName.":".$path;
-//                $sizeRes = ShellManager::exec($getSizeCmd);
-//                if (!$sizeRes["success"]){
-//                    // 获取文件大小失败
-//                    $fileSize = "未知";
-//                    $fileCount = 0;
-//                }else {
-//                    $sizeRes = $sizeRes["result"];
-//                    $fileCount = trim(str_replace("Total objects:","",$sizeRes[0]));
-//                    preg_match("/\((.*)\)/",$sizeRes[1],$match);
-//                    if (count($match) > 1){
-//                        $fileSize = $match[1];
-//                        $fileSize = trim(str_replace("Bytes","",$fileSize));
-//                    }
-//
-//                    $fileSize = $this->formatBytes($fileSize);
-//                }
                 $fileSize = "--";
                 $fileCount = "--";
+                if ($switchStatus){
+                    $res = $this->loadDetaileInfo($remoteName,$path);
+                    $fileSize = $res["size"];
+                    $fileCount = $res["count"];
+                }
             }else if ($fileSize >= 0){
                 $fileSize = FileManager::formatBytes($fileSize);
             }else {
