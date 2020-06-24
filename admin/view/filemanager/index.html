@@ -346,8 +346,9 @@
         var dom = '<a href="/">首页</a>\n' +
             '  <a href="/demo/">演示</a>\n' +
             '  <a><cite>导航元素</cite></a>';
-        layui.use('element',function () {
-            var element = layui.element;
+        layui.use(['form','element'],function () {
+            var form = layui.form,
+                element = layui.element;
             $(".layui-breadcrumb").html(dom);
         });
     }
