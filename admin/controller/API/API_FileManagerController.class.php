@@ -127,7 +127,7 @@ class API_FileManagerController extends API_BaseController
         $path = $_GET["path"];
 
         // rclone命令删除
-        $cmd = "rclone delete ".$remoteName.":".$path;
+        $cmd = "rclone purge ".$remoteName.":".$path;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("删除失败");
