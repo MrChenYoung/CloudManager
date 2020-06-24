@@ -140,7 +140,8 @@ class API_FileManagerController extends API_BaseController
         }
         $res = ShellManager::exec($cmd);
 
-        echo $cmd;
+        echo "<pre>";
+        var_dump($isDir);
         die;
         if (!$res["success"]){
             echo $this->failed("删除失败");
