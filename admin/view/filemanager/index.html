@@ -346,12 +346,12 @@
         var dom = '<a href="/">首页</a>\n' +
             '  <a href="/demo/">演示</a>\n' +
             '  <a><cite>导航元素</cite></a>';
-        // layui.use(['form','element'],function () {
-        //     var form = layui.form,
-        //         element = layui.element;
-        //     $(".layui-breadcrumb").html(dom);
-        //     form.render();
-        // });
+        layui.use(['form','element'],function () {
+            var form = layui.form,
+                element = layui.element;
+            $(".layui-breadcrumb").html(dom);
+            form.render();
+        });
     }
 
     // 获取目录路径
@@ -495,7 +495,7 @@
                         <option value="">选择云盘</option>
                     </select>
                     <button onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
-                    <span class="layui-breadcrumb">
+                    <span class="layui-breadcrumb" lay-separator="|">
                         <a href="/">首页</a>
   <a href="/demo/">演示</a>
   <a><cite>导航元素</cite></a>
