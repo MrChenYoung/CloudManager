@@ -343,6 +343,7 @@
     
     // 返回上一级目录
     function backLastDir() {
+        if (pathArray.length == 1) return;
         // 目录名出栈
         pathArray.pop();
         // 刷新文件列表
