@@ -105,6 +105,36 @@
         background-color: #FBFBFB;
     }
 
+    .menu-box {
+        background-color: red;
+    }
+
+    .menu-box ul li {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        cursor: pointer;
+        float: left;
+        margin-left: 10px;
+        text-align: center;
+    }
+
+    .menu-box ul li i {
+        display: block;
+        width: 30px;
+        height: 30px;
+        font-size: 25px;
+        color: #8a8a8a;
+    }
+
+    .menu-box ul li i:hover {
+        -webkit-transition: all 220ms ease-in-out;
+        -moz-transition: all 220ms ease-in-out;
+        -o-transition: all 220ms ease-in-out;
+        transition: all 220ms ease-in-out;
+        color: #393D49;
+    }
+    
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -377,6 +407,15 @@
     function getPathString() {
         return pathArray.join("/") + "/";
     }
+    
+    // 新建文件夹
+    function createNewDir(dirName) {
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + dirName;
+        get(url,function () {
+            // 刷新列表
+            loadFileList();
+        },true,true);
+    }
 
     // 重命名
     function renameFile(name) {
@@ -416,23 +455,24 @@
     function showEditCover(type) {
         editType = type;
         var area = ['450px','200px'];
-        if (type == 2){
-            var $input = $("#new_name_input");
-            // 重命名
-            $("#legend_title").text("重命名");
-            $input.css("display","block");
-            $(".add-category-container").css("height","180px");
-            // 显示原来的名字
-            $input.val(editFileName);
-            oldFileName = editFileName;
-        }else {
-            // 添加/修改备注
-            $("#legend_title").text("添加/修改备注");
-            $("#new_name_input").css("display","none");
-            $("#remark_area").css("display","block");
-            $(".add-category-container").css("height","250px");
-            $("#remark_area").val(oldRemark);
-            area = ['450px','270px'];
+        var $input = $("#new_name_input");
+        switch (type) {
+            case 0:
+                // 新建文件夹
+                $("#legend_title").text("新建文件夹");
+                $input.css("display","block");
+                $(".add-category-container").css("height","180px");
+                $input.attr("placeholder","输入文件夹名称");
+                break;
+            case 2:
+                // 重命名
+                $("#legend_title").text("重命名");
+                $input.css("display","block");
+                $(".add-category-container").css("height","180px");
+                // 显示原来的名字
+                $input.val(editFileName);
+                oldFileName = editFileName;
+                break;
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -446,7 +486,7 @@
                 shadeClose: true,
                 content: $(".add-category-container"),
                 success: function(){
-                    if (type == 2){
+                    if (type == 2 || type == 0){
                         // 自动获取焦点
                         $input.focus();
                         // // 文字被选中
@@ -482,13 +522,13 @@
                 renameFile(newName);
                 hideEditCover();
             }
-        }else {
-            // 修改备注
-            var newRemark = $("#remark_area").val();
-            if (newRemark == oldRemark){
-                toast("备注未修改，无序保存");
+        }else if(editType == 0) {
+            // 新建文件夹
+            var dirName = $('#new_name_input').val();
+            if (dirName.length == 0){
+                toast("名称不能为空");
             }else {
-                modifyRemark(newRemark);
+                createNewDir(dirName);
                 hideEditCover();
             }
         }
@@ -518,6 +558,13 @@
                     </span>
                 </div>
             </form>
+        </div>
+        <div class="menu-box">
+            <ul>
+                <li>
+                    <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+                </li>
+            </ul>
         </div>
         <div class="layui-form" style="text-align: center;">
             <table class="layui-table" lay-skin="nob">

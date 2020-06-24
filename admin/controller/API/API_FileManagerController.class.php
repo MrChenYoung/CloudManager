@@ -210,6 +210,38 @@ class API_FileManagerController extends API_BaseController
         echo $this->success("重命名成功");
     }
 
+    // 新建文件夹
+    function createNewDir(){
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        // 路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        // 文件夹名字
+        if (!isset($_GET["dirName"])){
+            echo $this->failed("缺少dirName参数");
+            die;
+        }
+        $dirName = $_GET["dirName"];
+
+        $cmd = 'rclone mkdir '.$driverName.":".$path.$dirName;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("文件夹创建失败");
+            die;
+        }
+        echo $this->success("文件夹创建成功");
+    }
+
     // 根据文件类型获取显示图标
     private function getFileIcon($file){
         if ($file["IsDir"]){
