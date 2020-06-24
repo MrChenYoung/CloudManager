@@ -335,6 +335,36 @@
         });
     }
 
+    // 确认
+    function confirm() {
+        if (editType == 1){
+            // 重命名
+            var newName = $('#new_name_input').val();
+            if (newName.length == 0){
+                toast("名称不能为空");
+            }else if(newName == oldDriverName){
+                toast("请输入不同的名称");
+            }else {
+                renameDriver(newName);
+                hideEditCover();
+            }
+        }else {
+            // 修改备注
+            var newRemark = $("#remark_area").val();
+            if (newRemark == oldRemark){
+                toast("备注未修改，无序保存");
+            }else {
+                modifyRemark(newRemark);
+                hideEditCover();
+            }
+        }
+    }
+
+    // 取消
+    function cancel() {
+        hideEditCover();
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>
