@@ -92,7 +92,7 @@ class API_FileManagerController extends API_BaseController
                 $fileSize = "--";
                 $fileCount = "--";
                 if ($switchStatus){
-                    $res = $this->loadDetaileInfo($remoteName,$path);
+                    $res = $this->loadDetaileInfo($remoteName,$path.$file["Name"]);
                     $fileSize = $res["size"];
                     $fileCount = $res["count"];
                 }
