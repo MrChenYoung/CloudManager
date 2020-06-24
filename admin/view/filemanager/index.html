@@ -99,7 +99,7 @@
     // 选择的云盘
     var selectDrive;
     // 云盘路径，默认根路径
-    var drivePath = '/';
+    var drivePath = '';
     // 正在编辑的文件名
     var editFileName;
     var oldFileName;
@@ -107,6 +107,7 @@
     var editDir;
     var editRow;
     var editType;
+    var pathArray = [""];
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -209,7 +210,7 @@
 
     // 请求文件列表
     function loadFileList(withHud=true) {
-        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + drivePath;
+        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + getPathString();
         console.log("获取文件列表:" + url);
         get(url,function (data) {
             if (!withHud){
@@ -228,7 +229,7 @@
             var dirFlag = file['IsDir'] ? "1" : "0";
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
             dom += '<tr isDir="'+ dirFlag +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
-            dom += '<div class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<div isDir="'+ dirFlag +'" onclick="openDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td class="driver-size">'+ file["Size"] +'</td>';
             dom += '<td class="file-count">'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td></tr>';
@@ -272,6 +273,23 @@
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
         });
+    }
+
+    // 打开目录
+    function openDir(obj) {
+        var $this = $(this);
+        var isDir = $this.attr("isDir") == '1' ? true : false;
+        if (!isDir) return;
+        var dirName = $this.text();
+        // 目录名进栈
+        pathArray.push(dirName);
+        // 刷新文件列表
+        loadFileList();
+    }
+
+    // 获取目录路径
+    function getPathString() {
+        return pathArray.join("/");
     }
 
     // 重命名
