@@ -201,7 +201,7 @@ class API_FileManagerController extends API_BaseController
 
         $oldFullPath = $path.$oldName;
         $newFullPath = $path.$newName;
-        $cmd = 'rclone moveto '.$oldFullPath." ".$newFullPath;
+        $cmd = 'rclone moveto '.$driverName.":".$oldFullPath." ".$driverName.":".$newFullPath;
 
         echo $cmd;
         die;
