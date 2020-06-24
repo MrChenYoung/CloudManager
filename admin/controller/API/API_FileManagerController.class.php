@@ -125,6 +125,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        // 空格转义
+        $path = str_replace(" ","\ ",$path);
 
         // 是否是文件夹
         if (!isset($_GET["isDir"])){
