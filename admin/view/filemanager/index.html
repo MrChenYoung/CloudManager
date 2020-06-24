@@ -244,7 +244,7 @@
             var dirFlag = file['IsDir'] ? "1" : "0";
             var style = file['IsDir'] ? 'cursor: pointer' : 'cursor: default';
             dom += '<tr isDir="'+ dirFlag +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
-            dom += '<div isDir="'+ dirFlag +'" onclick="openDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<div isDir="'+ dirFlag +'" fileName="'+ file["Name"] +'" onclick="openDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
             dom += '<td class="driver-size">'+ file["Size"] +'</td>';
             dom += '<td class="file-count">'+ file["Count"] +'</td>';
             dom += '<td>'+ file["ModTime"] +'</td></tr>';
@@ -254,7 +254,6 @@
         $("tbody").html(dom);
         // 绑定双击事件
         $('tr').dblclick(function () {
-            console.log("双击了");
             openDir(this);
         });
 
@@ -303,7 +302,7 @@
         var $this = $(obj);
         var isDir = $this.attr("isDir") == '1' ? true : false;
         if (!isDir) return;
-        var dirName = $this.text();
+        var dirName = $this.attr('fileName');
         // 目录名进栈
         pathArray.push(dirName);
         // 刷新文件列表
