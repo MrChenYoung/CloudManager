@@ -115,8 +115,6 @@
     var selectDriveType;
     // 选择的云盘
     var selectDrive;
-    // 云盘路径，默认根路径
-    var drivePath = '';
     // 正在编辑的文件名
     var editFileName;
     var oldFileName;
@@ -375,7 +373,7 @@
 
     // 重命名
     function renameFile(name) {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + drivePath + "&oldName=" + oldFileName + "&newName=" + name;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&oldName=" + oldFileName + "&newName=" + name;
         console.log("文件重命名:" + url);
         get(url,function () {
             // 刷新列表
@@ -386,7 +384,7 @@
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
-            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + drivePath + editFileName + "&isDir=" + editDir;
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + getPathString() + editFileName + "&isDir=" + editDir;
             get(url,function () {
                 // 刷新列表
                 loadFileList();
@@ -396,7 +394,7 @@
 
     // 获取文件大小和文件数量
     function loadDriverInfo() {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadFileDetailInfo&driverName=" + selectDrive + "&API=&path=" + drivePath + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadFileDetailInfo&driverName=" + selectDrive + "&API=&path=" + getPathString() + editFileName;
         console.log("获取文件详情：" + url);
         get(url,function (data) {
             var info = data.data;
