@@ -19,6 +19,13 @@ class API_MyDriverController extends API_BaseController
             die;
         }
 
+        // 获取是否要同时加载文件详细信息设置项
+        $switchData = DatabaseDataManager::getSingleton()->find("driver_setting",["flag"=>"load_file_detail_info"],["status"]);
+        $switchStatus = false;
+        if ($switchData){
+            $switchStatus = $switchData[0]["status"];
+        }
+
         $driverList = $res["result"];
         $driverList = implode("",$driverList);
         $driverList = json_decode($driverList,true);
@@ -39,14 +46,20 @@ class API_MyDriverController extends API_BaseController
 
             // 获取大小
             $size = "--";
+            // 文件数
+            $count = "--";
+            if ($switchStatus){
+                $res = $this->loadDetaileInfo($key,"/");
+                $size = $res["size"];
+                $count = $res["count"];
+            }
             // 备注
             $remark = "--";
             $remarkInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key],["remark"]);
             if ($remarkInfo){
                 $remark = $remarkInfo[0]["remark"];
             }
-            // 文件数
-            $count = "--";
+
             $data[] = [
                 "name"  =>  $key,
                 "type"  =>  $type,

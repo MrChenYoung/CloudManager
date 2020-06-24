@@ -33,6 +33,17 @@
         // 设置边栏服务器信息选中状态
         $("#setting").addClass("active");
 
+        // 监听开关切换
+        layui.use('form',function () {
+            var form = layui.form;
+
+            // 是否加载文件详情
+            form.on('switch(load_file_detail_info_switch)', function (data) {
+                var switchStatus = data.elem.checked;
+                changeSwitchStatus(switchStatus);
+            })
+        });
+
         // 加载设置项
         loadSettingData()
     });
@@ -44,9 +55,29 @@
             var settingData = data.data;
             // 设置页面按钮开关
             for (var i = 0; i < settingData.length; i++){
-                // if (setting)
+                var setData = settingData[i];
+                if (setData.flag == "load_file_detail_info"){
+                    // 是否加载文件详情
+                    var status = parseInt(setData.status);
+                    var switcher = $(".load_file_detail_info_switch");
+                    layui.use('form',function () {
+                        var form = layui.form;
+                        status == 0 ? switcher.removeAttr('checked') : switcher.attr('checked',"");
+                        form.render();
+                    });
+                }
             }
-        });
+        },false);
+    }
+
+    // 设置开关状态
+    function changeSwitchStatus(status) {
+        var sta = status ? "1" : "0";
+        var url = "?m=admin&c=API_Setting&a=changeSetting&API=&flag=load_file_detail_info&status=" + sta;
+        get(url,function () {
+            // 刷新设置页
+            loadSettingData();
+        },false);
     }
 
 </script>
@@ -57,7 +88,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">加载文件额外信息</label>
             <div class="layui-input-inline">
-                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                <input class="load_file_detail_info_switch" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="load_file_detail_info_switch" lay-text="ON|OFF">
             </div>
             <div class="layui-form-mid layui-word-aux">加载云盘/文件列表时同时加载文件总大小和文件总数量，开启后列表加载速度慢</div>
         </div>
