@@ -574,7 +574,9 @@
                 offset = '100px';
                 $(".moveto-box").css("display",'block');
                 $("fieldset").css("display",'none');
-                movetoPath = false;
+                movetoPath = "";
+                // 显示当前选择的目录路径
+                $("#moveto_path").text(movetoPath);
                 break;
             case 2:
                 // 重命名
