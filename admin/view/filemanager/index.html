@@ -731,6 +731,7 @@
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
+            hideEditCover();
             loadFileList();
         },true,true);
     }
