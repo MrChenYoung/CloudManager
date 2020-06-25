@@ -146,6 +146,7 @@
         width: 800px;
         height: 40px;
         margin: 10px;
+        display: none;
     }
 
     .moveto-title-box .moveto-title{
@@ -574,6 +575,7 @@
                 offset = '100px';
                 $(".moveto-box").css("display",'block');
                 $("fieldset").css("display",'none');
+                $(".moveto-title-box").css("display","block");
                 movetoPath = "";
                 // 显示当前选择的目录路径
                 $("#moveto_path").text("");
