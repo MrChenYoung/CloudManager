@@ -226,6 +226,7 @@
     // 更新缓存
     function updateCache() {
         var url = baseUrl + "?m=admin&c=API_Setting&a=updateDriveDirList&API=&remoteName=" + selectDrive;
+        console.log("更新文件夹缓存:" + url);
         get(url,function () {
             // 更新成功 刷新缓存显示列表
             loadDirCache();
