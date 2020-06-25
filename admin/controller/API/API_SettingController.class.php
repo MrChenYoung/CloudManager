@@ -79,7 +79,13 @@ class API_SettingController extends API_BaseController
 
         $dirData = ["title"=>"根目录","children"=>$dirData];
         // 更新缓存文件
-        $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
+        // 存放缓存的目录
+        $cacheRootPath = ADMIN."resource/driveDirTreeCache/";
+        if (!file_exists($cacheRootPath)){
+            mkdir($cacheRootPath);
+            chmod($cacheRootPath,0700);
+        }
+        $path = $cacheRootPath.$remoteName.".json";
         $succ = file_put_contents($path,json_encode($dirData));
 
         if ($succ){
