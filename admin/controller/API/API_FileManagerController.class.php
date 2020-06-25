@@ -285,7 +285,7 @@ class API_FileManagerController extends API_BaseController
             die;
         }
 
-        echo $this->failed("移动成功");
+        echo $this->success("移动成功");
     }
 
     // 根据文件类型获取显示图标
