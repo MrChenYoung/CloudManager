@@ -134,6 +134,12 @@
         transition: all 220ms ease-in-out;
         color: #393D49;
     }
+
+    .moveto-dir-list {
+        width: 800px;
+        height: 500px;
+        background-color: red;
+    }
     
 </style>
 <{/block}>
@@ -634,7 +640,7 @@
                 ,util = layui.util;
 
             tree.render({
-                elem: '#moveto-dir-list'
+                elem: '#moveto_dir_list'
                 ,data: data
                 ,accordion: true
             });
@@ -715,7 +721,7 @@
                 </span>
             </div>
         </form>
-        <div id="moveto-dir-list">
+        <div id="moveto_dir_list" class="moveto-dir-list">
         </div>
     </div>
     <!--确定/取消按钮-->
