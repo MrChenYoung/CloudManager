@@ -86,7 +86,7 @@ class API_SettingController extends API_BaseController
             "c"=>"AsynTask",
             "a"=>"index"
         ];
-        MultiThreadTool::addTask($this->website,"updateDriveDirList",$params);
+        MultiThreadTool::addTask($this->website."/index.php","updateDriveDirList",$params);
         // 提示正在后台更新
         echo $this->success("后台更新中");
     }
