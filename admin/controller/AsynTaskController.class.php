@@ -50,7 +50,7 @@ class AsynTaskController extends Controller
         $path = $cacheRootPath.$remoteName.".json";
         file_put_contents($path,json_encode($dirData));
         // 更新完成，恢复数据库标志位
-        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
+//        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
     }
 
     // 更新云盘文件夹列表缓存
