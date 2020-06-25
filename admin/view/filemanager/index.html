@@ -661,14 +661,14 @@
                     // console.log(obj.elem);
                     // console.log(obj.elem.parentNode)
                     // console.log(obj.data.title);
-                    getSelectPath(obj.elem);
+                    getSelectPath($this);
                 }
             });
         });
     }
 
     // 获取到选择的路径
-    function getSelectPath(dom) {
+    function getSelectPath($dom) {
         // var dirs = [$dom.data.title];
         // var $parent;
         // do {
@@ -678,9 +678,8 @@
         //     }
         // }while ($parent);
 
-        var parent = dom.parentNode;
-        parent = parent.parentNode;
-        var text1 = $(parent).find(".layui-tree-entry .layui-tree-main .layui-tree-txt").text();
+        var $parent = $dom.parent().parent();
+        var text1 = $parent.find(".layui-tree-entry .layui-tree-main .layui-tree-txt").text();
         console.log("22323：" + text1);
 
     }
