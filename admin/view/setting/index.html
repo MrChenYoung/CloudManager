@@ -217,25 +217,26 @@
             if (dirCache.length > 0){
                 // 有缓存
                 $(".none-cache-tip").css("display","none");
-                layui.use(['tree', 'util'], function(){
-                    var tree = layui.tree
-                        ,layer = layui.layer
-                        ,util = layui.util;
-
-                    //手风琴模式
-                    tree.render({
-                        elem: '#dir_cache_list'
-                        ,data: dirCache
-                        ,accordion: true,
-                        click:function (obj) {
-                            console.log(obj.data);
-                        }
-                    });
-                });
             }else{
                 // 没有缓存
                 $(".none-cache-tip").css("display","block");
             }
+
+            layui.use(['tree', 'util'], function(){
+                var tree = layui.tree
+                    ,layer = layui.layer
+                    ,util = layui.util;
+
+                //手风琴模式
+                tree.render({
+                    elem: '#dir_cache_list'
+                    ,data: dirCache
+                    ,accordion: true,
+                    click:function (obj) {
+                        console.log(obj.data);
+                    }
+                });
+            });
         })
     }
 
@@ -248,7 +249,7 @@
             loadDirCache();
         },true,true);
     }
-    
+
 </script>
 <{/block}>
 <{block name="content"}>
