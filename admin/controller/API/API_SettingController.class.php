@@ -81,8 +81,12 @@ class API_SettingController extends API_BaseController
 
         // 因为更新云盘目录树需要很长时间，所以使用异步执行
         // 添加异步任务
-        $url = $this->website."?m=admin&c=AsynTask&a=index";
-        MultiThreadTool::addTask($url,"updateDriveDirList");
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index"
+        ];
+        MultiThreadTool::addTask($this->website,"updateDriveDirList",$params);
         // 提示正在后台更新
         echo $this->success("后台更新中");
     }
