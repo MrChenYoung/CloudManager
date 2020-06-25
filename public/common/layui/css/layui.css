@@ -5397,6 +5397,6 @@ body .layui-util-face .layui-layer-content {
 }
 
 .custom-tree-item-clicked{
-    background-color: #393D49;
-    color:#FC9003
+    color:#FC9003;
+    background-color: #555555;
 }
