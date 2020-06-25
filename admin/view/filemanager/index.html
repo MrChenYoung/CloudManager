@@ -678,7 +678,7 @@
             text = $parent.find(".layui-tree-entry .layui-tree-main .layui-tree-txt").first().text();
             paths.unshift(text);
         }while (text.length > 0 && text != '根目录');
-        paths = paths.join(paths);
+        paths = paths.join("/");
         console.log("结果:" + paths);
     }
     
