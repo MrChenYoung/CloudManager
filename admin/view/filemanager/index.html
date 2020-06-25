@@ -665,8 +665,13 @@
                         selectTreeDom.removeClass("custom-tree-item-clicked");
                     }
                     var $this = $(obj.elem);
-                    selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');;
-                    movetoPath = getSelectPath($this) + "/" + obj.data.title;
+                    selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');
+                    movetoPath = getSelectPath($this);
+                    var currentDir = obj.data.title;
+                    if (currentDir != "根目录"){
+                        movetoPath += "/" + obj.data.title;
+                    }
+
                     // 显示当前选择的目录路径
                     $("#moveto_path").text(movetoPath);
                 }
@@ -682,9 +687,6 @@
         do {
             $parent = $parent.parent().parent();
             text = $parent.find(".layui-tree-entry .layui-tree-main .layui-tree-txt").first().text();
-            if (text != '根目录'){
-                paths.unshift(text);
-            }
         }while (text.length > 0 && text != '根目录');
         paths.unshift('根目录');
         paths = paths.join("/");
