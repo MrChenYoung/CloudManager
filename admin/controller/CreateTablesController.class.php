@@ -13,11 +13,11 @@ class CreateTablesController
         $this->initDabaseInfo();
         $this->dao = dao\DAOPDO::getSingleton();
 
-        // 初始化数据表
+        // 创建云盘信息表
         $this->initDriverListTable();
         // 创建设置表
         $this->initSettingTable();
-        // 创建云盘信息表
+        // 登录密码存放表
         $this->initPassWDTable();
 //        $this->initGeneralInfoTable();
 //        $this->initAttachmentTable();
@@ -56,40 +56,28 @@ EEE;
     // 创建设置表
     public function initSettingTable(){
         $tableName = "driver_setting";
-        // 创建视频数据表
         $sql = <<<EEE
                     CREATE TABLE $tableName(
                         id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
                         flag varchar(64) DEFAULT '' COMMENT '标志',
-                        status tinyint DEFAULT 0 COMMENT '状态'
+                        status tinyint DEFAULT 0 COMMENT '状态',
+                        func_desc varchar(64) DEFAULT '' COMMENT '功能描述'
                     ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='设置表';
 EEE;
         $this->dao->createTable($tableName,$sql);
 
-        // 添加登录密码
-        $data = [
-            "flag"     =>  "'load_file_detail_info'"
-        ];
-        $this->dao->insertData($tableName,"flag",$data);
-    }
+        // 添加数据
+        $data = [[
+            "flag"     =>  "'load_file_detail_info'",
+            "func_desc"=>  "'是否加载云盘文件大小和文件数'"
+        ],[
+            "flag"     =>  "'updatingDirTree'",
+            "func_desc"=>  "'是否正在更新云盘目录树'"
+        ]];
 
-    // 创建账号表
-    public function initAccountTable(){
-        $tableName = "acc_account";
-        // 创建视频数据表 logo以base64编码方式存储
-        $sql = <<<EEE
-                    CREATE TABLE $tableName(
-                        id int AUTO_INCREMENT PRIMARY KEY COMMENT '账号id',
-                        acc_desc varchar(128) DEFAULT '' COMMENT '描述',
-                        user varchar(128) DEFAULT '' COMMENT '用户名',
-                        passwd varchar(256) DEFAULT '' COMMENT '密码',
-                        address varchar(300) DEFAULT '' COMMENT '登录地址',
-                        plat_id int  DEFAULT 0 COMMENT '所属平台',
-                        logo MEDIUMTEXT COMMENT 'logo',
-                        remark varchar(500) DEFAULT '' COMMENT '备注'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='账号表';
-EEE;
-        $this->dao->createTable($tableName,$sql);
+        foreach ($data as $datum) {
+            $this->dao->insertData($tableName,"flag",$datum);
+        }
     }
 
     // 创建密码表
@@ -112,54 +100,5 @@ EEE;
             "pass_level"    => 4
         ];
         $this->dao->insertData($tableName,"pass_desc",$data);
-    }
-
-    // 创建常用信息表
-    public function initGeneralInfoTable(){
-        $tableName = "acc_general_info";
-        // 创建视频数据表
-        $sql = <<<EEE
-                    CREATE TABLE $tableName(
-                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
-                        info_desc varchar(128) DEFAULT '' COMMENT '描述',
-                        encrypt_info varchar(256) DEFAULT '' COMMENT '加密信息',
-                        remark varchar(500) DEFAULT '' COMMENT '备注'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='常用信息表';
-EEE;
-        $this->dao->createTable($tableName,$sql);
-    }
-
-    // 创建附件表
-    public function initAttachmentTable(){
-        $tableName = "acc_attachment";
-        // 创建附件表
-        $sql = <<<EEE
-                    CREATE TABLE $tableName(
-                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
-                        aid int COMMENT '关联的id',
-                        tb_name varchar(64) DEFAULT '' COMMENT '关联表名',
-                        att_1 MEDIUMTEXT COMMENT '附件1',
-                        att_2 MEDIUMTEXT COMMENT '附件2',
-                        att_3 MEDIUMTEXT COMMENT '附件3',
-                        att_4 MEDIUMTEXT COMMENT '附件4',
-                        att_5 MEDIUMTEXT COMMENT '附件5',
-                        att_6 MEDIUMTEXT COMMENT '附件6',
-                        att_7 MEDIUMTEXT COMMENT '附件7',
-                        att_8 MEDIUMTEXT COMMENT '附件8',
-                        att_9 MEDIUMTEXT COMMENT '附件9',
-                        att_10 MEDIUMTEXT COMMENT '附件10',
-                        att_11 MEDIUMTEXT COMMENT '附件11',
-                        att_12 MEDIUMTEXT COMMENT '附件12',
-                        att_13 MEDIUMTEXT COMMENT '附件13',
-                        att_14 MEDIUMTEXT COMMENT '附件14',
-                        att_15 MEDIUMTEXT COMMENT '附件15',
-                        att_16 MEDIUMTEXT COMMENT '附件16',
-                        att_17 MEDIUMTEXT COMMENT '附件17',
-                        att_18 MEDIUMTEXT COMMENT '附件18',
-                        att_19 MEDIUMTEXT COMMENT '附件19',
-                        att_20 MEDIUMTEXT COMMENT '附件20'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='附件表';
-EEE;
-        $this->dao->createTable($tableName,$sql);
     }
 }

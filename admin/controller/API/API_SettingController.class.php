@@ -4,7 +4,9 @@
 namespace admin\controller\API;
 
 
+use admin\controller\AsynTaskController;
 use framework\tools\DatabaseDataManager;
+use framework\tools\MultiThreadTool;
 use framework\tools\ShellManager;
 
 class API_SettingController extends API_BaseController
@@ -58,7 +60,14 @@ class API_SettingController extends API_BaseController
             $str = file_get_contents($path);
             $data = json_decode($str);
         }
-        echo $this->success($data);
+
+        // 获取目录树更新状态
+        $res = DatabaseDataManager::getSingleton()->find("driver_setting",["flag"=>"updatingDirTree"]);
+        $status = 0;
+        if ($res){
+            $status = (int)$res[0]["status"];
+        }
+        echo $this->success(["status"=>$status,"data"=>$data]);
     }
 
     // 更新云盘文件夹树形列表缓存
@@ -70,60 +79,12 @@ class API_SettingController extends API_BaseController
         }
         $remoteName = $_GET["remoteName"];
 
-        // 获取文件夹列表
-        $dirData = $this->updateDirCache($remoteName);
-        if (!$dirData){
-            echo $this->failed("更新失败");
-            die;
-        }
-
-        $dirData = [["title"=>"根目录","children"=>$dirData]];
-        // 更新缓存文件
-        // 存放缓存的目录
-        $cacheRootPath = ADMIN."resource/driveDirTreeCache/";
-        if (!file_exists($cacheRootPath)){
-            mkdir($cacheRootPath);
-            chmod($cacheRootPath,0700);
-        }
-        $path = $cacheRootPath.$remoteName.".json";
-        $succ = file_put_contents($path,json_encode($dirData));
-
-        if ($succ){
-            echo $this->success("更新成功");
-        }else {
-            echo $this->success("更新失败");
-        }
-    }
-
-    // 更新云盘文件夹列表缓存
-    private function updateDirCache($remoteName,$path=""){
-        // rclone命令获取文件列表信息
-        $cmd = "rclone lsd ".$remoteName.":".$path;
-        $res = ShellManager::exec($cmd);
-        if (!$res["success"]){
-            return false;
-        }
-
-        $dirList = $res["result"];
-        $data = [];
-        foreach ($dirList as $dir) {
-            $dirArray = explode("-1",$dir);
-            $dirName = trim($dirArray[count($dirArray)-1]);
-            $dirData = [];
-            if (count($dirArray) > 0){
-                $dirData['title'] = $dirName;
-            }
-
-            // 获取子目录
-           $subDirData = $this->updateDirCache($remoteName,$path."/".$dirName);
-            if ($subDirData && count($subDirData) > 0){
-                $dirData["children"] = $subDirData;
-            }
-
-            $data[] = $dirData;
-        }
-
-        return $data;
+        // 因为更新云盘目录树需要很长时间，所以使用异步执行
+        // 添加异步任务
+        $url = $this->website."?m=admin&c=AsynTask&a=index";
+        MultiThreadTool::addTask($url,"updateDriveDirList");
+        // 提示正在后台更新
+        echo $this->success("后台更新中");
     }
 
 }

@@ -57,7 +57,7 @@ class API_BaseController extends Controller
         echo $this->success($decryptPass);
     }
 
-    // 退出d登录
+    // 退出登录
     function logout(){
         // 删除session里面的login标识
         SessionManager::getSingleTon() -> deleteSession("isLogin");

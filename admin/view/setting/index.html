@@ -213,7 +213,17 @@
         var url = baseUrl + "?m=admin&c=API_Setting&a=loadDriveDirCache&API=&remoteName=" + selectDrive;
         console.log("获取文件夹缓存列表:" + url);
         get(url,function (data) {
-            var dirCache = data.data;
+            // 更新状态
+            var status = parseInt(data.data.status);
+            var $updateBtn = $(".update-cache-btn");
+            if (status == 1){
+                $updateBtn.text("更新中");
+                $updateBtn.addClass("layui-btn-disabled");
+            }else {
+                $updateBtn.text("更新");
+                $updateBtn.removeClass("layui-btn-disabled");
+            }
+            var dirCache = data.data.data;
             if (dirCache.length > 0){
                 // 有缓存
                 $(".none-cache-tip").css("display","none");
@@ -242,6 +252,7 @@
 
     // 更新缓存
     function updateCache() {
+        if ($(".update-cache-btn").hasClass("layui-btn-disabled")) return;
         var url = baseUrl + "?m=admin&c=API_Setting&a=updateDriveDirList&API=&remoteName=" + selectDrive;
         console.log("更新文件夹缓存:" + url);
         get(url,function () {
