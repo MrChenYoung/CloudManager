@@ -135,6 +135,9 @@ class API_FileManagerController extends API_BaseController
         }
 
         $dirList = $res["result"];
+        echo "<pre>";
+        var_dump($dirList);
+        die;
         $data = [];
         foreach ($dirList as $dir) {
             $dirArray = explode("-1",$dir);
