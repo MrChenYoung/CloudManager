@@ -727,7 +727,8 @@
     function moveFile() {
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
         var desPath = movetoDriver + ":" + movetoPath.replace("根目录","");
-        var url = "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
             loadFileList();
