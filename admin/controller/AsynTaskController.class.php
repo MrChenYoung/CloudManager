@@ -26,9 +26,9 @@ class AsynTaskController extends Controller
 
     // 更新云盘文件夹树形列表缓存
     public function updateDriveDirList(){
-//        $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
-//        file_put_contents($path,"");
-//        file_put_contents($path,"进入预想方法123456:".json_encode($_REQUEST));
+        $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+        file_put_contents($path,"");
+        file_put_contents($path,"进入预想方法123456666:".json_encode($_REQUEST));
         $remoteName = $_REQUEST["name"];
         // 获取云盘文件夹树形列表
         $dirData = $this->updateDirCache($remoteName);
