@@ -168,6 +168,7 @@
     var movetoPathArray = [""];
     var movetoDriverType;
     var movetoDriver;
+    var selectTreeDom;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -651,6 +652,10 @@
                 ,data: data
                 ,accordion: true,
                 click:function (obj) {
+                    if (selectTreeDom){
+                        selectTreeDom.removeClass("custom-tree-item-clicked");
+                    }
+                    selectTreeDom = $(obj);
                     console.log(obj.data);
                 }
             });
