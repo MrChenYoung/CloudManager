@@ -194,7 +194,7 @@
         console.log("获取文件夹缓存列表:" + url);
         get(url,function (data) {
             var dirCache = data.data;
-            if (dirCache){
+            if (dirCache.length > 0){
                 // 有缓存
                 $(".none-cache-tip").css("display","none");
 
