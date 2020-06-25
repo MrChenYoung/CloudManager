@@ -556,6 +556,9 @@
         var $input = $("#new_name_input");
         var offset = '200px';
         $(".moveto-box").css("display",'none');
+        $(".add-category-container").css("width","420px");
+        $(".add-category-container").css("height","180px");
+        $(".layui-field-title").css('width','430px');
         switch (type) {
             case 0:
                 // 新建文件夹
@@ -567,7 +570,6 @@
             case 1:
                 // 移动文件/文件夹
                 $input.css("display","none");
-                $("#legend_title").text("移动至");
                 $(".add-category-container").css("width","800px");
                 $(".add-category-container").css("height","600px");
                 $(".layui-field-title").css('width','800px');
