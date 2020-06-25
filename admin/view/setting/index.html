@@ -217,10 +217,10 @@
             var status = parseInt(data.data.status);
             var $updateBtn = $(".update-cache-btn");
             if (status == 1){
-                $updateBtn.text("更新中");
+                $updateBtn.text("缓存更新中");
                 $updateBtn.addClass("layui-btn-disabled");
             }else {
-                $updateBtn.text("更新");
+                $updateBtn.text("更新缓存");
                 $updateBtn.removeClass("layui-btn-disabled");
             }
             var dirCache = data.data.data;
