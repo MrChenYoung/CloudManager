@@ -659,7 +659,7 @@
                     selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');;
                     console.log(obj.data);
                     console.log(obj.data.title);
-                    getSelectPath($this);
+                    getSelectPath(obj.elem);
                 }
             });
         });
@@ -676,7 +676,7 @@
         //     }
         // }while ($parent);
 
-        var $parent = $dom.parent();
+        var $parent = $dom.parentNode;
         if ($parent){
             console.log($parent.data.title);
             console.log($parent.data);
