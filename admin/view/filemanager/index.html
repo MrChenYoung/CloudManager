@@ -669,7 +669,7 @@
                     movetoPath = getSelectPath($this);
                     var currentDir = obj.data.title;
                     if (currentDir != "根目录"){
-                        movetoPath += "/" + obj.data.title;
+                        movetoPath = movetoPath + "/" + currentDir;
                     }
 
                     // 显示当前选择的目录路径
