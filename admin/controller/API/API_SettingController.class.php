@@ -5,6 +5,7 @@ namespace admin\controller\API;
 
 
 use framework\tools\DatabaseDataManager;
+use framework\tools\ShellManager;
 
 class API_SettingController extends API_BaseController
 {
@@ -40,4 +41,36 @@ class API_SettingController extends API_BaseController
             echo $this->failed("更改设置失败");
         }
     }
+
+    // 更新云盘文件夹树形列表缓存
+    public function updateDriveDirList(){
+        // 远程云盘名
+        if (!isset($_GET["remoteName"])){
+            echo $this->failed("缺少remoteName参数");
+            die;
+        }
+        $remoteName = $_GET["remoteName"];
+
+        // rclone命令获取文件列表信息
+        $cmd = "rclone lsd ".$remoteName.":".$path;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("获取文件夹列表失败");
+            die;
+        }
+
+        $dirList = $res["result"];
+        $data = [];
+        foreach ($dirList as $dir) {
+            $dirArray = explode("-1",$dir);
+            if (count($dirArray) > 0){
+                $data[] = [
+                    'title'=>trim($dirArray[count($dirArray)-1]),
+                    'children'=>[['title'=>'']]
+                ];
+            }
+        }
+        echo $this->success($data);
+    }
+
 }

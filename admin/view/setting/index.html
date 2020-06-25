@@ -1,7 +1,7 @@
 <{extends file="layout.html"}>
 <{block name="myStyles"}>
 <style type="text/css">
-    .layui-form-label {
+    .file-exten-info-title {
         width: 120px!important;
     }
 
@@ -25,10 +25,31 @@
         line-height: 36px;
     }
 
+    .drive-dir-tree-cache-title {
+        width: 160px!important;
+    }
+
+    .select-box {
+        width: 320px;
+    }
+
+    .select-box .layui-form-select {
+        width: 150px;
+        display: inline-block;
+    }
+
+    .layui-form-select dl dd.layui-this {
+        background-color: #393D49;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
 <script>
+    // 选择的云盘类型
+    var selectDriveType;
+    // 选择的云盘
+    var selectDrive;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#setting").addClass("active");
@@ -45,7 +66,10 @@
         });
 
         // 加载设置项
-        loadSettingData()
+        loadSettingData();
+
+        // 请求云盘列表
+        loadDriverList();
     });
 
     // 加载设置项
@@ -80,17 +104,99 @@
         },false);
     }
 
+    // 请求云盘列表
+    function loadDriverList() {
+        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
+        get(url,function (data) {
+            driverList = data.data;
+
+            // 默认选择的云盘类型
+            var driveTypes = Object.keys(driverList);
+            if (driveTypes.length > 0){
+                selectDriveType = driveTypes[0];
+            }
+
+            // 默认选择的云盘
+            if (selectDriveType.length > 0){
+                selectDrive = driverList[selectDriveType][0];
+            }
+
+            // 创建云盘类型选择列表
+            createDriverTypeSelectDoms();
+            // 创建云盘选择列表
+            createDriverSelectDoms();
+            // 请求文件列表
+            // loadFileList(false);
+        },false);
+    }
+
+    // 创建云盘类型选择列表
+    function createDriverTypeSelectDoms() {
+        var dom = '<option value="">选择云盘类型</option>';
+        var driverTypes = Object.keys(driverList);
+
+        for(var i = 0; i < driverTypes.length; i++){
+            var driverT = driverTypes[i];
+            if (selectDriveType == driverT){
+                dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
+            }else {
+                dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_type_select").html(dom);
+            form.render();
+        });
+    }
+
+    // 创建云盘选择列表
+    function createDriverSelectDoms() {
+        var dom = '<option value="">选择云盘</option>';
+        if (selectDriveType.length > 0){
+            var drives = driverList[selectDriveType];
+            for(var i = 0; i < drives.length; i++){
+                var driver = drives[i];
+                if (selectDrive == driver){
+                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+                }else {
+                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
+                }
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#drive_select").html(dom);
+            form.render();
+        });
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>
 <div class="aw-content-wrap">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label">加载文件额外信息</label>
+            <label class="layui-form-label file-exten-info-title">加载文件额外信息</label>
             <div class="layui-input-inline">
                 <input class="load_file_detail_info_switch" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="load_file_detail_info_switch" lay-text="ON|OFF">
             </div>
             <div class="layui-form-mid layui-word-aux">加载云盘/文件列表时同时加载文件总大小和文件总数量，开启后列表加载速度慢</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label drive-dir-tree-cache-title">云盘文件夹树形列表缓存</label>
+            <div class="layui-input-inline">
+                <div class="layui-form-item select-box">
+                    <select id="drive_type_select" lay-filter="drive-type-list">
+                        <option value="">选择云盘类型</option>
+                    </select>
+                    <select id="drive_select" lay-filter="drive-list">
+                        <option value="">选择云盘</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </form>
 </div>
