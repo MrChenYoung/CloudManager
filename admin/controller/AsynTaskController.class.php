@@ -35,7 +35,17 @@ class AsynTaskController extends Controller
         }
 
         // 设置数据库正在更新目录树标志位为1
-        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
+        $updateRes = DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
+        $str = "111";
+        if ($updateRes){
+            $str = "更新数据库成功";
+        }else {
+            $str = "更新数据库失败";
+        }
+        $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+        file_put_contents($testFilepath,"\r\n",FILE_APPEND);
+        file_put_contents($testFilepath,$str,FILE_APPEND);
+
         $dirData = [["title"=>"根目录","children"=>$dirData]];
         // 更新缓存文件
         // 存放缓存的目录
