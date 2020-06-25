@@ -659,9 +659,24 @@
                     selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');;
                     console.log(obj.data);
                     console.log(obj.data.title);
+                    getSelectPath($this);
                 }
             });
         });
+    }
+
+    // 获取到选择的路径
+    function getSelectPath($dom) {
+        var dirs = [$dom.data.title];
+        var $parent;
+        do {
+            $parent = $dom.parent();
+            if ($parent){
+                dirs.push($parent.data.title);
+            }
+        }while ($parent);
+
+        console.log(dirs);
     }
     
 </script>
