@@ -42,6 +42,25 @@ class API_SettingController extends API_BaseController
         }
     }
 
+    // 获取云盘文件夹缓存
+    public function loadDriveDirCache(){
+        // 远程云盘名
+        if (!isset($_GET["remoteName"])){
+            echo $this->failed("缺少remoteName参数");
+            die;
+        }
+        $remoteName = $_GET["remoteName"];
+
+        $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
+        $data = [];
+        if (!file_exists($path)){
+            // 有缓存
+            $str = file_get_contents($path);
+            $data = json_decode($str);
+        }
+        echo $this->success($data);
+    }
+
     // 更新云盘文件夹树形列表缓存
     public function updateDriveDirList(){
         // 远程云盘名
