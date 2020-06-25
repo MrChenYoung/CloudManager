@@ -188,7 +188,7 @@
                 // 选择的云盘类型
                 movetoDriverType = data.value;
                 // 刷新云盘列表
-                // createDriverSelectDoms();
+                createMovetiDriverSelectDoms();
             });
 
             // 监听要移动到的云盘选择
@@ -197,8 +197,8 @@
                 movetoDriver = data.value;
                 // 目录回到根目录
                 movetoPathArray = [""];
-                // 刷新列表
-                // loadFileList();
+                // 刷新目录树列表
+                loadDriverDirList();
             });
         });
 
@@ -275,6 +275,28 @@
         layui.use('form',function () {
             var form = layui.form;
             $("#drive_select").html(dom);
+            $("#moveto_drive_select").html(dom);
+            form.render();
+        });
+    }
+
+    // 创建云盘选择列表
+    function createMovetiDriverSelectDoms() {
+        var dom = '<option value="">选择云盘</option>';
+        if (movetoDriverType.length > 0){
+            var drives = driverList[movetoDriverType];
+            for(var i = 0; i < drives.length; i++){
+                var driver = drives[i];
+                if (movetoDriver == driver){
+                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+                }else {
+                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
+                }
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
             $("#moveto_drive_select").html(dom);
             form.render();
         });
