@@ -81,7 +81,23 @@
             form.on('switch(load_file_detail_info_switch)', function (data) {
                 var switchStatus = data.elem.checked;
                 changeSwitchStatus(switchStatus);
-            })
+            });
+
+            // 监听云盘类型选择
+            form.on('select(drive-type-list)', function(data){
+                // 选择的云盘类型
+                selectDriveType = data.value;
+                // 刷新云盘列表
+                createDriverSelectDoms();
+            });
+
+            // 监听云盘选择
+            form.on('select(drive-list)', function(data){
+                // 选择的云盘
+                selectDrive = data.value;
+                // 刷新文件夹缓存列表
+                loadDirCache();
+            });
         });
 
         // 加载设置项
@@ -232,6 +248,7 @@
             loadDirCache();
         },true,true);
     }
+    
 </script>
 <{/block}>
 <{block name="content"}>
