@@ -9,6 +9,10 @@ class MultiThreadTool
     public static function addTask($url,$action,$param=[]){
         $param["API"] = "";
         $param["action"] = $action;
+        echo "<pre>";
+        var_dump($url);
+        var_dump($param);
+        die;
         self::doRequest($url, $param);
         ignore_user_abort(true); // 忽略客户端断开
         set_time_limit(0);    // 设置执行不超时
