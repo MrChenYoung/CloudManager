@@ -219,8 +219,9 @@ class API_FileManagerController extends API_BaseController
         }
         $newName = $_GET["newName"];
 
-        $oldFullPath = $path.$oldName;
-        $newFullPath = $path.$newName;
+        // 完整路径 空格转义
+        $oldFullPath = str_replace(" ","\ ",$path.$oldName);
+        $newFullPath = str_replace(" ","\ ",$path.$newName);
         $cmd = 'rclone moveto '.$driverName.":".$oldFullPath." ".$driverName.":".$newFullPath;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
@@ -253,7 +254,8 @@ class API_FileManagerController extends API_BaseController
         }
         $dirName = $_GET["dirName"];
 
-        $cmd = 'rclone mkdir '.$driverName.":".$path.$dirName;
+        $fullPath = str_replace(" ","\ ",$path.$dirName);
+        $cmd = 'rclone mkdir '.$driverName.":".$fullPath;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("文件夹创建失败");
@@ -278,6 +280,8 @@ class API_FileManagerController extends API_BaseController
         }
         $desPath = $_GET["desPath"];
 
+        $sourcePath = str_replace(" ","\ ",$sourcePath);
+        $desPath = str_replace(" ","\ ",$desPath);
         $cmd = "rclone moveto ".$sourcePath." ".$desPath;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
