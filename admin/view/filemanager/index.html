@@ -655,7 +655,8 @@
                     if (selectTreeDom){
                         selectTreeDom.removeClass("custom-tree-item-clicked");
                     }
-                    selectTreeDom = $(obj.elem);
+                    var $this = $(obj.elem);
+                    selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt');;
                     console.log(obj.data);
                     console.log(obj.elem);
                 }
