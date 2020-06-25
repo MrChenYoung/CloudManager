@@ -165,7 +165,7 @@
     var editRow;
     var editType;
     var pathArray = [""];
-    var movetoPathArray = [""];
+    var movetoPath;
     var movetoDriverType;
     var movetoDriver;
     var selectTreeDom;
@@ -546,6 +546,7 @@
                 area = ['820px','620px'];
                 offset = '100px';
                 $(".moveto-box").css("display",'block');
+                movetoPath = false;
                 break;
             case 2:
                 // 重命名
@@ -594,26 +595,34 @@
 
     // 确认
     function confirm() {
-        if (editType == 2){
-            // 重命名
-            var newName = $('#new_name_input').val();
-            if (newName.length == 0){
-                toast("名称不能为空");
-            }else if(newName == oldFileName){
-                toast("请输入不同的名称");
-            }else {
-                renameFile(newName);
-                hideEditCover();
-            }
-        }else if(editType == 0) {
-            // 新建文件夹
-            var dirName = $('#new_name_input').val();
-            if (dirName.length == 0){
-                toast("名称不能为空");
-            }else {
-                createNewDirRequest(dirName);
-                hideEditCover();
-            }
+        switch (editType) {
+            case 0:
+                // 新建文件夹
+                var dirName = $('#new_name_input').val();
+                if (dirName.length == 0){
+                    toast("名称不能为空");
+                }else {
+                    createNewDirRequest(dirName);
+                    hideEditCover();
+                }
+                break;
+            case 1:
+                // 移动文件
+
+                break;
+            case 2:
+                // 重命名
+                // 重命名
+                var newName = $('#new_name_input').val();
+                if (newName.length == 0){
+                    toast("名称不能为空");
+                }else if(newName == oldFileName){
+                    toast("请输入不同的名称");
+                }else {
+                    renameFile(newName);
+                    hideEditCover();
+                }
+                break;
         }
     }
 
@@ -657,11 +666,9 @@
                     }
                     var $this = $(obj.elem);
                     selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');;
-                    // console.log(obj);
-                    // console.log(obj.elem);
-                    // console.log(obj.elem.parentNode)
-                    // console.log(obj.data.title);
-                    getSelectPath($this);
+                    movetoPath = getSelectPath($this) + "/" + obj.data.title;
+                    // 显示当前选择的目录路径
+                    $("#moveto_path").text(movetoPath);
                 }
             });
         });
@@ -669,7 +676,6 @@
 
     // 获取到选择的路径
     function getSelectPath($dom) {
-
         var $parent = $dom;
         var paths = [];
         var text = "";
@@ -679,7 +685,7 @@
             paths.unshift(text);
         }while (text.length > 0 && text != '根目录');
         paths = paths.join("/");
-        console.log("结果:" + paths);
+        return paths;
     }
     
 </script>
