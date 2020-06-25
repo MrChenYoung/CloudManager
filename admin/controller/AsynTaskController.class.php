@@ -30,8 +30,16 @@ class AsynTaskController extends Controller
         // 获取云盘文件夹树形列表
         $dirData = $this->updateDirCache($remoteName);
         if (!$dirData){
+            $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+            file_put_contents($testFilepath,"\r\n",FILE_APPEND);
+            file_put_contents($testFilepath,"更新结果:",FILE_APPEND);
+
             // 获取失败
             return false;
+        }else {
+            $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+            file_put_contents($testFilepath,"\r\n",FILE_APPEND);
+            file_put_contents($testFilepath,"更新结果222:",FILE_APPEND);
         }
 
         // 设置数据库正在更新目录树标志位为1
