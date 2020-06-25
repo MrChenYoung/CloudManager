@@ -145,6 +145,9 @@
     .moveto_box {
         width: 800px;
         height: 30px;
+    }
+
+    .moveto-span {
         font-size: 14px;
         font-weight: 300;
     }
@@ -754,8 +757,8 @@
         <legend id="legend_title">重命名</legend>
     </fieldset>
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    <span class="moveto-drive moveto-span" id="moveto_drive"></span>
     <div class="moveto_box">
-        <span class="moveto-drive moveto-span" id="moveto_drive"></span>
         <span class="moveto-path moveto-span" id="moveto_path"></span>
     </div>
     <div class="moveto-box">
