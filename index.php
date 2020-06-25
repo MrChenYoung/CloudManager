@@ -3,7 +3,7 @@
  * 根据用户的需求，将用户分配到对应的控制器的某个方法中
  */
 
-$path = "/test.txt";
+$path = "http://cloudmanager.yycode.ml/test.txt";
 file_put_contents($path,"");
 file_put_contents($path,"进入预想方法123:".json_encode($_REQUEST));
 die;
