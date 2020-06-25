@@ -229,6 +229,7 @@
         layui.use('form',function () {
             var form = layui.form;
             $("#drive_type_select").html(dom);
+            $("#moveto_drive_type_select").html(dom);
             form.render();
         });
     }
@@ -251,6 +252,7 @@
         layui.use('form',function () {
             var form = layui.form;
             $("#drive_select").html(dom);
+            $("#moveto_drive_select").html(dom);
             form.render();
         });
     }
@@ -462,6 +464,8 @@
         editType = type;
         var area = ['450px','200px'];
         var $input = $("#new_name_input");
+        var offset = '200px';
+        $(".moveto-box").css("display",'none');
         switch (type) {
             case 0:
                 // 新建文件夹
@@ -469,6 +473,17 @@
                 $input.css("display","block");
                 $(".add-category-container").css("height","180px");
                 $input.attr("placeholder","输入文件夹名称");
+                break;
+            case 1:
+                // 移动文件/文件夹
+                $input.css("display","none");
+                $("#legend_title").text("移动至");
+                $(".add-category-container").css("width","800px");
+                $(".add-category-container").css("height","600px");
+                $(".layui-field-title").css('width','800px');
+                area = ['820px','620px'];
+                offset = '100px';
+                $(".moveto-box").css("display",'block');
                 break;
             case 2:
                 // 重命名
@@ -487,7 +502,7 @@
                 type: 1,
                 area:area,
                 title: false,
-                offset:'200px',
+                offset:offset,
                 closeBtn: 0,
                 shadeClose: true,
                 content: $(".add-category-container"),
@@ -544,6 +559,10 @@
     function cancel() {
         hideEditCover();
     }
+    
+    function createTest() {
+        showEditCover(1);
+    }
 
 </script>
 <{/block}>
@@ -569,6 +588,9 @@
             <ul>
                 <li>
                     <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+                </li>
+                <li>
+                    <i onclick="createTest()" title="新建文件夹" class="iconfont icon-wenjian"></i>
                 </li>
             </ul>
         </div>
@@ -601,6 +623,22 @@
         <legend id="legend_title">重命名</legend>
     </fieldset>
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+
+    <div class="moveto-box">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item select-box">
+                <select id="moveto_drive_type_select" lay-filter="drive-type-list">
+                    <option value="">选择云盘类型</option>
+                </select>
+                <select id="moveto_drive_select" lay-filter="drive-list">
+                    <option value="">选择云盘</option>
+                </select>
+                <button onclick="backMovetoDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <span class="layui-breadcrumb">
+                </span>
+            </div>
+        </form>
+    </div>
 
     <!--确定/取消按钮-->
     <div class="btns-box">
