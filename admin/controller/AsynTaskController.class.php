@@ -12,11 +12,6 @@ class AsynTaskController extends Controller
     {
         parent::index();
 
-        $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
-        file_put_contents($path,"");
-        file_put_contents($path,"进入预想方法123456:".json_encode($_REQUEST));
-        die;
-
         // 要调用哪个方法
         if (!isset($_POST["action"])){
             die;

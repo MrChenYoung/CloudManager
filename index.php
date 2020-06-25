@@ -105,6 +105,10 @@ function checkLoginStatus($m){
 
 // 进入主页面
 function toHome($m='',$c='',$a=''){
+    $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+    file_put_contents($path,"");
+    file_put_contents($path,"进入预想方法123456:".json_encode($_REQUEST));
+    die;
     require_once './framework/core/Framework.class.php';
     new \framework\core\Framework($m,$c,$a);
 }
