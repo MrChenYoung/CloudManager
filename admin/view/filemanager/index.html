@@ -727,7 +727,7 @@
     function moveFile() {
         var sourcePath = selectDrive + ":" + getPathString();
         var desPath = movetoDriver + ":" + movetoPath.replace("根目录","");
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        var url = "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
         console.log("url:" + url);
     }
     
