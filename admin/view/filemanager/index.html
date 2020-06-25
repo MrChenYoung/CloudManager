@@ -153,6 +153,9 @@
     var editRow;
     var editType;
     var pathArray = [""];
+    var movetoPathArray = [""];
+    var movetoDriverType;
+    var movetoDriver;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -179,6 +182,24 @@
                 // 刷新列表
                 loadFileList();
             });
+
+            // 监听要移动到的云盘类型选择
+            form.on('select(moveto-drive-type-list)', function(data){
+                // 选择的云盘类型
+                movetoDriverType = data.value;
+                // 刷新云盘列表
+                // createDriverSelectDoms();
+            });
+
+            // 监听要移动到的云盘选择
+            form.on('select(moveto-drive-list)', function(data){
+                // 选择的云盘
+                movetoDriver = data.value;
+                // 目录回到根目录
+                movetoPathArray = [""];
+                // 刷新列表
+                // loadFileList();
+            });
         });
 
         // 请求云盘列表
@@ -196,11 +217,13 @@
             var driveTypes = Object.keys(driverList);
             if (driveTypes.length > 0){
                 selectDriveType = driveTypes[0];
+                movetoDriverType = selectDriveType;
             }
 
             // 默认选择的云盘
             if (selectDriveType.length > 0){
                 selectDrive = driverList[selectDriveType][0];
+                movetoDriver = selectDrive;
             }
 
             // 创建云盘类型选择列表
@@ -307,6 +330,10 @@
             switch (opeType) {
                 case 1:
                     // 移动
+                    loadDriverDirList(function () {
+                        showEditCover(opeType);
+                    });
+                    break;
                 case 2:
                     // 重命名
                     showEditCover(opeType);
@@ -407,8 +434,8 @@
     }
 
     // 获取目录路径
-    function getPathString() {
-        return pathArray.join("/") + "/";
+    function getPathString(array=pathArray) {
+        return array.join("/") + "/";
     }
     
     // 新建文件夹
@@ -564,6 +591,34 @@
         showEditCover(1);
     }
 
+    // 请求云盘文件夹列表,用于移动文件时选择
+    function loadDriverDirList(success=null) {
+        var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver + "&path=" + getPathString(movetoPathArray);
+        console.log("请求文件夹列表:" + url);
+        get(url,function (data) {
+            // 创建树形文件夹列表
+            createTreeDirDom(data.data);
+            if (success){
+                success();
+            }
+        });
+    }
+
+    // 创建树形文件夹列表，用于移动文件是选择
+    function createTreeDirDom(data) {
+        layui.use(['tree', 'util'], function(){
+            var tree = layui.tree
+                ,layer = layui.layer
+                ,util = layui.util;
+
+            tree.render({
+                elem: '#moveto-dir-list'
+                ,data: data
+                ,accordion: true
+            });
+        });
+    }
+    
 </script>
 <{/block}>
 <{block name="content"}>
@@ -627,10 +682,10 @@
     <div class="moveto-box">
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item select-box">
-                <select id="moveto_drive_type_select" lay-filter="drive-type-list">
+                <select id="moveto_drive_type_select" lay-filter="moveto-drive-type-list">
                     <option value="">选择云盘类型</option>
                 </select>
-                <select id="moveto_drive_select" lay-filter="drive-list">
+                <select id="moveto_drive_select" lay-filter="moveto-drive-list">
                     <option value="">选择云盘</option>
                 </select>
                 <button onclick="backMovetoDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
@@ -638,8 +693,9 @@
                 </span>
             </div>
         </form>
+        <div id="moveto-dir-list">
+        </div>
     </div>
-
     <!--确定/取消按钮-->
     <div class="btns-box">
         <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
