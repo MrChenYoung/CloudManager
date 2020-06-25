@@ -70,26 +70,45 @@ class API_SettingController extends API_BaseController
         }
         $remoteName = $_GET["remoteName"];
 
+        // 获取文件夹列表
+        $dirData = $this->updateDirCache($remoteName);
+        if (!$dirData){
+            echo $this->failed("更新失败");
+            die;
+        }
+
+        echo $this->success($dirData);
+    }
+
+    // 更新云盘文件夹列表缓存
+    private function updateDirCache($remoteName,$path=""){
         // rclone命令获取文件列表信息
         $cmd = "rclone lsd ".$remoteName.":".$path;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
-            echo $this->failed("获取文件夹列表失败");
-            die;
+            return false;
         }
 
         $dirList = $res["result"];
         $data = [];
         foreach ($dirList as $dir) {
             $dirArray = explode("-1",$dir);
+            $dirName = trim($dirArray[count($dirArray)-1]);
+            $dirData = [];
             if (count($dirArray) > 0){
-                $data[] = [
-                    'title'=>trim($dirArray[count($dirArray)-1]),
-                    'children'=>[['title'=>'']]
-                ];
+                $dirData['title'] = $dirName;
             }
+
+            // 获取子目录
+           $subDirData = $this->updateDirCache($remoteName,$path."/".$dirName);
+            if ($subDirData && count($subDirData) > 0){
+                $dirData["children"] = $subDirData;
+            }
+
+            $data[] = $dirData;
         }
-        echo $this->success($data);
+
+        return $data;
     }
 
 }

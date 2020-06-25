@@ -57,6 +57,10 @@
         display: none;
     }
 
+    .update-cache-btn {
+        background-color: #393D49;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -205,6 +209,11 @@
         })
     }
 
+    // 更新缓存
+    function updateCache() {
+        var url = baseUrl + "?m=admin&c=API_Setting&a=loadDriveDirCache&API=&remoteName=" + selectDrive;
+
+    }
 
 </script>
 <{/block}>
@@ -228,6 +237,7 @@
                     <select id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
+                    <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn">更新缓存</button>
                     <div class="none-cache-tip">没有缓存</div>
                 </div>
             </div>
