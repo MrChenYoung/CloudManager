@@ -728,7 +728,10 @@
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
         var desPath = movetoDriver + ":" + movetoPath.replace("根目录","");
         var url = "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
-        console.log("url:" + url);
+        get(url,function () {
+            // 移动成功 刷新列表
+            loadFileList();
+        },true,true);
     }
     
 </script>
