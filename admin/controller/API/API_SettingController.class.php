@@ -53,7 +53,7 @@ class API_SettingController extends API_BaseController
 
         $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
         $data = [];
-        if (!file_exists($path)){
+        if (file_exists($path)){
             // 有缓存
             $str = file_get_contents($path);
             $data = json_decode($str);
