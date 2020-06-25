@@ -141,6 +141,11 @@
         overflow-x: hidden;
         overflow-y: auto;
     }
+
+    .moveto-span {
+        font-size: 14px;
+        font-weight: 300;
+    }
     
 </style>
 <{/block}>
@@ -622,7 +627,7 @@
 
     // 请求云盘文件夹列表,用于移动文件时选择
     function loadDriverDirList(success=null) {
-        $("#moveto_drive").text(movetoDriver);
+        $("#moveto_drive").text(movetoDriver+":");
         var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver;
         console.log("请求目录树:" + url);
         get(url,function (data) {
