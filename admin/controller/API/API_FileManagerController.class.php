@@ -141,7 +141,7 @@ class API_FileManagerController extends API_BaseController
             if (count($dirArray) > 2){
                 $data[] = [
                     'title'=>trim($dirArray[2]),
-                    'children'=>['title'=>'']
+                    'children'=>[['title'=>'']]
                 ];
             }
         }
