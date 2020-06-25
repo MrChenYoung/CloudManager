@@ -666,11 +666,12 @@
                     }
                     var $this = $(obj.elem);
                     selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt.custom-tree-item-clicked');
-                    movetoPath = getSelectPath($this);
+
                     var currentDir = obj.data.title;
-                    if (currentDir != "根目录"){
-                        movetoPath = movetoPath + "/" + currentDir;
-                    }
+                    movetoPath = getSelectPath($this) + "/" + currentDir;
+                    // if (currentDir != "根目录"){
+                    //     movetoPath = movetoPath + "/" + currentDir;
+                    // }
 
                     // 显示当前选择的目录路径
                     $("#moveto_path").text(movetoPath);
