@@ -279,9 +279,7 @@ class API_FileManagerController extends API_BaseController
         $desPath = $_GET["desPath"];
 
         $cmd = "rclone moveto ".$sourcePath." ".$desPath;
-        echo "<pre>";
-        var_dump($cmd);
-        die;
+        
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("移动失败");
