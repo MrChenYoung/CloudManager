@@ -77,7 +77,7 @@ class API_SettingController extends API_BaseController
             die;
         }
 
-        $dirData = ["title"=>"根目录","children"=>$dirData];
+        $dirData = [["title"=>"根目录","children"=>$dirData]];
         // 更新缓存文件
         // 存放缓存的目录
         $cacheRootPath = ADMIN."resource/driveDirTreeCache/";
