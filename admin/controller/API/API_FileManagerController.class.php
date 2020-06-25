@@ -135,17 +135,16 @@ class API_FileManagerController extends API_BaseController
         }
 
         $dirList = $res["result"];
-        
         $data = [];
         foreach ($dirList as $dir) {
             $dirArray = explode("-1",$dir);
             $data[] = $dirArray;
-//            if (count($dirArray) > 1){
-//                $data[] = [
-//                    'title'=>trim($dirArray[1]),
-//                    'children'=>['title'=>'']
-//                ];
-//            }
+            if (count($dirArray) > 2){
+                $data[] = [
+                    'title'=>trim($dirArray[2]),
+                    'children'=>['title'=>'']
+                ];
+            }
         }
         echo $this->success($data);
     }
