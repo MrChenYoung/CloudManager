@@ -89,7 +89,7 @@ class API_SettingController extends API_BaseController
         ];
         MultiThreadTool::addTask($this->website."/index.php","updateDriveDirList",$params);
         // 提示正在后台更新
-        echo $this->success("后台更新中");
+        echo $this->success("目录树后台更新中");
     }
 
 }
