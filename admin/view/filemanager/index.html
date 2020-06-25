@@ -652,11 +652,11 @@
                 ,data: data
                 ,accordion: true,
                 click:function (obj) {
-                    if (selectTreeDom){
-                        selectTreeDom.removeClass("custom-tree-item-clicked");
-                    }
-                    var $this = $(obj.elem);
-                    selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt');;
+                    // if (selectTreeDom){
+                    //     selectTreeDom.removeClass("custom-tree-item-clicked");
+                    // }
+                    // var $this = $(obj.elem);
+                    // selectTreeDom = $this.find('.layui-tree-entry .layui-tree-main span.layui-tree-txt');;
                     console.log(obj.data);
                     console.log(obj.elem);
                 }
