@@ -47,7 +47,7 @@ class AsynTaskController extends Controller
         $path = $cacheRootPath.$remoteName.".json";
         file_put_contents($path,json_encode($dirData));
         // 更新完成，恢复数据库标志位
-//        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
+        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
     }
 
     // 更新云盘文件夹列表缓存
@@ -55,9 +55,9 @@ class AsynTaskController extends Controller
         // rclone命令获取文件列表信息
         $cmd = "rclone lsd ".$remoteName.":".$path;
 
-        $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
-        file_put_contents($path,"");
-        file_put_contents($path,"进入预想方法123456666:".$cmd);
+//        $path = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+//        file_put_contents($path,"");
+//        file_put_contents($path,"进入预想方法123456666:".$cmd);
 
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
