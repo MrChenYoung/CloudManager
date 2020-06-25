@@ -593,10 +593,10 @@
 
     // 请求云盘文件夹列表,用于移动文件时选择
     function loadDriverDirList(success=null) {
-        var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver + "&path=" + getPathString(movetoPathArray);
-        console.log("请求文件夹列表:" + url);
+        var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver;
+        console.log("请求目录树:" + url);
         get(url,function (data) {
-            // 创建树形文件夹列表
+            // 创建目录树
             createTreeDirDom(data.data);
             if (success){
                 success();
