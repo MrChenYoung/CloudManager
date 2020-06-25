@@ -735,6 +735,11 @@
             loadFileList();
         },true,true);
     }
+
+    // 刷新
+    function refreshFileList() {
+        loadFileList();
+    }
     
 </script>
 <{/block}>
@@ -759,10 +764,10 @@
         <div class="menu-box">
             <ul>
                 <li>
-                    <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+                    <i onclick="refreshFileList()" title="刷新" class="iconfont icon-shuaxin"></i>
                 </li>
                 <li>
-                    <i onclick="createTest()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+                    <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
                 </li>
             </ul>
         </div>
