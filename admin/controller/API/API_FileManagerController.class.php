@@ -119,32 +119,14 @@ class API_FileManagerController extends API_BaseController
         }
         $remoteName = $_GET["remoteName"];
 
-        // 路径
-        if (!isset($_GET["path"])){
-            echo $this->failed("缺少path参数");
-            die;
-        }
-        $path = $_GET["path"];
-
-        // rclone命令获取文件列表信息
-        $cmd = "rclone lsd ".$remoteName.":".$path;
-        $res = ShellManager::exec($cmd);
-        if (!$res["success"]){
-            echo $this->failed("获取文件夹列表失败");
-            die;
-        }
-
-        $dirList = $res["result"];
+        // 从目录树缓存文件读取目录列表
+        $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
         $data = [];
-        foreach ($dirList as $dir) {
-            $dirArray = explode("-1",$dir);
-            if (count($dirArray) > 0){
-                $data[] = [
-                    'title'=>trim($dirArray[count($dirArray)-1]),
-                    'children'=>[['title'=>'']]
-                ];
-            }
+        if (file_exists($path)){
+            $data = file_get_contents($path);
+            $data = json_decode($data);
         }
+
         echo $this->success($data);
     }
 
