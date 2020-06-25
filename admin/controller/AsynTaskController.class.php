@@ -56,8 +56,8 @@ class AsynTaskController extends Controller
         $cmd = "rclone lsd ".$remoteName.":".$path;
 
         $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
-        file_put_contents($testFilepath,"");
-        file_put_contents($testFilepath,"进入预想方法:".$cmd);
+        file_put_contents($testFilepath,"\r\n");
+        file_put_contents($testFilepath,"进入预想方法:".$cmd,FILE_APPEND);
 
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
