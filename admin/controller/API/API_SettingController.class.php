@@ -77,7 +77,16 @@ class API_SettingController extends API_BaseController
             die;
         }
 
-        echo $this->success($dirData);
+        $dirData = ["title"=>"根目录","children"=>$dirData];
+        // 更新缓存文件
+        $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
+        $succ = file_put_contents($path,json_encode($dirData));
+
+        if ($succ){
+            echo $this->success("更新成功");
+        }else {
+            echo $this->success("更新失败");
+        }
     }
 
     // 更新云盘文件夹列表缓存

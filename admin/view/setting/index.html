@@ -201,7 +201,21 @@
             if (dirCache.length > 0){
                 // 有缓存
                 $(".none-cache-tip").css("display","none");
+                layui.use(['tree', 'util'], function(){
+                    var tree = layui.tree
+                        ,layer = layui.layer
+                        ,util = layui.util;
 
+                    //手风琴模式
+                    tree.render({
+                        elem: '#dir_cache_list'
+                        ,data: dirCache
+                        ,accordion: true,
+                        click:function (obj) {
+                            console.log(obj.data);
+                        }
+                    });
+                });
             }else{
                 // 没有缓存
                 $(".none-cache-tip").css("display","block");
@@ -211,10 +225,12 @@
 
     // 更新缓存
     function updateCache() {
-        var url = baseUrl + "?m=admin&c=API_Setting&a=loadDriveDirCache&API=&remoteName=" + selectDrive;
-
+        var url = baseUrl + "?m=admin&c=API_Setting&a=updateDriveDirList&API=&remoteName=" + selectDrive;
+        get(url,function () {
+            // 更新成功 刷新缓存显示列表
+            loadDirCache();
+        },true,true);
     }
-
 </script>
 <{/block}>
 <{block name="content"}>
@@ -238,6 +254,7 @@
                         <option value="">选择云盘</option>
                     </select>
                     <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn">更新缓存</button>
+                    <div id="dir_cache_list" class="dir-cache-list"></div>
                     <div class="none-cache-tip">没有缓存</div>
                 </div>
             </div>
