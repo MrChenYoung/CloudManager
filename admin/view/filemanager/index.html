@@ -649,7 +649,10 @@
             tree.render({
                 elem: '#moveto_dir_list'
                 ,data: data
-                ,accordion: true
+                ,accordion: true,
+                click:function (obj) {
+                    console.log(obj.data);
+                }
             });
         });
     }
