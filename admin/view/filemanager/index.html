@@ -142,17 +142,38 @@
         overflow-y: auto;
     }
 
-    .moveto_box {
-        width: 700px;
-        height: 30px;
+    .moveto-title-box {
+        width: 800px;
+        height: 40px;
+        margin: 10px;
+    }
+
+    .moveto-title-box .moveto-title{
+        font-size: 20px;
+    }
+
+    .moveto-title-box span {
         display: inline-block;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .moveto-title-box .moveto-drive{
+        margin-left: 10px;
+    }
+
+    .moveto-title-box .moveto-path{
+        width: 400px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space:nowrap;
+        vertical-align: bottom;
     }
 
     .moveto-span {
         font-size: 14px;
         font-weight: 300;
     }
-    
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -222,7 +243,7 @@
         });
 
         // 请求云盘列表
-        loadDriverList();
+        // loadDriverList();
     });
 
     // 请求云盘列表
@@ -759,10 +780,13 @@
         <legend id="legend_title">重命名</legend>
     </fieldset>
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
-    <span class="moveto-drive moveto-span" id="moveto_drive"></span>
-    <div class="moveto_box">
-        <span class="moveto-path moveto-span" id="moveto_path"></span>
+    <div class="moveto-title-box">
+        <span class="moveto-title moveto-span">移动到</span>
+        <span class="moveto-drive moveto-span" id="moveto_drive"></span>
+        <span class="moveto-path moveto-span" id="moveto_path">
+        </span>
     </div>
+
     <div class="moveto-box">
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item select-box">

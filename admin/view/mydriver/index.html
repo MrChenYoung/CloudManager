@@ -54,42 +54,6 @@
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
 
-        layui.use(['tree', 'util'], function(){
-            var tree = layui.tree
-                ,layer = layui.layer
-                ,util = layui.util;
-
-            //手风琴模式
-            tree.render({
-                elem: '#test4'
-                ,data: [{
-                    title: '优秀'
-                    ,children: [{
-                        title: '良好'
-                        ,children: [{
-                            title: '70 ~ 80'
-                        },{
-                            title: '60 ~ 70'
-                        }]
-                    }]
-                },{
-                    title: '良好'
-                    ,children: [{
-                        title: '70 ~ 80'
-                    },{
-                        title: '60 ~ 70'
-                    }]
-                },{
-                    title: '要努力奥'
-                    ,children: [{
-                        title: '0 ~ 60'
-                    }]
-                }]
-                ,accordion: true
-            });
-
-        });
-
         // 请求云盘列表
         loadDriverList();
     });
@@ -309,7 +273,6 @@
             </table>
         </div>
     </div>
-    <div id="test4"></div>
 </div>
 
 <!--浮层弹窗-->
