@@ -669,19 +669,17 @@
 
     // 获取到选择的路径
     function getSelectPath($dom) {
-        // var dirs = [$dom.data.title];
-        // var $parent;
-        // do {
-        //     $parent = $dom.parent();
-        //     if ($parent){
-        //         dirs.push($parent.data.title);
-        //     }
-        // }while ($parent);
 
-        var $parent = $dom.parent().parent();
-        var text1 = $parent.find(".layui-tree-entry .layui-tree-main .layui-tree-txt").first().text();
-        console.log("22323：" + text1);
+        var $parent = $dom;
+        var paths = [];
+        var text = "";
+        do {
+            $parent = $parent.parent().parent();
+            text = $parent.find(".layui-tree-entry .layui-tree-main .layui-tree-txt").first().text();
+            paths.push(text);
+        }while (text.length > 0 && text != '根目录');
 
+        console.log("结果:" + paths);
     }
     
 </script>
