@@ -262,6 +262,32 @@ class API_FileManagerController extends API_BaseController
         echo $this->success("文件夹创建成功");
     }
 
+    // 移动文件
+    function moveFile(){
+        // 源文件路径
+        if (!isset($_GET["sourcePath"])){
+            echo $this->failed("缺少sourcePath参数");
+            die;
+        }
+        $sourcePath = $_GET["sourcePath"];
+
+        // 目标文件路径
+        if (!isset($_GET["desPath"])){
+            echo $this->failed("缺少desPath参数");
+            die;
+        }
+        $desPath = $_GET["desPath"];
+
+        $cmd = "rclone moveto ".$sourcePath." ".$desPath;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("移动失败");
+            die;
+        }
+
+        echo $this->failed("移动成功");
+    }
+
     // 根据文件类型获取显示图标
     private function getFileIcon($file){
         if ($file["IsDir"]){

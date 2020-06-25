@@ -638,7 +638,7 @@
                 break;
             case 1:
                 // 移动文件
-
+                moveFile();
                 break;
             case 2:
                 // 重命名
@@ -721,6 +721,14 @@
         }while (text.length > 0 && text != '根目录');
         paths = paths.join("/");
         return paths;
+    }
+    
+    // 移动文件
+    function moveFile() {
+        var sourcePath = selectDrive + ":" + getPathString();
+        var desPath = movetoDriver + ":" + movetoPath.replace("根目录","");
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        console.log("url:" + url);
     }
     
 </script>
