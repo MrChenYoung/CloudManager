@@ -28,6 +28,11 @@ class AsynTaskController extends Controller
     public function updateDriveDirList(){
         if (isset($_REQUEST["drivers"])){
             $drivers = $_REQUEST["drivers"];
+
+            $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+            file_put_contents($testFilepath,"\r\n",FILE_APPEND);
+            file_put_contents($testFilepath,"进入预想方法:".$drivers,FILE_APPEND);
+
             $drivers = explode(",",$drivers);
             foreach ($drivers as $driver) {
 //                $this->updateSingleDriver($driver);
