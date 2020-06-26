@@ -30,7 +30,7 @@ class AsynTaskController extends Controller
             $drivers = $_REQUEST["drivers"];
             $drivers = explode(",",$drivers);
             foreach ($drivers as $driver) {
-                $this->updateSingleDriver($driver);
+//                $this->updateSingleDriver($driver);
             }
         }else if (isset($_REQUEST["name"])){
             $remoteName = $_REQUEST["name"];
