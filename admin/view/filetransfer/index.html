@@ -206,6 +206,7 @@
     var movetoPath;
     var movetoDriver = "GDSuiteTeam";
     var selectTreeDom;
+    var shareAddress;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_transferred").addClass("active");
@@ -214,11 +215,29 @@
         layui.use(['form','element','tree'],function () {
             var form = layui.form,
                 element = layui.element;
+
+            // 监听共享资源地址输入
+            var shareAddressInput = $("#share_address_input");
+            shareAddressInput.bind("input propertychange", function (event) {
+                shareAddress = shareAddressInput.val();
+                // 更新转存按钮状态
+                updateTransferBtnStatus();
+            });
         });
 
         // 请求文件列表
         loadFileList();
     });
+
+    // 更新转存按钮状态
+    function updateTransferBtnStatus() {
+        var transferBtn = $(".transfer-btn");
+        if (shareAddress.length > 0){
+            transferBtn.removeClass("layui-btn-disabled");
+        }else {
+            transferBtn.addClass("layui-btn-disabled");
+        }
+    }
 
     // 请求文件列表
     function loadFileList() {
@@ -624,7 +643,7 @@
         <div class="drive-select-box">
             <form class="layui-form layui-form-pane" action="">
                 <div class="layui-form-item select-box">
-                    <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input">
+                    <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
                     <button onclick="transferShareFile()" type="button" class="layui-btn transfer-btn">转存</button>
                 </div>
             </form>
