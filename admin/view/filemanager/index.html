@@ -210,6 +210,7 @@
             form.on('select(drive-type-list)', function(data){
                 // 选择的云盘类型
                 selectDriveType = data.value;
+                movetoDriverType = selectDriveType;
                 // 刷新云盘列表
                 createDriverSelectDoms();
             });
@@ -218,6 +219,7 @@
             form.on('select(drive-list)', function(data){
                 // 选择的云盘
                 selectDrive = data.value;
+                movetoDriver = selectDrive;
                 // 目录回到根目录
                 pathArray = [""];
                 // 刷新列表
