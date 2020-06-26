@@ -486,6 +486,13 @@
                 $input.val(editFileName);
                 oldFileName = editFileName;
                 break;
+            case 3:
+                // 转存文件
+                $("#legend_title").text("转存到文件夹");
+                $input.css("display","block");
+                $(".add-category-container").css("height","180px");
+                $input.attr("placeholder","输入文件夹名称");
+                break;
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -635,6 +642,13 @@
         loadFileList();
     }
     
+    // 转存文件
+    function transferShareFile(obj) {
+        var $this = $(obj);
+        if ($this.hasClass("layui-btn-disabled")) return;
+        showEditCover(3);
+    }
+    
 </script>
 <{/block}>
 <{block name="content"}>
@@ -644,7 +658,7 @@
             <form class="layui-form layui-form-pane" action="">
                 <div class="layui-form-item select-box">
                     <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
-                    <button onclick="transferShareFile()" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
+                    <button onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
                 </div>
             </form>
         </div>
