@@ -270,6 +270,7 @@
     function updateAllCloudCache() {
         if ($(".update-cache-btn").hasClass("layui-btn-disabled")) return;
         var url = baseUrl + "?m=admin&c=API_Setting&a=updataAllDriverDirCache";
+        console.log("更新所有云盘目录树:" + url);
         get(url,function () {
             // 更新成功 刷新缓存显示列表
             loadDirCache();

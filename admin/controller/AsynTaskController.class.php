@@ -34,7 +34,7 @@ class AsynTaskController extends Controller
             }
         }else if (isset($_REQUEST["name"])){
             $remoteName = $_REQUEST["name"];
-            updateSingleDriver($remoteName);
+            $this->updateSingleDriver($remoteName);
         }
     }
 
