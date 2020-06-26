@@ -43,6 +43,7 @@ class API_FileTransferController extends API_BaseController
             "savePath"=>$path
         ];
 
+        die;
         MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
         // 提示正在后台更新
         echo $this->success("文件后台转存中");
