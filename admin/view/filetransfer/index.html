@@ -673,7 +673,10 @@
     // 保存文件网络请求
     function saveShareFile(newDirName) {
         // 保存文件
-        url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString() + "/" + newDirName;
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString();
+        if (newDirName.length > 0) {
+            url = url + newDirName
+        }
         console.log("转存文件:" + url);
         get(url,function () {
             hideHud();
