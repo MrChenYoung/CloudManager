@@ -43,6 +43,7 @@ class MultiThreadTool
         $out .= $query;
 
         fputs($fp, $out);
+        usleep(20000);
         fclose($fp);
     }
 }
