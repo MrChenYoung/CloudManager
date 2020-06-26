@@ -42,10 +42,7 @@ class API_FileTransferController extends API_BaseController
             "sourceId"=>$end,
             "savePath"=>$path
         ];
-
-        echo "<pre>";
-        var_dump($params);
-        die;
+        
         MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
         // 提示正在后台更新
         echo $this->success("文件后台转存中");
