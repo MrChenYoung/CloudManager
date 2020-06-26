@@ -662,16 +662,16 @@
             showHud();
             get(url,function () {
                 // 保存文件
-                saveShareFile();
+                saveShareFile(newDirName);
             },false);
         }else {
             // 保存文件
-            saveShareFile();
+            saveShareFile(newDirName);
         }
     }
 
     // 保存文件网络请求
-    function saveShareFile() {
+    function saveShareFile(newDirName) {
         // 保存文件
         url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString() + "/" + newDirName;
         console.log("转存文件:" + url);
