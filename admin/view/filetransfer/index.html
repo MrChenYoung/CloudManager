@@ -204,8 +204,7 @@
     var editType;
     var pathArray = [""];
     var movetoPath;
-    var movetoDriverType;
-    var movetoDriver;
+    var movetoDriver = "GDSuiteTeam";
     var selectTreeDom;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
@@ -544,7 +543,6 @@
 
     // 请求云盘文件夹列表,用于移动文件时选择
     function loadDriverDirList(success=null) {
-        $("#moveto_drive").text(movetoDriver+":");
         var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver;
         console.log("请求目录树:" + url);
         get(url,function (data) {
@@ -672,22 +670,11 @@
 
     <div class="moveto-title-box">
         <span class="moveto-title moveto-span">移动到</span>
-        <span class="moveto-drive moveto-span" id="moveto_drive"></span>
         <span class="moveto-path moveto-span" id="moveto_path">
         </span>
     </div>
 
     <div class="moveto-box">
-        <form class="layui-form layui-form-pane" action="">
-            <div class="layui-form-item select-box">
-                <select id="moveto_drive_type_select" lay-filter="moveto-drive-type-list">
-                    <option value="">选择云盘类型</option>
-                </select>
-                <select id="moveto_drive_select" lay-filter="moveto-drive-list">
-                    <option value="">选择云盘</option>
-                </select>
-            </div>
-        </form>
         <div id="moveto_dir_list" class="moveto-dir-list">
         </div>
     </div>
