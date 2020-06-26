@@ -562,9 +562,6 @@
             case 3:
                 // 转存文件
                 var dirName = $('#new_name_input').val();
-                if (dirName.length == 0){
-                    toast("名称不能为空");
-                }
                 saveShareFile(dirName);
                 break;
         }
@@ -659,17 +656,28 @@
 
     // 保存共享的文件
     function saveShareFile(newDirName) {
-        // 新建文件夹
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + newDirName;
-        showHud();
-        get(url,function () {
-            // 保存文件
-            url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString() + "/" + newDirName;
-            console.log("转存文件:" + url);
+        if (newDirName.length > 0){
+            // 新建文件夹
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + newDirName;
+            showHud();
             get(url,function () {
-                hideHud();
-            },false,true);
-        },false);
+                // 保存文件
+                saveShareFile();
+            },false);
+        }else {
+            // 保存文件
+            saveShareFile();
+        }
+    }
+
+    // 保存文件网络请求
+    function saveShareFile() {
+        // 保存文件
+        url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString() + "/" + newDirName;
+        console.log("转存文件:" + url);
+        get(url,function () {
+            hideHud();
+        },false,true);
     }
     
 </script>
