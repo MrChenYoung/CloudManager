@@ -207,9 +207,11 @@
         $("#file_manager").addClass("active");
 
         // 监听select选择变化
-        layui.use(['form','element'],function () {
+        layui.use(['form','element','table'],function () {
             var form = layui.form,
-                element = layui.element;;
+                element = layui.element,
+                table = layui.table;
+            table.render({height:500});
 
             // 监听云盘类型选择
             form.on('select(drive-type-list)', function(data){
