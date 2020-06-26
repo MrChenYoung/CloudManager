@@ -28,22 +28,25 @@ class AsynTaskController extends Controller
     public function updateDriveDirList(){
         if (isset($_REQUEST["drivers"])){
             $drivers = $_REQUEST["drivers"];
-
             $drivers = explode(",",$drivers);
+            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
             foreach ($drivers as $driver) {
                 $this->updateSingleDriver($driver);
             }
+            // 更新完成，恢复数据库标志位
+            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
         }else if (isset($_REQUEST["name"])){
             $remoteName = $_REQUEST["name"];
+            // 设置数据库正在更新目录树标志位为1
+            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
             $this->updateSingleDriver($remoteName);
+            // 更新完成，恢复数据库标志位
+            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
         }
     }
 
     // 更新单个云盘
     private function updateSingleDriver($remoteName){
-        // 设置数据库正在更新目录树标志位为1
-        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
-
         // 获取云盘文件夹树形列表
         $dirData = $this->updateDirCache($remoteName);
         if (!$dirData){
@@ -61,8 +64,6 @@ class AsynTaskController extends Controller
         }
         $path = $cacheRootPath.$remoteName.".json";
         file_put_contents($path,json_encode($dirData));
-        // 更新完成，恢复数据库标志位
-        DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
     }
 
     // 更新云盘文件夹列表缓存
