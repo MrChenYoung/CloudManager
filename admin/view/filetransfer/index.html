@@ -193,8 +193,6 @@
 <{/block}>
 <{block name="scriptCode"}>
 <script>
-    // 云盘列表数据
-    var driverList;
     // 选择的云盘
     var selectDrive = "GDSuiteTeam";
     // 正在编辑的文件名
@@ -216,46 +214,7 @@
         // 监听select选择变化
         layui.use(['form','element','tree'],function () {
             var form = layui.form,
-                element = layui.element;;
-
-            // 监听云盘类型选择
-            form.on('select(drive-type-list)', function(data){
-                // 选择的云盘类型
-                selectDriveType = data.value;
-                movetoDriverType = selectDriveType;
-                // 刷新云盘列表
-                createDriverSelectDoms();
-            });
-
-            // 监听云盘选择
-            form.on('select(drive-list)', function(data){
-                // 选择的云盘
-                selectDrive = data.value;
-                movetoDriver = selectDrive;
-                // 目录回到根目录
-                pathArray = [""];
-                // 刷新列表
-                loadFileList();
-                createMovetiDriverSelectDoms();
-            });
-
-            // 监听要移动到的云盘类型选择
-            form.on('select(moveto-drive-type-list)', function(data){
-                // 选择的云盘类型
-                movetoDriverType = data.value;
-                // 刷新云盘列表
-                createMovetiDriverSelectDoms();
-            });
-
-            // 监听要移动到的云盘选择
-            form.on('select(moveto-drive-list)', function(data){
-                // 选择的云盘
-                movetoDriver = data.value;
-                // 目录回到根目录
-                movetoPathArray = [""];
-                // 刷新目录树列表
-                loadDriverDirList();
-            });
+                element = layui.element;
         });
 
         // 请求文件列表
@@ -497,7 +456,6 @@
                 $(".moveto-box").css("display",'block');
                 $("fieldset").css("display",'none');
                 $(".moveto-title-box").css("display","block");
-                movetoPath = "";
                 // 显示当前选择的目录路径
                 $("#moveto_path").text("");
                 break;
