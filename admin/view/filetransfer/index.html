@@ -666,12 +666,12 @@
             },false);
         }else {
             // 保存文件
-            saveShareFile(newDirName,true);
+            saveShareFile(newDirName);
         }
     }
 
     // 保存文件网络请求
-    function saveShareFile(newDirName,withHud=false) {
+    function saveShareFile(newDirName) {
         // 保存文件
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString();
         if (newDirName.length > 0) {
@@ -679,9 +679,8 @@
         }
         console.log("转存文件:" + url);
         get(url,function () {
-            hideHud();
             hideEditCover();
-        },withHud,true);
+        },true,true);
     }
     
 </script>
