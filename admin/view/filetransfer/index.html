@@ -195,10 +195,8 @@
 <script>
     // 云盘列表数据
     var driverList;
-    // 选择的云盘类型
-    var selectDriveType;
     // 选择的云盘
-    var selectDrive;
+    var selectDrive = "GDSuiteTeam";
     // 正在编辑的文件名
     var editFileName;
     var oldFileName;
@@ -266,7 +264,7 @@
 
     // 请求文件列表
     function loadFileList() {
-        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=GDSuiteTeam&path=" + getPathString();
+        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName="+ selectDrive +"&path=" + getPathString();
         get(url,function (data) {
             var fileList = data.data;
             createFilesDoms(fileList);
