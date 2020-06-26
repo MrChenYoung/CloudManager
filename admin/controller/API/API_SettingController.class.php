@@ -96,16 +96,17 @@ class API_SettingController extends API_BaseController
     public function updataAllDriverDirCache(){
         // 获取云盘列表
         $driverList = (new API_FileManagerController())->loadDriverList(true);
-        echo "<pre>";
-        var_dump($driverList);
-        die;
-
         $drivers = [];
-        foreach ($driverList as $item) {
-            $drivers[] = $item;
+        foreach ($driverList as $ds) {
+            foreach ($ds as $d) {
+                $drivers[] = $d;
+            }
+
         }
         $drivers = implode(",",$drivers);
-
+        echo "<pre>";
+        var_dump($drivers);
+        die;
 
         // 后台更新
         $params = [
