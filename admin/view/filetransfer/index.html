@@ -1,0 +1,294 @@
+<{extends file="layout.html"}>
+<{block name="myStyles"}>
+<style type="text/css">
+    .aw-content-wrap .icon {
+        background-color: #393D49;
+        margin-right: 10px;
+    }
+
+    .layui-table thead th{
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .add-category-container {
+        width: 420px;
+        height: 180px;
+        background-color: #FFF;
+        padding: 10px;
+        border-radius: 2px;
+        position: relative;
+        display: none;
+    }
+
+    .layui-field-title{
+        width: 430px;
+    }
+
+    .layui-input-inline .layui-btn {
+        color: #cdcdcd
+    }
+
+    .btns-box {
+        width: 146px;
+        position: absolute;
+        right: 10px;
+        bottom: 20px;
+    }
+
+    .btns-box .confirm-btn{
+        background-color: #393D49;
+    }
+
+</style>
+<{/block}>
+<{block name="scriptCode"}>
+<script>
+    var layerIndex;
+    var editDriverName;
+    var editType;
+    var oldDriverName;
+    var oldRemark;
+    var editRow;
+    $(document).ready(function () {
+        // 设置边栏服务器信息选中状态
+        $("#file_transferred").addClass("active");
+
+        // 请求云盘列表
+        loadDriverList();
+    });
+
+    // 请求云盘列表
+    function loadDriverList() {
+        var url = "?m=admin&c=API_MyDriver&a=loadDriverList&API=";
+        get(url,function (data) {
+            // 创建云盘列表
+            createDriverDoms(data.data);
+        },true,false,1000000);
+    }
+
+    // 创建云盘列表
+    function createDriverDoms(data) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var driver = data[i];
+            dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
+            dom += '<td>'+ driver["type"] +'</td>';
+            dom += '<td class="driver-size">'+ driver["size"] +'</td>';
+            dom += '<td class="file-count">'+ driver["count"] +'</td>';
+            dom += '<td>'+ driver["remark"] +'</td></tr>';
+        }
+
+        // 添加分类一行
+        $("tbody").html(dom);
+
+        // 添加右键菜单
+        var menu_data=[
+            {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
+            {'type':2,'icon':'icon-beizhu','title':'添加/修改备注'},
+            {'type':3,'icon':'icon-xiangqing','title':'获取大小和文件数'},
+            {'type':4,'icon':'icon-icon_del','title':'删除'}
+        ];
+        mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
+            var opeType = menuData.type;
+            switch (opeType) {
+                case 1:
+                    // 重命名
+                case 2:
+                    // 添加/修改备注
+                    showEditCover(opeType);
+                    break;
+                case 3:
+                    // 获取大小和文件数
+                    loadDriverInfo();
+                    break;
+                case 4:
+                    // 删除
+                    deleteDriver();
+                    break;
+            }
+        },function (obj) {
+            editRow = obj;
+            editDriverName = obj.attr('driverName');
+            oldRemark = obj.attr('remark');
+        });
+    }
+
+    // 获取云盘文件大小和文件数量
+    function loadDriverInfo() {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadFileDetailInfo&driverName=" + editDriverName + "&API=";
+        console.log("获取云盘详情：" + url);
+        get(url,function (data) {
+            var info = data.data;
+            var size = info["size"];
+            var count = info["count"];
+            editRow.find(".driver-size").text(size);
+            editRow.find(".file-count").text(count);
+        });
+    }
+
+    // 显示编辑界面
+    function showEditCover(type) {
+        editType = type;
+        var area = ['450px','200px'];
+        if (type == 1){
+            var $input = $("#new_name_input");
+            // 重命名
+            $("#legend_title").text("重命名");
+            $input.css("display","block");
+            $("#remark_area").css("display","none");
+            $(".add-category-container").css("height","180px");
+            // 显示原来的名字
+            $input.val(editDriverName);
+            oldDriverName = editDriverName;
+        }else {
+            // 添加/修改备注
+            $("#legend_title").text("添加/修改备注");
+            $("#new_name_input").css("display","none");
+            $("#remark_area").css("display","block");
+            $(".add-category-container").css("height","250px");
+            $("#remark_area").val(oldRemark);
+            area = ['450px','270px'];
+        }
+        $(".add-category-container").css("display","block");
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            layerIndex = layer.open({
+                type: 1,
+                area:area,
+                title: false,
+                offset:'200px',
+                closeBtn: 0,
+                shadeClose: true,
+                content: $(".add-category-container"),
+                success: function(){
+                    if (type == 1){
+                        // 自动获取焦点
+                        $input.focus();
+                        // // 文字被选中
+                        $input.select();
+                    }
+                },
+                end:function () {
+                    $(".add-category-container").css("display","none");
+                }
+            });
+        });
+    }
+
+    // 隐藏编辑界面
+    function hideEditCover(){
+        // 关闭浮层
+        layui.use('layer', function() {
+            var layer = layui.layer;
+            layer.close(layerIndex);
+        });
+    }
+
+    // 删除云盘
+    function deleteDriver() {
+        confirmAlert(function () {
+            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + editDriverName + "&API=";
+            get(url,function () {
+                // 刷新列表
+                loadDriverList();
+            },true,true);
+        });
+    }
+
+    // 重命名
+    function renameDriver(driveName) {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=renameDrive&oldName=" + oldDriverName + "&API=&newName=" + driveName;
+        console.log("重命名云盘：" + url);
+        get(url,function () {
+            // 刷新列表
+            loadDriverList();
+        },true,true);
+    }
+    
+    // 修改备注
+    function modifyRemark(remark) {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=modifyRemark&driverName=" + editDriverName + "&API=&remark=" + remark;
+        get(url,function () {
+            // 刷新列表
+            loadDriverList();
+        },true,true);
+    }
+
+    // 确认
+    function confirm() {
+        if (editType == 1){
+            // 重命名
+            var newName = $('#new_name_input').val();
+            if (newName.length == 0){
+                toast("名称不能为空");
+            }else if(newName == oldDriverName){
+                toast("请输入不同的名称");
+            }else {
+                renameDriver(newName);
+                hideEditCover();
+            }
+        }else {
+            // 修改备注
+            var newRemark = $("#remark_area").val();
+            if (newRemark == oldRemark){
+                toast("备注未修改，无序保存");
+            }else {
+                modifyRemark(newRemark);
+                hideEditCover();
+            }
+        }
+    }
+
+    // 取消
+    function cancel() {
+        hideEditCover();
+    }
+
+</script>
+<{/block}>
+<{block name="content"}>
+<div class="aw-content-wrap">
+    <div class="mod">
+        <div class="layui-form" style="text-align: center;">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="250">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>大小</th>
+                    <th>文件总数</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--浮层弹窗-->
+<div class="add-category-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend id="legend_title">重命名</legend>
+    </fieldset>
+    <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+    <textarea id="remark_area" style="resize: none;height: 100px"  placeholder="请输入备注信息" class="layui-textarea"></textarea>
+
+    <!--确定/取消按钮-->
+    <div class="btns-box">
+        <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
+        <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
+    </div>
+    <!--选择图片上传-->
+    <input type="file" name="file" id="file_select_input" style="display:none">
+</div>
+<{/block}>
