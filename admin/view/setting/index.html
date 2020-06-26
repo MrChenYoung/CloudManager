@@ -224,7 +224,8 @@
                 $updateBtn.text("缓存更新中");
                 $updateBtn.addClass("layui-btn-disabled");
             }else {
-                $updateBtn.text("更新缓存");
+                $(".single-driver-btn").text("更新缓存");
+                $(".all-driver-btn").text("一键更新所有云盘");
                 $updateBtn.removeClass("layui-btn-disabled");
             }
             var dirCache = data.data.data;
@@ -297,8 +298,8 @@
                     <select id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
-                    <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn">更新缓存</button>
-                    <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn">一键更新所有云盘</button>
+                    <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn single-driver-btn">更新缓存</button>
+                    <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn all-driver-btn">一键更新所有云盘</button>
                     <div id="dir_cache_list" class="dir-cache-list"></div>
                     <div class="none-cache-tip">没有缓存</div>
                 </div>
