@@ -658,7 +658,14 @@
 
     // 保存共享的文件
     function saveShareFile(newDirName) {
-        console.log("保存文件:" + newDirName);
+        // 新建文件夹
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + newDirName;
+        get(url,function () {
+            // 保存文件
+
+            // 刷新列表
+            // loadFileList();
+        },true,true);
     }
     
 </script>
