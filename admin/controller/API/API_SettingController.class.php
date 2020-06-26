@@ -104,9 +104,6 @@ class API_SettingController extends API_BaseController
 
         }
         $drivers = implode(",",$drivers);
-        echo "<pre>";
-        var_dump($drivers);
-        die;
 
         // 后台更新
         $params = [
