@@ -10,6 +10,7 @@ class MultiThreadTool
         $param["API"] = "";
         $param["action"] = $action;
         self::doRequest($url, $param);
+        // 为了使脚本完整执行，不会中断执行，需要在nginx.conf添加fastcgi_intercept_errors on;配置，并设置以下两项
         ignore_user_abort(true); // 忽略客户端断开
         set_time_limit(0);    // 设置执行不超时
     }
