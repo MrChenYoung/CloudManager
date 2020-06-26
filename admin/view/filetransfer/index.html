@@ -548,7 +548,6 @@
                 break;
             case 2:
                 // 重命名
-                // 重命名
                 var newName = $('#new_name_input').val();
                 if (newName.length == 0){
                     toast("名称不能为空");
@@ -558,6 +557,14 @@
                     renameFile(newName);
                     hideEditCover();
                 }
+                break;
+            case 3:
+                // 转存文件
+                var dirName = $('#new_name_input').val();
+                if (dirName.length == 0){
+                    toast("名称不能为空");
+                }
+                saveShareFile(dirName);
                 break;
         }
     }
@@ -647,6 +654,11 @@
         var $this = $(obj);
         if ($this.hasClass("layui-btn-disabled")) return;
         showEditCover(3);
+    }
+
+    // 保存共享的文件
+    function saveShareFile(newDirName) {
+        console.log("保存文件:" + newDirName);
     }
     
 </script>
