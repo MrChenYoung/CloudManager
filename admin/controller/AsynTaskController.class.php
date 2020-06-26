@@ -29,13 +29,9 @@ class AsynTaskController extends Controller
         if (isset($_REQUEST["drivers"])){
             $drivers = $_REQUEST["drivers"];
 
-            $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
-            file_put_contents($testFilepath,"");
-            file_put_contents($testFilepath,"进入预想方法:".$drivers,FILE_APPEND);
-
             $drivers = explode(",",$drivers);
             foreach ($drivers as $driver) {
-//                $this->updateSingleDriver($driver);
+                $this->updateSingleDriver($driver);
             }
         }else if (isset($_REQUEST["name"])){
             $remoteName = $_REQUEST["name"];
