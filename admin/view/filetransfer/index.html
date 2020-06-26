@@ -140,6 +140,7 @@
         height: 30px;
         line-height: 30px;
         vertical-align: bottom;
+        display: inline-block;
     }
 
     .moveto-dir-list {
@@ -215,7 +216,7 @@
         $("#file_transferred").addClass("active");
 
         // 监听select选择变化
-        layui.use(['form','element'],function () {
+        layui.use(['form','element','tree'],function () {
             var form = layui.form,
                 element = layui.element;;
 
@@ -376,7 +377,7 @@
         }
 
         // 刷新文件列表
-        loadFileList();
+        // loadFileList();
     }
 
     // 更新路径显示
@@ -584,10 +585,6 @@
     function cancel() {
         hideEditCover();
     }
-    
-    function createTest() {
-        showEditCover(1);
-    }
 
     // 请求云盘文件夹列表,用于移动文件时选择
     function loadDriverDirList(success=null) {
@@ -683,6 +680,7 @@
             <button onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
             <div class="breadcrumb-box">
                 <span class="layui-breadcrumb">
+
                 </span>
             </div>
         </div>
