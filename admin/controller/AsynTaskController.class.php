@@ -26,10 +26,23 @@ class AsynTaskController extends Controller
 
     // 更新云盘文件夹树形列表缓存
     public function updateDriveDirList(){
+        if (isset($_REQUEST["drivers"])){
+            $drivers = $_REQUEST["drivers"];
+            $drivers = explode(",",$drivers);
+            foreach ($drivers as $driver) {
+                $this->updateSingleDriver($driver);
+            }
+        }else if (isset($_REQUEST["name"])){
+            $remoteName = $_REQUEST["name"];
+            updateSingleDriver($remoteName);
+        }
+    }
+
+    // 更新单个云盘
+    private function updateSingleDriver($remoteName){
         // 设置数据库正在更新目录树标志位为1
         DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
 
-        $remoteName = $_REQUEST["name"];
         // 获取云盘文件夹树形列表
         $dirData = $this->updateDirCache($remoteName);
         if (!$dirData){

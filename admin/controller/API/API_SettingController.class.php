@@ -70,7 +70,7 @@ class API_SettingController extends API_BaseController
         echo $this->success(["status"=>$status,"data"=>$data]);
     }
 
-    // 更新云盘文件夹树形列表缓存
+    // 更新云盘目录树缓存
     public function updateDriveDirList(){
         // 远程云盘名
         if (!isset($_GET["remoteName"])){
@@ -86,6 +86,28 @@ class API_SettingController extends API_BaseController
             "c"=>"AsynTask",
             "a"=>"index",
             "name"=>$remoteName
+        ];
+        MultiThreadTool::addTask($this->website."/index.php","updateDriveDirList",$params);
+        // 提示正在后台更新
+        echo $this->success("目录树后台更新中");
+    }
+
+    // 一键更新所有云盘目录树缓存
+    public function updataAllDriverDirCache(){
+        // 获取云盘列表
+        $driverList = (new API_FileManagerController())->loadDriverList(true);
+        $drivers = [];
+        foreach ($driverList as $item) {
+            $drivers[] = $item;
+        }
+        $drivers = implode(",",$drivers);
+
+        // 后台更新
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index",
+            "drivers"=>$drivers
         ];
         MultiThreadTool::addTask($this->website."/index.php","updateDriveDirList",$params);
         // 提示正在后台更新

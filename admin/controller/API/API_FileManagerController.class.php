@@ -11,13 +11,17 @@ use framework\tools\ShellManager;
 class API_FileManagerController extends API_BaseController
 {
     // 获取云盘列表
-    public function loadDriverList(){
+    public function loadDriverList($return=false){
         // 把rclone配置文件打包成json
         $cmd = "rclone config dump";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
-            echo $this->failed("获取云盘列表失败");
-            die;
+            if ($return){
+                return false;
+            }else {
+                echo $this->failed("获取云盘列表失败");
+                die;
+            }
         }
 
         $driverList = $res["result"];
@@ -40,7 +44,11 @@ class API_FileManagerController extends API_BaseController
             $data[$type][] = $key;
         }
 
-        echo $this->success($data);
+        if ($return){
+            return $data;
+        }else {
+            echo $this->success($data);
+        }
     }
 
     // 获取文件列表

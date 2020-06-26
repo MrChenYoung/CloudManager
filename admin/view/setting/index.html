@@ -264,6 +264,16 @@
             loadDirCache();
         },true,true);
     }
+    
+    // 更新所有云盘目录树缓存
+    function updateAllCloudCache() {
+        if ($(".update-cache-btn").hasClass("layui-btn-disabled")) return;
+        var url = baseUrl + "?m=admin&c=API_Setting&a=updataAllDriverDirCache";
+        get(url,function () {
+            // 更新成功 刷新缓存显示列表
+            loadDirCache();
+        },true,true);
+    }
 
 </script>
 <{/block}>
@@ -288,6 +298,7 @@
                         <option value="">选择云盘</option>
                     </select>
                     <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn">更新缓存</button>
+                    <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn">一键更新所有云盘</button>
                     <div id="dir_cache_list" class="dir-cache-list"></div>
                     <div class="none-cache-tip">没有缓存</div>
                 </div>
