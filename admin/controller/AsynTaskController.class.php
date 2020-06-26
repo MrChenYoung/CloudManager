@@ -26,6 +26,9 @@ class AsynTaskController extends Controller
 
     // 更新云盘文件夹树形列表缓存
     public function updateDriveDirList(){
+        $testFilepath = "/www/wwwroot/cloudmanager.yycode.ml/test.txt";
+        file_put_contents($testFilepath,"");
+
         if (isset($_REQUEST["drivers"])){
             $drivers = $_REQUEST["drivers"];
             $drivers = explode(",",$drivers);
