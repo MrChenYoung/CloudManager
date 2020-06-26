@@ -29,19 +29,23 @@ class AsynTaskController extends Controller
         if (isset($_REQUEST["drivers"])){
             $drivers = $_REQUEST["drivers"];
             $drivers = explode(",",$drivers);
-            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
-            foreach ($drivers as $driver) {
-                $this->updateSingleDriver($driver);
+            if (count($drivers) > 0){
+                DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
+                foreach ($drivers as $driver) {
+                    $this->updateSingleDriver($driver);
+                }
+                // 更新完成，恢复数据库标志位
+                DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
             }
-            // 更新完成，恢复数据库标志位
-            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
         }else if (isset($_REQUEST["name"])){
             $remoteName = $_REQUEST["name"];
-            // 设置数据库正在更新目录树标志位为1
-            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
-            $this->updateSingleDriver($remoteName);
-            // 更新完成，恢复数据库标志位
-            DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
+            if (strlen($remoteName) > 0){
+                // 设置数据库正在更新目录树标志位为1
+                DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>1],["flag"=>"updatingDirTree"]);
+                $this->updateSingleDriver($remoteName);
+                // 更新完成，恢复数据库标志位
+                DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
+            }
         }
     }
 
