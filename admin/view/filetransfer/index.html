@@ -660,12 +660,15 @@
     function saveShareFile(newDirName) {
         // 新建文件夹
         var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + newDirName;
+        showHud();
         get(url,function () {
             // 保存文件
-
-            // 刷新列表
-            // loadFileList();
-        },true,true);
+            url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString() + "/" + newDirName;
+            console.log("转存文件:" + url);
+            get(url,function () {
+                hideHud();
+            },false,true);
+        },false);
     }
     
 </script>
