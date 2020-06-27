@@ -525,6 +525,39 @@
         $(".layui-breadcrumb").html(dom);
     }
 
+    // 更新移动文件目标路径显示
+    function updateMovePathUI() {
+        // 判断返回上一级目录是否可以点击
+        var canBack = movetoPathArray.length >= 2 ? true : false;
+        var $backBtn = $("#move_back_btn");
+        if (canBack){
+            // 可以返回
+            $backBtn.removeClass("layui-btn-disabled");
+        }else {
+            // 不可以返回
+            $backBtn.addClass("layui-btn-disabled");
+        }
+        // 创建路径显示dom
+        var dom = "";
+        for (var i = 0; i < movetoPathArray.length; i ++){
+            var path = movetoPathArray[i];
+            if (i == 0 && path == ""){
+                path = "根目录";
+            }
+
+            if (i == movetoPathArray.length - 1){
+                // 最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)"><cite>'+ path +'</cite></a>';
+            }else {
+                // 不是最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)">'+ path +'</a>';
+                dom += '<span lay-separator="">/</span>';
+            }
+        }
+
+        $("#move_cur_dir").html(dom);
+    }
+
     // 获取目录路径
     function getPathString(array=pathArray) {
         return array.join("/") + "/";
