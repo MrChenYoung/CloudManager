@@ -529,6 +529,27 @@
         loadFileList();
     }
 
+    // 移动文件目录选择返回到指定文件夹下
+    function movePathDirClicked(obj) {
+        var $this = $(obj);
+        var dirIndex = parseInt($this.attr('dirIndex'));
+
+        if (dirIndex == 0){
+            // 回到根目录
+            movetoPathArray = [""];
+        }else {
+            var newPathArray = [""];
+            for (var i = 1; i <= dirIndex; i++){
+                var p = movetoPathArray[i];
+                newPathArray.push(p);
+            }
+            movetoPathArray = newPathArray;
+        }
+
+        // 刷新文件夹列表
+        loadMoveDirList();
+    }
+
     // 更新路径显示
     function updatePathUI() {
         // 判断返回上一级目录是否可以点击
