@@ -118,7 +118,7 @@ class AsynTaskController extends Controller
         if (!isset($_REQUEST["savePath"])) die;
         $savePath = $_REQUEST["savePath"];
 
-        $filePath = "/www/wwwroot/cloudmanager.yycode.ml/admin/resource/fileTransferPro.txt";
+        $filePath = ADMIN."resource/fileTransferPro.txt";
         // 清空记录
         file_put_contents($filePath,"");
         $cmd = 'gclone copy GDSuiteTeam:{'.$sourceId."} GDSuiteTeam:".$savePath." --drive-server-side-across-configs -P >> ".$filePath." 2>&1";
