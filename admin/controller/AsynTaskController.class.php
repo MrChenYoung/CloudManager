@@ -119,7 +119,9 @@ class AsynTaskController extends Controller
         $savePath = $_REQUEST["savePath"];
 
         $filePath = "/www/wwwroot/cloudmanager.yycode.ml/admin/resource/fileTransferPro.txt";
-        $cmd = 'gclone copy GDSuiteTeam:{'.$sourceId."} GDSuiteTeam:".$savePath." --drive-server-side-across-configs -P > ".$filePath." 2>&1";
+        // 清空记录
+        file_put_contents($filePath,"");
+        $cmd = 'gclone copy GDSuiteTeam:{'.$sourceId."} GDSuiteTeam:".$savePath." --drive-server-side-across-configs -P >> ".$filePath." 2>&1";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             file_put_contents($filePath,"文件转存失败");
