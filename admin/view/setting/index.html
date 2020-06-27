@@ -280,7 +280,9 @@
     // 复位目录树更新标志位
     function resetFlag() {
         var url = baseUrl + "?m=admin&c=API_Setting&a=resetFlag";
-        get(url,null,false);
+        get(url,function () {
+            loadDirCache();
+        },false);
     }
 
 </script>
