@@ -417,6 +417,7 @@
             switch (opeType) {
                 case 1:
                     // 移动
+                    movetoPathArray = [""];
                     loadMoveDirList(function () {
                         showEditCover(opeType);
                     });
@@ -683,7 +684,6 @@
                 movetoPath = "";
                 // 显示当前选择的目录路径
                 $("#moveto_path").text("");
-                movetoPathArray = [""];
                 break;
             case 2:
                 // 重命名
