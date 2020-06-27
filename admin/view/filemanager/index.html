@@ -150,8 +150,7 @@
     .moveto-title-box {
         width: 800px;
         height: 40px;
-        margin: 10px;
-        margin-bottom: 20px;
+        margin: 10px 10px 20px 10px;
         display: none;
     }
 
@@ -464,7 +463,7 @@
         });
 
         // 更新路径显示
-        // updateMovePathUI();
+        updateMovePathUI();
     }
 
     // 打开目录
@@ -524,7 +523,7 @@
     function updatePathUI() {
         // 判断返回上一级目录是否可以点击
         var canBack = pathArray.length >= 2 ? true : false;
-        var $backBtn = $(".back-btn");
+        var $backBtn = $("#back_btn");
         if (canBack){
             // 可以返回
             $backBtn.removeClass("layui-btn-disabled");
@@ -550,7 +549,40 @@
             }
         }
 
-        $(".layui-breadcrumb").html(dom);
+        $("#cur_dir").html(dom);
+    }
+
+    // 更新移动文件目标路径显示
+    function updateMovePathUI() {
+        // 判断返回上一级目录是否可以点击
+        var canBack = movetoPathArray.length >= 2 ? true : false;
+        var $backBtn = $("#move_back_btn");
+        if (canBack){
+            // 可以返回
+            $backBtn.removeClass("layui-btn-disabled");
+        }else {
+            // 不可以返回
+            $backBtn.addClass("layui-btn-disabled");
+        }
+        // 创建路径显示dom
+        var dom = "";
+        for (var i = 0; i < movetoPathArray.length; i ++){
+            var path = movetoPathArray[i];
+            if (i == 0 && path == ""){
+                path = "根目录";
+            }
+
+            if (i == movetoPathArray.length - 1){
+                // 最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)"><cite>'+ path +'</cite></a>';
+            }else {
+                // 不是最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)">'+ path +'</a>';
+                dom += '<span lay-separator="">/</span>';
+            }
+        }
+
+        $("#move_cur_dir").html(dom);
     }
 
     // 获取目录路径
@@ -820,8 +852,8 @@
                     <select id="drive_select" lay-filter="drive-list">
                         <option value="">选择云盘</option>
                     </select>
-                    <button onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
-                    <span class="layui-breadcrumb">
+                    <button id="back_btn" onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                    <span id="cur_dir" class="layui-breadcrumb">
                     </span>
                 </div>
             </form>
@@ -881,6 +913,9 @@
                 <select id="moveto_drive_select" lay-filter="moveto-drive-list">
                     <option value="">选择云盘</option>
                 </select>
+                <button id="move_back_btn" onclick="backMoveLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <span id="move_cur_dir" class="layui-breadcrumb">
+                </span>
             </div>
         </form>
         <div id="moveto_dir_list" class="moveto-dir-list">
