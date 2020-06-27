@@ -90,24 +90,6 @@ class API_FileTransferController extends API_BaseController
         }
     }
 
-    // 获取转存日志内容
-    public function loadTransferProInfo(){
-        $con = $this->getTransferProInfo();
-        // base64编码
-        $con = base64_encode($con);
-        echo $this->success($con);
-    }
-
-    // 获取转存日志文件内容
-    private function getTransferProInfo(){
-        if (file_exists($this->proInfoPath)){
-            $content = file_get_contents($this->proInfoPath);
-        }else {
-            $content = "";
-        }
-        return $content;
-    }
-
     // 是否有文件正在转存
     private function getFileTransferStatus(){
         $res = DatabaseDataManager::getSingleton()->find("file_transfer_info",["id"=>1]);

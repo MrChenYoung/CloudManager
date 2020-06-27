@@ -193,7 +193,7 @@
     .file-transfer-pro-box {
         background-color: red;
         width: 1200px;
-        height: 550px;
+        height: 520px;
         overflow-x: hidden;
         overflow-y: scroll;
     }
@@ -599,10 +599,6 @@
                 var dirName = $('#new_name_input').val();
                 saveShareFile(dirName);
                 break;
-            case 4:
-                // 查看转存日志
-
-                break;
         }
     }
 
@@ -734,7 +730,7 @@
             var result = data.data;
             if (result.flag){
                 // 显示正在转存的文件名
-                $("#moveto-path").text(result.content);
+                $("#moveto-path").html(result.content);
                 // 有文件正在转存
                 showEditCover(4);
             }else {
