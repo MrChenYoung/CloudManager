@@ -72,11 +72,9 @@ class API_FileTransferController extends API_BaseController
     // 获取转存日志文件内容
     private function getTransferProInfo(){
         if (file_exists($this->proInfoPath)){
-            $content = "存在";
-//            $content = file_get_contents($this->proInfoPath);
+            $content = file_get_contents($this->proInfoPath);
         }else {
-            $content = "不存在";
-//            $content = "";
+            $content = "";
         }
         return $content;
     }
