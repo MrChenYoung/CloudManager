@@ -90,7 +90,8 @@ class AsynTaskController extends Controller
 
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
-            LogManager::getSingleton()->addLog("获取目录失败");
+            LogManager::getSingleton()->addLog("获取目录失败:".$remoteName.":".$path);
+            LogManager::getSingleton()->addLog("错误信息:".json_encode($res["result"]));
             return false;
         }
 
