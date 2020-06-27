@@ -155,7 +155,7 @@ class API_FileManagerController extends API_BaseController
             $timeStr = trim($dirArray[count($dirArray)-2]);
             date_default_timezone_set('Asia/Shanghai');
             $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
-            $dirData = ["Name"=>$dirName,"ModTime"=>$timeStr];
+            $dirData = ["Name"=>$dirName,"ModTime"=>$timeStr,"icon"=>"icon-wenjian"];
             $data[] = $dirData;
         }
 
