@@ -248,12 +248,12 @@
     }
 
     // 请求文件列表
-    function loadFileList() {
+    function loadFileList(withhud=true) {
         var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName="+ selectDrive +"&path=" + getPathString();
         get(url,function (data) {
             var fileList = data.data;
             createFilesDoms(fileList);
-        },true,false,500000);
+        },withhud,false,500000);
 
         // 检查是否正在转存文件
         fileTransfering();
@@ -722,6 +722,8 @@
             if (newDirName.length > 0){
                 loadFileList();
             }
+            // 检查是否正在转存文件
+            fileTransfering();
         },true,true);
     }
 
