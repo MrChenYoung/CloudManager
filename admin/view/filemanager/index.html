@@ -202,7 +202,6 @@
     var movetoPathArray = [""];
     var movetoDriverType;
     var movetoDriver;
-    var selectTreeDom;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -397,7 +396,7 @@
         // 添加分类一行
         $("#file_list_table tbody").html(dom);
         // 绑定双击事件
-        $('tr').dblclick(function () {
+        $('#file_list_table tbody tr').dblclick(function () {
             openDir(this);
         });
 
@@ -459,7 +458,7 @@
 
         $("#dir_list_table tbody").html(dom);
         // 绑定双击事件
-        $('tr').dblclick(function () {
+        $('#dir_list_table tbody tr').dblclick(function () {
             openMoveDir(this);
         });
 

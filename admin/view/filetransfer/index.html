@@ -200,6 +200,8 @@
 <{/block}>
 <{block name="scriptCode"}>
 <script>
+    // 云盘列表数据
+    var driverList;
     // 选择的云盘
     var selectDrive = "GDSuiteTeam";
     // 正在编辑的文件名
@@ -211,7 +213,9 @@
     var editType;
     var pathArray = [""];
     var movetoPath;
-    var movetoDriver = "GDSuiteTeam";
+    var movetoDriverType;
+    var movetoDriver = "";
+    var movetoPathArray = [""];
     var selectTreeDom;
     var shareAddress;
     $(document).ready(function () {
@@ -230,6 +234,24 @@
                 // 更新转存按钮状态
                 updateTransferBtnStatus();
             });
+
+            // 监听要移动到的云盘类型选择
+            form.on('select(moveto-drive-type-list)', function(data){
+                // 选择的云盘类型
+                movetoDriverType = data.value;
+                // 刷新云盘列表
+                createMovetiDriverSelectDoms();
+            });
+
+            // 监听要移动到的云盘选择
+            form.on('select(moveto-drive-list)', function(data){
+                // 选择的云盘
+                movetoDriver = data.value;
+                // 目录回到根目录
+                movetoPathArray = [""];
+                // 刷新移动文件目录列表
+                loadMoveDirList();
+            });
         });
 
         // 请求文件列表
@@ -246,6 +268,76 @@
         }
     }
 
+    // 请求云盘列表
+    function loadDriverList(success=null) {
+        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
+        showHud();
+        get(url,function (data) {
+            driverList = data.data;
+
+            // 默认选择的云盘类型
+            var driveTypes = Object.keys(driverList);
+            if (driveTypes.length > 0){
+                movetoDriverType = driveTypes[0];
+            }
+
+            // 默认选择的云盘
+            if (movetoDriverType.length > 0){
+                movetoDriver = driverList[movetoDriverType][0];
+            }
+
+            // 创建云盘类型选择列表
+            createDriverTypeSelectDoms();
+            // 创建云盘选择列表
+            createDriverSelectDoms();
+            // 请求文件夹列表
+            loadMoveDirList(success);
+        },false);
+    }
+
+    // 创建云盘类型选择列表
+    function createDriverTypeSelectDoms() {
+        var dom = '<option value="">选择云盘类型</option>';
+        var driverTypes = Object.keys(driverList);
+
+        for(var i = 0; i < driverTypes.length; i++){
+            var driverT = driverTypes[i];
+            if (movetoDriverType == driverT){
+                dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
+            }else {
+                dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#moveto_drive_type_select").html(dom);
+            form.render();
+        });
+    }
+
+    // 创建云盘选择列表
+    function createDriverSelectDoms() {
+        var dom = '<option value="">选择云盘</option>';
+        if (movetoDriverType.length > 0){
+            var drives = driverList[movetoDriverType];
+            for(var i = 0; i < drives.length; i++){
+                var driver = drives[i];
+                if (movetoDriver == driver){
+                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+                }else {
+                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
+                }
+            }
+        }
+
+        layui.use('form',function () {
+            var form = layui.form;
+            $("#moveto_drive_select").html(dom);
+            form.render();
+        });
+    }
+
     // 请求文件列表
     function loadFileList(withhud=true) {
         var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName="+ selectDrive +"&path=" + getPathString();
@@ -256,6 +348,19 @@
 
         // 检查是否正在转存文件
         fileTransfering();
+    }
+
+    // 请求移动目标文件夹选择列表
+    function loadMoveDirList(success=null) {
+        var url = "?m=admin&c=API_FileManager&a=loadMoveDirList&API=&remoteName=" + movetoDriver + "&path=" + getPathString(movetoPathArray);
+        console.log("获取移动目标文件夹列表:" + url);
+        get(url,function (data) {
+            var dirList = data.data;
+            createMoveDirDoms(dirList);
+            if (success){
+                success();
+            }
+        },true,false,500000);
     }
     
     // 创建文件列表
@@ -273,9 +378,9 @@
         }
 
         // 添加分类一行
-        $("tbody").html(dom);
+        $("#file_list_table tbody").html(dom);
         // 绑定双击事件
-        $('tr').dblclick(function () {
+        $('#file_list_table tbody tr').dblclick(function () {
             openDir(this);
         });
 
@@ -295,7 +400,8 @@
             switch (opeType) {
                 case 1:
                     // 移动
-                    loadDriverDirList(function () {
+                    movetoPathArray = [""];
+                    loadMoveDirList(function () {
                         showEditCover(opeType);
                     });
                     break;
@@ -321,6 +427,27 @@
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
         });
+    }
+
+    // 创建要移动到的文件夹列表dom
+    function createMoveDirDoms(data) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var file = data[i];
+            var style = 'cursor: pointer';
+            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<div fileName="'+ file["Name"] +'" onclick="openMoveDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<td>'+ file["ModTime"] +'</td></tr>';
+        }
+
+        $("#dir_list_table tbody").html(dom);
+        // 绑定双击事件
+        $('#dir_list_table tbody tr').dblclick(function () {
+            openMoveDir(this);
+        });
+
+        // 更新路径显示
+        updateMovePathUI();
     }
 
     // 打开目录
@@ -486,6 +613,7 @@
                 $(".moveto-box").css("display",'block');
                 $("fieldset").css("display",'none');
                 $(".moveto-title-box").css("display","block");
+                movetoPath = "";
                 // 显示当前选择的目录路径
                 $("#moveto_path").text("");
                 break;
@@ -818,13 +946,41 @@
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
 
     <div class="moveto-title-box">
-        <span class="moveto-title moveto-span">移动到</span>
+        <span class="moveto-title moveto-span">选择目标文件夹</span>
+        <span class="moveto-drive moveto-span" id="moveto_drive"></span>
         <span class="moveto-path moveto-span" id="moveto_path">
         </span>
     </div>
 
     <div class="moveto-box">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item select-box">
+                <select id="moveto_drive_type_select" lay-filter="moveto-drive-type-list">
+                    <option value="">选择云盘类型</option>
+                </select>
+                <select id="moveto_drive_select" lay-filter="moveto-drive-list">
+                    <option value="">选择云盘</option>
+                </select>
+                <button id="move_back_btn" onclick="backMoveLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <span id="move_cur_dir" class="layui-breadcrumb">
+                </span>
+            </div>
+        </form>
         <div id="moveto_dir_list" class="moveto-dir-list">
+            <table id="dir_list_table" class="layui-table" lay-skin="nob">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>上次修改时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
     <!--确定/取消按钮-->
