@@ -93,7 +93,8 @@ class API_FileTransferController extends API_BaseController
     // 获取转存日志内容
     public function loadTransferProInfo(){
         $con = $this->getTransferProInfo();
-        $con = str_replace("\r\n","<br>",$con);
+        // base64编码
+        $con = base64_encode($con);
         echo $this->success($con);
     }
 
