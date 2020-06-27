@@ -744,9 +744,9 @@
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=loadTransferProInfo";
         get(url,function (data) {
             var content = data.data;
-            $(".file-transfer-pro-box").text(content);
+            $(".file-transfer-pro-box").text(content.content);
             // 自动滚动到底部
-            $(".file-transfer-pro-box").scrollTop($scroll[0].scrollHeight);
+            $(".file-transfer-pro-box").scrollTop($(".file-transfer-pro-box")[0].scrollHeight);
         },false);
     }
 
