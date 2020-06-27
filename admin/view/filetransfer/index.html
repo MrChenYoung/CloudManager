@@ -401,7 +401,7 @@
                 case 1:
                     // 移动
                     movetoPathArray = [""];
-                    loadMoveDirList(function () {
+                    loadDriverList(function () {
                         showEditCover(opeType);
                     });
                     break;
@@ -526,8 +526,8 @@
     }
 
     // 获取目录路径
-    function getPathString() {
-        return pathArray.join("/") + "/";
+    function getPathString(array=pathArray) {
+        return array.join("/") + "/";
     }
     
     // 新建文件夹
