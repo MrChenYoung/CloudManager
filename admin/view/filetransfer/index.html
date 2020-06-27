@@ -62,7 +62,14 @@
         overflow-y: hidden;
         white-space:nowrap;
         vertical-align: bottom;
+        scrollbar-width: none; /* firefox */
+        -ms-overflow-style: none; /* IE 10+ */
     }
+
+    .file-name::-webkit-scrollbar {
+        display: none; /* Chrome Safari */
+    }
+
 
     .file-icon {
         font-size: 20px;

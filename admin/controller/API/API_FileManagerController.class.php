@@ -148,11 +148,13 @@ class API_FileManagerController extends API_BaseController
         $dirList = $res["result"];
         $data = [];
         foreach ($dirList as $dir) {
-            $dirArray = explode("-1",$dir);
+            $patt = '/\s{1,}/';
+            $dir = preg_replace($patt,' ',$dir);
+            $dirArray = explode(" ",$dir);
             $dirName = trim($dirArray[count($dirArray)-1]);
 
             // 时间转换
-            $timeStr = trim($dirArray[count($dirArray)-2]);
+            $timeStr = trim($dirArray[count($dirArray)-3]);
             date_default_timezone_set('Asia/Shanghai');
             $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
             $dirData = ["Name"=>$dirName,"ModTime"=>$timeStr,"icon"=>"icon-wenjian"];
