@@ -83,7 +83,7 @@ class AsynTaskController extends Controller
 
     // 更新云盘文件夹列表缓存
     private function updateDirCache($remoteName,$path=""){
-        // rclone命令获取文件列表信息
+        // rclone命令获取文件夹列表信息
         $cmd = "rclone lsd ".$remoteName.":".$path;
 
         LogManager::getSingleton()->addLog("获取目录:".$remoteName.":".$path);

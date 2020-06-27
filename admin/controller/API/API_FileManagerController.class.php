@@ -119,6 +119,49 @@ class API_FileManagerController extends API_BaseController
         echo $this->success($fileList);
     }
 
+    // 获取文件夹列表
+    public function loadMoveDirList(){
+        // 远程云盘名
+        if (!isset($_GET["remoteName"])){
+            echo $this->failed("缺少remoteName参数");
+            die;
+        }
+        $remoteName = $_GET["remoteName"];
+
+        // 路径
+        if (!isset($_GET["path"])){
+            echo $this->failed("缺少path参数");
+            die;
+        }
+        $path = $_GET["path"];
+
+        // rclone命令获取文件列表信息
+        $path = str_replace(" ","\ ",$path);
+        // rclone命令获取文件夹列表信息
+        $cmd = "rclone lsd ".$remoteName.":".$path;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            echo $this->failed("获取文件夹列表失败");
+            die;
+        }
+
+        $dirList = $res["result"];
+        $data = [];
+        foreach ($dirList as $dir) {
+            $dirArray = explode("-1",$dir);
+            $dirName = trim($dirArray[count($dirArray)-1]);
+
+            // 时间转换
+            $timeStr = trim($dirArray[count($dirArray)-2]);
+            date_default_timezone_set('Asia/Shanghai');
+            $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
+            $dirData = ["Name"=>$dirName,"ModTime"=>$timeStr];
+            $data[] = $dirData;
+        }
+
+        echo $this->success($data);
+    }
+
     // 获取云盘文件夹列表
     public function loadDriveDirList(){
         // 远程云盘名

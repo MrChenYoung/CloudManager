@@ -365,6 +365,19 @@
             createFilesDoms(fileList);
         },withHud,false,500000);
     }
+
+    // 请求移动目标文件夹选择列表
+    function loadMoveDirList(success) {
+        var url = "?m=admin&c=API_FileManager&a=loadMoveDirList&API=&remoteName=" + movetoDriver + "&path=" + getPathString(movetoPathArray);
+        console.log("获取移动目标文件夹列表:" + url);
+        get(url,function (data) {
+            var dirList = data.data;
+            createMoveDirDoms(dirList);
+            if (success){
+                success();
+            }
+        },true,false,500000);
+    }
     
     // 创建文件列表
     function createFilesDoms(data) {
@@ -381,7 +394,7 @@
         }
 
         // 添加分类一行
-        $("tbody").html(dom);
+        $("#file_list_table tbody").html(dom);
         // 绑定双击事件
         $('tr').dblclick(function () {
             openDir(this);
@@ -403,7 +416,7 @@
             switch (opeType) {
                 case 1:
                     // 移动
-                    loadDriverDirList(function () {
+                    loadMoveDirList(function () {
                         showEditCover(opeType);
                     });
                     break;
@@ -429,6 +442,27 @@
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
         });
+    }
+
+    // 创建要移动到的文件夹列表dom
+    function createMoveDirDoms(data) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var file = data[i];
+            var style = 'cursor: pointer';
+            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<div fileName="'+ file["Name"] +'" onclick="openMoveDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td>';
+            dom += '<td>'+ file["ModTime"] +'</td></tr>';
+        }
+
+        $("#dir_list_table tbody").html(dom);
+        // 绑定双击事件
+        $('tr').dblclick(function () {
+            openMoveDir(this);
+        });
+
+        // 更新路径显示
+        // updateMovePathUI();
     }
 
     // 打开目录
@@ -790,7 +824,7 @@
             </ul>
         </div>
         <div class="layui-form" style="text-align: center;">
-            <table class="layui-table" lay-skin="nob">
+            <table id="file_list_table" class="layui-table" lay-skin="nob">
                 <colgroup>
                     <col width="150">
                     <col width="150">
@@ -837,6 +871,20 @@
             </div>
         </form>
         <div id="moveto_dir_list" class="moveto-dir-list">
+            <table id="dir_list_table" class="layui-table" lay-skin="nob">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>上次修改时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
     <!--确定/取消按钮-->
