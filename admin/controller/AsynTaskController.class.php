@@ -128,6 +128,6 @@ class AsynTaskController extends Controller
         }
         file_put_contents($filePath,"\r\n 转存完成");
         // 转存完成 修改数据库标识
-        DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>0],["id"=>1]);
+        DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>'0'],["id"=>1]);
     }
 }
