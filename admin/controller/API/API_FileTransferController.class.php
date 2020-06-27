@@ -32,6 +32,17 @@ class API_FileTransferController extends API_BaseController
         }
         $path = $_GET["path"];
 
+        // 文件要保存到的文件夹
+        $dirArr = explode("/",$path);
+        $dirName = "";
+        if (count($dirArr) > 0){
+            $dirName = $dirArr[count($dirArr) - 1];
+            if (strlen($dirName) == 0 && count($dirArr) > 1){
+                $dirName = $dirArr[count($dirArr) - 2];
+            }
+        }
+        DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>1,"file_name"=>$dirName,"file_path"=>$path],["id"=>1]);
+
         // 解析处资源id
         $needle = "folders/";
         $end = substr($address,strpos($address,$needle) + strlen($needle));
