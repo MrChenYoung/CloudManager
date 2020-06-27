@@ -742,7 +742,7 @@
     // 刷新转存进度信息
     function reloadTransferInfo() {
         console.log("刷新转存日志");
-        var url = baseUrl + "/Logs//log.txt";
+        var url = baseUrl + "/Logs/log.txt";
         get(url,function (data) {
             $(".file-transfer-pro-box").html('<pre>'+ data +'</pre>');
             // 自动滚动到底部

@@ -65,6 +65,23 @@
         background-color: #FBFBFB;
     }
 
+    .add-category-container {
+        width: 1200px;
+        height: 600px;
+        background-color: #FFF;
+        padding: 10px;
+        border-radius: 2px;
+        position: relative;
+        display: none;
+    }
+
+    .file-transfer-pro-box {
+        width: 1200px;
+        height: 520px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -284,6 +301,45 @@
             loadDirCache();
         },false);
     }
+    
+    // 查看目录树更新进度
+    function checkProgress() {
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            layerIndex = layer.open({
+                type: 1,
+                area:['1220px','620px'],
+                title: false,
+                offset:'100px',
+                closeBtn: 0,
+                shadeClose: true,
+                content: $(".add-category-container"),
+                success: function(){
+                    // 开启计时器
+                    $('#timer').timer({
+                        duration : '2s',
+                        callback : reloadLogInfo,
+                        repeat : true
+                    });
+                },
+                end:function () {
+                    $(".add-category-container").css("display","none");
+                    // 停止计时器
+                    $('#timer').timer("remove");
+                }
+            });
+        });
+    }
+
+    // 刷新目录树更新进度信息
+    function reloadLogInfo() {
+        var url = baseUrl + "/Logs/log.txt";
+        get(url,function (data) {
+            $(".file-transfer-pro-box").html('<pre>'+ data +'</pre>');
+            // 自动滚动到底部
+            $(".file-transfer-pro-box").scrollTop($(".file-transfer-pro-box")[0].scrollHeight);
+        },false,false,10000,null,'text');
+    }
 
 </script>
 <{/block}>
@@ -309,6 +365,7 @@
                     </select>
                     <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn single-driver-btn">更新缓存</button>
                     <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn all-driver-btn">一键更新所有云盘</button>
+                    <button onclick="checkProgress()" type="button" class="layui-btn check-progress-btn">查看进度</button>
                     <button onclick="resetFlag()" type="button" class="layui-btn reset-cache-btn">复位标志位</button>
                     <div id="dir_cache_list" class="dir-cache-list"></div>
                     <div class="none-cache-tip">没有缓存</div>
@@ -316,6 +373,18 @@
             </div>
         </div>
     </form>
+</div>
+
+<!--浮层弹窗-->
+<div class="add-category-container">
+    <div style="font-size: 20px;height: 40px;line-height: 40px;ont-weight: 300;" class="moveto-title-box">
+        <span class="moveto-title moveto-span">目录树更新进度</span>
+        </span>
+    </div>
+
+    <!--目录树更新进度-->
+    <div class="file-transfer-pro-box"></div>
+    <div id="timer" style="display: none"></div>
 </div>
 
 <{/block}>
