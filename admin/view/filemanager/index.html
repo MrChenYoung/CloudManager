@@ -498,7 +498,7 @@
         loadFileList();
     }
 
-    // 返回上一级目录
+    // 移动文件目标目录返回上一级目录
     function backMoveLastDir() {
         if (movetoPathArray.length == 1) return;
         // 目录名出栈
@@ -683,6 +683,7 @@
                 movetoPath = "";
                 // 显示当前选择的目录路径
                 $("#moveto_path").text("");
+                movetoPathArray = [""];
                 break;
             case 2:
                 // 重命名
