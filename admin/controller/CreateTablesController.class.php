@@ -110,9 +110,11 @@ EEE;
                     CREATE TABLE $tableName(
                         id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
                         file_name varchar(256) DEFAULT '' COMMENT '文件名',
-                        file_path varchar(128) DEFAULT '' COMMENT '文件保存路径'
+                        file_path varchar(128) DEFAULT '' COMMENT '文件保存路径',
+                        status tinyint DEFAULT 0 COMMENT '状态'
                     ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='密码表';
 EEE;
         $this->dao->createTable($tableName,$sql);
+        $this->dao->insertData($tableName,"id",["id"=>1]);
     }
 }

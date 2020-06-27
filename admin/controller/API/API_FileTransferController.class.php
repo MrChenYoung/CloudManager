@@ -4,6 +4,7 @@
 namespace admin\controller\API;
 
 
+use framework\tools\DatabaseDataManager;
 use framework\tools\MultiThreadTool;
 
 class API_FileTransferController extends API_BaseController
@@ -54,12 +55,27 @@ class API_FileTransferController extends API_BaseController
         echo $this->success("文件后台转存中");
     }
 
-    // 是否正在转存文件
-    public function fileTransfering(){
+    // 转存日志文件是否存在
+    public function fileTransferExist(){
+        $data = $this->getFileTransferStatus();
+        $fileName = "";
+        if (is_array($data) && key_exists("file_name")){
+            $fileName = $data["file_name"];
+        }
         if (file_exists($this->proInfoPath)){
-            echo $this->success(["flag"=>true,"content"=>""]);
+            echo $this->success(["flag"=>true,"content"=>$fileName]);
         }else {
             echo $this->success(["flag"=>false,"content"=>"没有转存任务"]);
+        }
+    }
+
+    // 是否正在转存文件
+    public function fileTransfering(){
+        $data = $this->getFileTransferStatus();
+        if ($data){
+            echo $this->success(["flag"=>true]);
+        }else {
+            echo $this->success(["flag"=>false]);
         }
     }
 
@@ -77,5 +93,15 @@ class API_FileTransferController extends API_BaseController
             $content = "";
         }
         return $content;
+    }
+
+    // 是否有文件正在转存
+    private function getFileTransferStatus(){
+        $res = DatabaseDataManager::getSingleton()->find("file_transfer_info",["id"=>1]);
+        if ($res){
+            return $res[0]["status"] == "0" ? false : $res[0];
+        }else {
+            return false;
+        }
     }
 }
