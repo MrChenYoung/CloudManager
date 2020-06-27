@@ -747,15 +747,12 @@
     // 刷新转存进度信息
     function reloadTransferInfo() {
         console.log("刷新转存日志");
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=loadTransferProInfo";
+        var url = baseUrl + "/admin/resource/fileTransferPro.txt";
         get(url,function (data) {
-            var content = data.data;
-            // bbase64解码
-            content = atob(content);
-            $(".file-transfer-pro-box").html('<pre>'+ content +'</pre>');
+            $(".file-transfer-pro-box").html('<pre>'+ data +'</pre>');
             // 自动滚动到底部
             $(".file-transfer-pro-box").scrollTop($(".file-transfer-pro-box")[0].scrollHeight);
-        },false);
+        },false,false,10000,null,'text');
     }
 
     // 检查是否正在转存文件
