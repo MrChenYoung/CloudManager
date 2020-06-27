@@ -153,7 +153,7 @@
     .moveto-title-box {
         width: 800px;
         height: 40px;
-        margin: 10px;
+        margin: 10px 10px 20px 10px;
         display: none;
     }
 
@@ -202,6 +202,7 @@
 <script>
     // 云盘列表数据
     var driverList;
+    var selectDriveType = "谷歌云盘";
     // 选择的云盘
     var selectDrive = "GDSuiteTeam";
     // 正在编辑的文件名
@@ -276,15 +277,10 @@
             driverList = data.data;
 
             // 默认选择的云盘类型
-            var driveTypes = Object.keys(driverList);
-            if (driveTypes.length > 0){
-                movetoDriverType = driveTypes[0];
-            }
+            movetoDriverType = selectDriveType;
 
             // 默认选择的云盘
-            if (movetoDriverType.length > 0){
-                movetoDriver = driverList[movetoDriverType][0];
-            }
+            movetoDriver = selectDrive;
 
             // 创建云盘类型选择列表
             createDriverTypeSelectDoms();
