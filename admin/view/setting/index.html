@@ -57,7 +57,7 @@
         display: none;
     }
 
-    .update-cache-btn {
+    .update-cache-btn,.reset-cache-btn {
         background-color: #393D49;
     }
 
@@ -307,7 +307,7 @@
                     </select>
                     <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn single-driver-btn">更新缓存</button>
                     <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn all-driver-btn">一键更新所有云盘</button>
-                    <button onclick="resetFlag()" type="button" class="layui-btn update-cache-btn">复位标志位</button>
+                    <button onclick="resetFlag()" type="button" class="layui-btn reset-cache-btn">复位标志位</button>
                     <div id="dir_cache_list" class="dir-cache-list"></div>
                     <div class="none-cache-tip">没有缓存</div>
                 </div>
