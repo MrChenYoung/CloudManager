@@ -117,4 +117,14 @@ class API_SettingController extends API_BaseController
         echo $this->success("目录树后台更新中");
     }
 
+    // 复位目录树更新标志位
+    public function resetFlag() {
+        $res = DatabaseDataManager::getSingleton()->update("driver_setting",["status"=>0],["flag"=>"updatingDirTree"]);
+        if ($res){
+            echo $this->success("");
+        }else {
+            echo $this->failed("");
+        }
+    }
+
 }

@@ -5,17 +5,11 @@ namespace admin\controller\API;
 
 
 use framework\tools\DatabaseDataManager;
+use framework\tools\LogManager;
 use framework\tools\MultiThreadTool;
 
 class API_FileTransferController extends API_BaseController
 {
-    private $proInfoPath;
-    public function __construct()
-    {
-        parent::__construct();
-        $this->proInfoPath = ADMIN."resource/fileTransferPro.txt";
-    }
-
     // 文件转存
     public function fileTransfer(){
         // 资源地址
@@ -73,7 +67,7 @@ class API_FileTransferController extends API_BaseController
         if (is_array($data) && key_exists("file_name",$data)){
             $fileName = $data["file_name"];
         }
-        if (file_exists($this->proInfoPath)){
+        if (file_exists(LogManager::getSingleton()->logFilePath)){
             echo $this->success(["flag"=>true,"content"=>$fileName]);
         }else {
             echo $this->success(["flag"=>false,"content"=>"没有转存任务"]);
