@@ -70,7 +70,7 @@ class API_FileTransferController extends API_BaseController
     public function fileTransferExist(){
         $data = $this->getFileTransferStatus();
         $fileName = "";
-        if (is_array($data) && key_exists("file_name")){
+        if (is_array($data) && key_exists("file_name",$data)){
             $fileName = $data["file_name"];
         }
         if (file_exists($this->proInfoPath)){
