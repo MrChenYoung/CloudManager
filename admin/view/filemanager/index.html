@@ -858,11 +858,11 @@
         var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + "/" + editFileName;
         var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
         console.log("移动文件:" + url);
-        get(url,function () {
-            // 移动成功 刷新列表
-            hideEditCover();
-            loadFileList();
-        },true,true);
+        // get(url,function () {
+        //     // 移动成功 刷新列表
+        //     hideEditCover();
+        //     loadFileList();
+        // },true,true);
     }
 
     // 刷新
