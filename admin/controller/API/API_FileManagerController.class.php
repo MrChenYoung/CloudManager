@@ -162,26 +162,6 @@ class API_FileManagerController extends API_BaseController
         echo $this->success($data);
     }
 
-    // 获取云盘文件夹列表
-    public function loadDriveDirList(){
-        // 远程云盘名
-        if (!isset($_GET["remoteName"])){
-            echo $this->failed("缺少remoteName参数");
-            die;
-        }
-        $remoteName = $_GET["remoteName"];
-
-        // 从目录树缓存文件读取目录列表
-        $path = ADMIN."resource/driveDirTreeCache/".$remoteName.".json";
-        $data = [];
-        if (file_exists($path)){
-            $data = file_get_contents($path);
-            $data = json_decode($data);
-        }
-
-        echo $this->success($data);
-    }
-
     // 删除文件
     public function deleteFile(){
         // 远程云盘名
