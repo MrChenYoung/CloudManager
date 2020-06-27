@@ -498,6 +498,15 @@
         loadFileList();
     }
 
+    // 返回上一级目录
+    function backMoveLastDir() {
+        if (movetoPathArray.length == 1) return;
+        // 目录名出栈
+        movetoPathArray.pop();
+        // 刷新文件列表
+        loadMoveDirList();
+    }
+
     // 返回到指定文件夹下
     function pathDirClicked(obj) {
         var $this = $(obj);
