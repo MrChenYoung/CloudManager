@@ -66,7 +66,7 @@ class API_FileTransferController extends API_BaseController
     // 获取转存日志内容
     public function loadTransferProInfo(){
         $con = $this->getTransferProInfo();
-        echo $this->success($this->proInfoPath);
+        echo $this->success($con);
     }
 
     // 获取转存日志文件内容
