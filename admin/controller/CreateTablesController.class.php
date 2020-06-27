@@ -19,8 +19,8 @@ class CreateTablesController
         $this->initSettingTable();
         // 登录密码存放表
         $this->initPassWDTable();
-//        $this->initGeneralInfoTable();
-//        $this->initAttachmentTable();
+        // 创建文件转存信息表
+        $this->initFileTransferInfoTable();
     }
 
     // 初始化数据库信息
@@ -100,5 +100,19 @@ EEE;
             "pass_level"    => 4
         ];
         $this->dao->insertData($tableName,"pass_desc",$data);
+    }
+
+    // 创建文件转存信息表
+    public function initFileTransferInfoTable(){
+        $tableName = "file_transfer_info";
+        // 创建视频数据表
+        $sql = <<<EEE
+                    CREATE TABLE $tableName(
+                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        file_name varchar(256) DEFAULT '' COMMENT '文件名',
+                        file_path varchar(128) DEFAULT '' COMMENT '文件保存路径'
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='密码表';
+EEE;
+        $this->dao->createTable($tableName,$sql);
     }
 }

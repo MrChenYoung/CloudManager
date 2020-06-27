@@ -8,6 +8,12 @@ use framework\tools\MultiThreadTool;
 
 class API_FileTransferController extends API_BaseController
 {
+    private $proInfoPath;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->proInfoPath = ADMIN."resource/fileTransferPro.txt";
+    }
 
     // 文件转存
     public function fileTransfer(){
@@ -46,5 +52,30 @@ class API_FileTransferController extends API_BaseController
         MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
         // 提示正在后台更新
         echo $this->success("文件后台转存中");
+    }
+
+    // 是否正在转存文件
+    public function fileTransfering(){
+        if (file_exists($this->proInfoPath)){
+            echo $this->success(["flag"=>true,"content"=>""]);
+        }else {
+            echo $this->success(["flag"=>false,"content"=>"没有转存任务"]);
+        }
+    }
+
+    // 获取转存日志内容
+    public function loadTransferProInfo(){
+        $con = $this->getTransferProInfo();
+        $this->success($con);
+    }
+
+    // 获取转存日志文件内容
+    private function getTransferProInfo(){
+        if (file_exists($this->proInfoPath)){
+            $content = file_get_contents($this->proInfoPath);
+        }else {
+            $content = "";
+        }
+        return $content;
     }
 }

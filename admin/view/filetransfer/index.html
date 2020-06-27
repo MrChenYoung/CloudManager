@@ -189,6 +189,14 @@
         width: 800px;
         display: inline-block;
     }
+
+    .file-transfer-pro-box {
+        background-color: red;
+        width: 800px;
+        height: 500px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -453,6 +461,7 @@
         $(".layui-field-title").css('width','430px');
         $(".moveto-title-box").css("display","none");
         $("fieldset").css("display",'block');
+        $(".file-transfer-pro-box").css("display","none");
         switch (type) {
             case 0:
                 // 新建文件夹
@@ -494,6 +503,28 @@
                 $input.attr("placeholder","输入文件夹名称");
                 $input.val("");
                 break;
+            case 4:
+                // 查看转存日志
+                $input.css("display","none");
+                $(".add-category-container").css("width","800px");
+                $(".add-category-container").css("height","600px");
+                area = ['820px','620px'];
+                offset = '100px';
+                $(".moveto-box").css("display",'none');
+                $(".btns-box").css("display",'none');
+                $("fieldset").css("display",'none');
+                $(".moveto-title-box").css("display","block");
+                $(".file-transfer-pro-box").css("display","block");
+                $(".moveto-span").text("正在转存");
+                // 显示当前选择的目录路径
+                $("#moveto_path").text("隐秘的角落");
+                // 开启计时器
+                $('#timer').timer({
+                    duration : '1s',
+                    callback : reloadTransferInfo,
+                    repeat : true
+                });
+                break;
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -516,6 +547,8 @@
                 },
                 end:function () {
                     $(".add-category-container").css("display","none");
+                    // 停止计时器
+                    $('#timer').timer("remove");
                 }
             });
         });
@@ -563,6 +596,10 @@
                 // 转存文件
                 var dirName = $('#new_name_input').val();
                 saveShareFile(dirName);
+                break;
+            case 4:
+                // 查看转存日志
+
                 break;
         }
     }
@@ -685,7 +722,34 @@
             }
         },true,true);
     }
-    
+
+    // 查看转存进度
+    function checkProgress() {
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
+        get(url,function (data) {
+            var result = data.data;
+            if (result.flag){
+                // 有文件正在转存
+                showEditCover(4);
+            }else {
+                // 没有文件正在转存
+                toast(result.content);
+            }
+        });
+    }
+
+    // 刷新转存进度信息
+    function reloadTransferInfo() {
+        console.log("刷新转存日志");
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=loadTransferProInfo";
+        get(url,function (data) {
+            var content = data.data;
+            $(".file-transfer-pro-box").text(content);
+            // 自动滚动到底部
+            $(".file-transfer-pro-box").scrollTop($scroll[0].scrollHeight);
+        },false);
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>
@@ -754,6 +818,9 @@
         <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
         <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
     </div>
+    <!--文件转存进度-->
+    <div class="file-transfer-pro-box"></div>
+    <div id="timer" style="display: none"></div>
     <!--选择图片上传-->
     <input type="file" name="file" id="file_select_input" style="display:none">
 </div>
