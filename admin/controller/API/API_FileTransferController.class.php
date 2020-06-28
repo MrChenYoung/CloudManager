@@ -37,7 +37,7 @@ class API_FileTransferController extends API_BaseController
             // 空格转义
             $dirName = str_replace(" ","\ ",$dirName);
             echo "path:".$path."<br>";
-            $path += $dirName;
+            $path .= $dirName;
         }
 
         // 文件要保存到的文件夹
