@@ -6,14 +6,6 @@ var stopScrollTime = 0;
 function checkLog() {
     console.log("打开日志");
 
-    // 开启计时器
-    $('#timer').timer({
-        duration : '2s',
-        callback : reloadLog,
-        repeat : true
-    });
-    $(".log-container").css("display","block");
-
     layui.use('layer',function () {
         var layer = layui.layer;
         layerIndex = layer.open({
@@ -25,6 +17,13 @@ function checkLog() {
             shadeClose: true,
             content: $(".log-container"),
             success: function(){
+                // 开启计时器
+                $('#timer').timer({
+                    duration : '2s',
+                    callback : reloadLog,
+                    repeat : true
+                });
+                $(".log-container").css("display","block");
             },
             end:function () {
                 $(".log-container").css("display","none");
