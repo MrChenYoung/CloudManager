@@ -362,6 +362,10 @@ class API_FileManagerController extends API_BaseController
                 "desPath"=>$desPath
             ];
 
+            echo "<pre>";
+            var_dump($params);
+            die;
+
             MultiThreadTool::addTask($this->website."/index.php","moveFile",$params);
             // 提示正在后台移动
             echo $this->success("文件后台移动中");
