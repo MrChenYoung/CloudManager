@@ -941,7 +941,7 @@
     function resetTransferFlag() {
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=resetTransferFlag";
         get(url,function () {
-            loadFileList();
+            fileTransfering();
         },false);
     }
 
