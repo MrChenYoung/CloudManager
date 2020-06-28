@@ -83,9 +83,7 @@ class API_BaseController extends Controller
             $getSizeCmd = "rclone size ".$remoteName.":".$path;
         }
         $sizeRes = ShellManager::exec($getSizeCmd);
-        echo "<pre>";
-        var_dump($sizeRes);
-        die;
+
         if (!$sizeRes["success"]){
             // 获取文件详情失败
         }else {
@@ -100,6 +98,10 @@ class API_BaseController extends Controller
             $fileSizeBytes = $fileSize;
             $fileSize = FileManager::formatBytes($fileSize);
         }
+
+        echo "<pre>";
+        var_dump($fileSizeBytes);
+        die;
 
         return ["size"=>$fileSize,"count"=>$fileCount,"sizeBytes"=>$fileSizeBytes];
     }
