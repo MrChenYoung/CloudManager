@@ -4,7 +4,6 @@
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/view/filemanager/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/filemanager/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +85,7 @@
       <workItem from="1592817638457" duration="1133000" />
       <workItem from="1592823019514" duration="431000" />
       <workItem from="1592835966847" duration="136175000" />
-      <workItem from="1593232506547" duration="40776000" />
+      <workItem from="1593232506547" duration="41008000" />
     </task>
     <servers />
   </component>
@@ -125,10 +124,10 @@
     </state>
     <state x="673" y="429" key="NewPhpFileDialog/0.23.1680.978@0.23.1680.978" timestamp="1591876069195" />
     <state x="673" y="430" key="NewPhpFileDialog/0.23.1680.980@0.23.1680.980" timestamp="1591910215831" />
-    <state x="517" y="258" width="958" height="593" key="find.popup" timestamp="1593364828473">
+    <state x="517" y="258" width="958" height="593" key="find.popup" timestamp="1593367583515">
       <screen x="0" y="23" width="1680" height="973" />
     </state>
-    <state x="517" y="258" width="958" height="593" key="find.popup/0.23.1680.973@0.23.1680.973" timestamp="1593364828473" />
+    <state x="517" y="258" width="958" height="593" key="find.popup/0.23.1680.973@0.23.1680.973" timestamp="1593367583515" />
     <state x="517" y="258" width="958" height="593" key="find.popup/0.23.1680.974@0.23.1680.974" timestamp="1592472111950" />
     <state x="517" y="259" width="958" height="596" key="find.popup/0.23.1680.978@0.23.1680.978" timestamp="1591802622301" />
     <state x="517" y="259" width="958" height="596" key="find.popup/0.23.1680.979@0.23.1680.979" timestamp="1592042636939" />
