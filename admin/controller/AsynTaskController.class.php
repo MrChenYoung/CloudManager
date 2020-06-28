@@ -36,7 +36,7 @@ class AsynTaskController extends Controller
 
         // 清空日志
         LogManager::getSingleton()->clearLog();
-        LogManager::getSingleton()->addLog("开始转存文件...");
+        LogManager::getSingleton()->addLog("开始转存文件：".$savePath);
 
         $cmd = 'gclone copy GDSuiteTeam:{'.$sourceId."} GDSuiteTeam:".$savePath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
         $res = ShellManager::exec($cmd);
