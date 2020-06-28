@@ -36,6 +36,7 @@ class API_FileTransferController extends API_BaseController
             $dirName = urldecode($dirName);
             // 空格转义
             $dirName = str_replace(" ","\ ",$dirName);
+            echo "dirname:".$dirName."<br>";
             $path += $dirName;
         }
 
