@@ -72,6 +72,8 @@ class API_FileManagerController extends API_BaseController
         // rclone命令获取文件列表信息
         $path = str_replace(" ","\ ",$path);
         $cmd = "rclone lsjson ".$remoteName.":".$path;
+        echo $cmd;
+        die;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("获取文件列表失败");
