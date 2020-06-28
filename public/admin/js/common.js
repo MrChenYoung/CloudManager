@@ -26,6 +26,9 @@ function checkLog() {
                         repeat : true
                     });
                     $(".log-container").css("display","block");
+                    // 自动滚动带最底部
+                    var $scroll = $(".log-box");
+                    $scroll.scrollTop($scroll[0].scrollHeight);
                 },
                 end:function () {
                     $(".log-container").css("display","none");
@@ -53,7 +56,7 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
         if (success){
             success();
         }
-        
+
         if (!scrollToBottom){
             // 停止自动滚动计时
             stopScrollTime++;
