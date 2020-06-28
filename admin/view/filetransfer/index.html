@@ -851,6 +851,7 @@
         if (newDirName.length > 0){
             // 新建文件夹
             var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + btoa(encodeURIComponent(getPathString())) + "&dirName=" + btoa(encodeURIComponent(newDirName));
+            console.log("转存文件前新建文件夹:" + url);
             showHud();
             get(url,function () {
                 // 保存文件
@@ -911,7 +912,7 @@
                 <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
                 <button id="transfer_btn" onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
                 <button onclick="resetTransferFlag()" type="button" class="layui-btn transfer-btn">复位</button>
-                <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">
+<!--                <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">-->
             </div>
         </form>
     </div>
