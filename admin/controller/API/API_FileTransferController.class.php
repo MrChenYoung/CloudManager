@@ -5,7 +5,6 @@ namespace admin\controller\API;
 
 
 use framework\tools\DatabaseDataManager;
-use framework\tools\LogManager;
 use framework\tools\MultiThreadTool;
 
 class API_FileTransferController extends API_BaseController

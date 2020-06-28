@@ -2,13 +2,7 @@
 var scrollToBottom = true;
 var stopScrollTime = 0;
 $(document).ready(function () {
-    // 手动滑动日志文件，停止自动滚动到最底部
-    $(".log-box").scroll(function () {
-        console.log("手动滚动日志");
-        // 手动滚动监听
-        scrollToBottom = false;
-        stopScrollTime = 0;
-    });
+
 });
 
 // 展示日志
@@ -49,6 +43,15 @@ function reloadLog() {
     console.log("刷新日志");
     // var url = baseUrl + "/Logs/log.txt";
     var url = baseUrl + "/log.txt";
+
+    // 手动滑动日志文件，停止自动滚动到最底部
+    $(".log-box").scroll(function () {
+        console.log("手动滚动日志");
+        // 手动滚动监听
+        scrollToBottom = false;
+        stopScrollTime = 0;
+    });
+    
     get(url,function (data) {
         if (!scrollToBottom){
             // 停止自动滚动计时
