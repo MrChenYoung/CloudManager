@@ -737,26 +737,6 @@
                 $input.attr("placeholder","输入文件夹名称");
                 $input.val("");
                 break;
-            case 4:
-                // 查看转存日志
-                $input.css("display","none");
-                $(".add-category-container").css("width","1200px");
-                $(".add-category-container").css("height","600px");
-                area = ['1220px','620px'];
-                offset = '100px';
-                $(".moveto-box").css("display",'none');
-                $(".btns-box").css("display",'none');
-                $("fieldset").css("display",'none');
-                $(".moveto-title-box").css("display","block");
-                $(".file-transfer-pro-box").css("display","block");
-                $(".moveto-title").text("正在转存");
-                // 开启计时器
-                $('#timer').timer({
-                    duration : '2s',
-                    callback : reloadTransferInfo,
-                    repeat : true
-                });
-                break;
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -779,8 +759,6 @@
                 },
                 end:function () {
                     $(".add-category-container").css("display","none");
-                    // 停止计时器
-                    $('#timer').timer("remove");
                 }
             });
         });
@@ -954,17 +932,6 @@
         },true,true);
     }
 
-    // 刷新转存进度信息
-    function reloadTransferInfo() {
-        console.log("刷新转存日志");
-        var url = baseUrl + "/Logs/log.txt";
-        get(url,function (data) {
-            $(".file-transfer-pro-box").html('<pre>'+ data +'</pre>');
-            // 自动滚动到底部
-            $(".file-transfer-pro-box").scrollTop($(".file-transfer-pro-box")[0].scrollHeight);
-        },false,false,10000,null,'text');
-    }
-
     // 检查是否正在转存文件
     function fileTransfering() {
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
@@ -977,23 +944,6 @@
             }
         },false);
     }
-
-    // 查看日志文件
-    // function checkLog() {
-    //     var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransferExist";
-    //     get(url,function (data) {
-    //         var result = data.data;
-    //         if (result.flag){
-    //             // 显示正在转存的文件名
-    //             $(".moveto-path").html(result.content);
-    //             // 有文件正在转存
-    //             showEditCover(4);
-    //         }else {
-    //             // 没有文件正在转存
-    //             toast(result.content);
-    //         }
-    //     });
-    // }
 
 </script>
 <{/block}>
@@ -1089,9 +1039,6 @@
         <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
         <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
     </div>
-    <!--文件转存进度-->
-    <div class="file-transfer-pro-box"></div>
-    <div id="timer" style="display: none"></div>
     <!--选择图片上传-->
     <input type="file" name="file" id="file_select_input" style="display:none">
 </div>
