@@ -979,21 +979,21 @@
     }
 
     // 查看日志文件
-    function checkLog() {
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransferExist";
-        get(url,function (data) {
-            var result = data.data;
-            if (result.flag){
-                // 显示正在转存的文件名
-                $(".moveto-path").html(result.content);
-                // 有文件正在转存
-                showEditCover(4);
-            }else {
-                // 没有文件正在转存
-                toast(result.content);
-            }
-        });
-    }
+    // function checkLog() {
+    //     var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransferExist";
+    //     get(url,function (data) {
+    //         var result = data.data;
+    //         if (result.flag){
+    //             // 显示正在转存的文件名
+    //             $(".moveto-path").html(result.content);
+    //             // 有文件正在转存
+    //             showEditCover(4);
+    //         }else {
+    //             // 没有文件正在转存
+    //             toast(result.content);
+    //         }
+    //     });
+    // }
 
 </script>
 <{/block}>
