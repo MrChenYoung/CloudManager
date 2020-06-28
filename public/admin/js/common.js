@@ -50,6 +50,10 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
     });
 
     get(url,function (data) {
+        if (success){
+            success();
+        }
+        
         if (!scrollToBottom){
             // 停止自动滚动计时
             stopScrollTime++;
@@ -66,10 +70,6 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
             // 自动滚动到底部
             console.log("日志自动滚动到最底部");
             $scroll.scrollTop($scroll[0].scrollHeight);
-        }
-
-        if (success){
-            success();
         }
     },withHud,false,timeout,null,'text');
 }
