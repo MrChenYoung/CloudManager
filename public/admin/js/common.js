@@ -20,7 +20,7 @@ function checkLog() {
             offset:"100px",
             closeBtn: 0,
             shadeClose: true,
-            content: $(".add-category-container"),
+            content: $(".log-container"),
             success: function(){
             },
             end:function () {
