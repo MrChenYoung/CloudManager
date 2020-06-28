@@ -208,9 +208,12 @@
 <script>
     // 云盘列表数据
     var driverList;
-    var selectDriveType = "谷歌云盘";
+    var defaultSelectDriverType = "谷歌云盘";
+    var defaultSelectDriver = "GDSuiteTeam";
+    // 选择的云盘类型
+    var selectDriveType;
     // 选择的云盘
-    var selectDrive = "GDSuiteTeam";
+    var selectDrive;
     // 正在编辑的文件名
     var editFileName;
     var oldFileName;
@@ -223,7 +226,6 @@
     var movetoDriverType;
     var movetoDriver = "";
     var movetoPathArray = [""];
-    var selectTreeDom;
     var shareAddress;
     var moveBack;
     $(document).ready(function () {
@@ -241,6 +243,24 @@
                 shareAddress = shareAddressInput.val();
                 // 更新转存按钮状态
                 updateTransferBtnStatus();
+            });
+
+            // 监听云盘类型选择
+            form.on('select(drive-type-list)', function(data){
+                // 选择的云盘类型
+                selectDriveType = data.value;
+                // 刷新云盘列表
+                createDriverSelectDoms();
+            });
+
+            // 监听云盘选择
+            form.on('select(drive-list)', function(data){
+                // 选择的云盘
+                selectDrive = data.value;
+                // 目录回到根目录
+                pathArray = [""];
+                // 刷新列表
+                loadFileList();
             });
 
             // 监听要移动到的云盘类型选择
@@ -262,8 +282,8 @@
             });
         });
 
-        // 请求文件列表
-        loadFileList();
+        // 请求列表云盘列表
+        loadDriverList();
     });
 
     // 更新转存按钮状态
@@ -277,35 +297,38 @@
     }
 
     // 请求云盘列表
-    function loadDriverList(success=null) {
+    function loadDriverList() {
         var url = baseUrl + "?m=admin&c=API_FileManager&a=loadDriverList&API=";
         showHud();
         get(url,function (data) {
             driverList = data.data;
 
             // 默认选择的云盘类型
+            selectDriveType = defaultSelectDriverType;
             movetoDriverType = selectDriveType;
 
             // 默认选择的云盘
+            selectDrive = defaultSelectDriver;
             movetoDriver = selectDrive;
 
             // 创建云盘类型选择列表
             createDriverTypeSelectDoms();
             // 创建云盘选择列表
             createDriverSelectDoms();
-            // 请求文件夹列表
-            loadMoveDirList(success);
+            // 请求文件列表
+            loadFileList(false);
         },false);
     }
 
     // 创建云盘类型选择列表
-    function createDriverTypeSelectDoms() {
+    function createDriverTypeSelectDoms(moveto=false) {
         var dom = '<option value="">选择云盘类型</option>';
         var driverTypes = Object.keys(driverList);
 
+        var selectDType = moveto ? movetoDriverType : selectDriveType;
         for(var i = 0; i < driverTypes.length; i++){
             var driverT = driverTypes[i];
-            if (movetoDriverType == driverT){
+            if (selectDType == driverT){
                 dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
             }else {
                 dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
@@ -314,29 +337,36 @@
 
         layui.use('form',function () {
             var form = layui.form;
-            $("#moveto_drive_type_select").html(dom);
+            if (moveto){
+                $("#moveto_drive_type_select").html(dom);
+            }else {
+                $("#drive_type_select").html(dom);
+            }
             form.render();
         });
     }
 
     // 创建云盘选择列表
-    function createDriverSelectDoms() {
+    function createDriverSelectDoms(moveto=false) {
         var dom = '<option value="">选择云盘</option>';
-        if (movetoDriverType.length > 0){
-            var drives = driverList[movetoDriverType];
-            for(var i = 0; i < drives.length; i++){
-                var driver = drives[i];
-                if (movetoDriver == driver){
-                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
-                }else {
-                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
-                }
+        var seDriver = moveto ? movetoDriver : selectDrive;
+        var drives = driverList[movetoDriverType];
+        for(var i = 0; i < drives.length; i++){
+            var driver = drives[i];
+            if (seDriver == driver){
+                dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
+            }else {
+                dom += '<option value="'+ driver +'">'+ driver +'</option>';
             }
         }
 
         layui.use('form',function () {
             var form = layui.form;
-            $("#moveto_drive_select").html(dom);
+            if (moveto){
+                $("#moveto_drive_select").html(dom);
+            }else {
+                $("#drive_select").html(dom);
+            }
             form.render();
         });
     }
@@ -350,7 +380,7 @@
         },withhud,false,500000);
 
         // 检查是否正在转存文件
-        fileTransfering();
+        // fileTransfering();
     }
 
     // 请求移动目标文件夹选择列表
@@ -440,10 +470,17 @@
             var canMove = data.data.canMove;
             var msg = data.data.msg;
             if (canMove){
+                // 是否要在后台进行移动操作
                 moveBack = data.data.back ? "1" : "0";
                 movetoPathArray = [""];
-                loadDriverList(function () {
-                    showEditCover(opeType);
+                // 默认移动到当前云盘下
+                movetoDriverType = selectDriveType;
+                movetoDriver = selectDrive;
+                createDriverTypeSelectDoms(true);
+                createDriverSelectDoms(true);
+                // 请求文件夹列表
+                loadMoveDirList(function () {
+                    showEditCover(1);
                 });
             }else {
                 toast(msg,false);
@@ -806,19 +843,6 @@
     function cancel() {
         hideEditCover();
     }
-
-    // 请求云盘文件夹列表,用于移动文件时选择
-    function loadDriverDirList(success=null) {
-        var url = "?m=admin&c=API_FileManager&a=loadDriveDirList&API=&remoteName=" + movetoDriver;
-        console.log("请求目录树:" + url);
-        get(url,function (data) {
-            // 创建目录树
-            createTreeDirDom(data.data);
-            if (success){
-                success();
-            }
-        });
-    }
     
     // 移动文件
     function moveFile() {
@@ -909,6 +933,12 @@
     <div class="drive-select-box">
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item select-box">
+                <select id="drive_type_select" lay-filter="drive-type-list">
+                    <option value="">选择云盘类型</option>
+                </select>
+                <select id="drive_select" lay-filter="drive-list">
+                    <option value="">选择云盘</option>
+                </select>
                 <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
                 <button id="transfer_btn" onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
                 <button onclick="resetTransferFlag()" type="button" class="layui-btn transfer-btn">复位</button>
