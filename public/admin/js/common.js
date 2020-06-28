@@ -77,10 +77,13 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
 
 // 清空日志
 function clearLog() {
+    stopTimer();
     var url = baseUrl + "?m=admin&c=API_FileManager&a=clearLog&API=";
     get(url,function () {
         // 刷新
-        reloadLog();
+        reloadLog(function () {
+            startTimer();
+        });
     });
 }
 
