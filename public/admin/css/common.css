@@ -35,3 +35,20 @@
 .layui-table {
     margin-bottom: 100px !important;
 }
+
+.log-container {
+    width: 1200px;
+    height: 600px;
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 2px;
+    position: relative;
+    display: none;
+}
+
+.log-box {
+    width: 1200px;
+    height: 520px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
