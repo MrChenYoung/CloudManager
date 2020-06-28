@@ -41,7 +41,7 @@ class AsynTaskController extends Controller
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("开始转存文件：".$savePath);
 
-        $cmd = 'gclone copy '.$driverName.':{'.$sourceId."} '.$driverName.':".$savePath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        $cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             LogManager::getSingleton()->addLog("文件转存失败");
