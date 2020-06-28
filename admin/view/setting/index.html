@@ -86,22 +86,9 @@
 <{/block}>
 <{block name="scriptCode"}>
 <script>
-    // 选择的云盘类型
-    var selectDriveType;
-    // 选择的云盘
-    var selectDrive;
-    var scrollToBottom = true;
-    var stopScrollTime = 0;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#setting").addClass("active");
-
-        // 手动滑动日志文件，停止自动滚动到最底部
-        $(".file-transfer-pro-box").scroll(function () {
-            // 手动滚动监听
-            scrollToBottom = false;
-            stopScrollTime = 0;
-        });
 
         // 监听开关切换
         layui.use('form',function () {
@@ -112,29 +99,10 @@
                 var switchStatus = data.elem.checked;
                 changeSwitchStatus(switchStatus);
             });
-
-            // 监听云盘类型选择
-            form.on('select(drive-type-list)', function(data){
-                // 选择的云盘类型
-                selectDriveType = data.value;
-                // 刷新云盘列表
-                createDriverSelectDoms();
-            });
-
-            // 监听云盘选择
-            form.on('select(drive-list)', function(data){
-                // 选择的云盘
-                selectDrive = data.value;
-                // 刷新文件夹缓存列表
-                loadDirCache();
-            });
         });
 
         // 加载设置项
         loadSettingData();
-
-        // 请求云盘列表
-        loadDriverList();
     });
 
     // 加载设置项
@@ -169,199 +137,6 @@
         },false);
     }
 
-    // 请求云盘列表
-    function loadDriverList() {
-        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
-        get(url,function (data) {
-            driverList = data.data;
-
-            // 默认选择的云盘类型
-            var driveTypes = Object.keys(driverList);
-            if (driveTypes.length > 0){
-                selectDriveType = driveTypes[0];
-            }
-
-            // 默认选择的云盘
-            if (selectDriveType.length > 0){
-                selectDrive = driverList[selectDriveType][0];
-            }
-
-            // 创建云盘类型选择列表
-            createDriverTypeSelectDoms();
-            // 创建云盘选择列表
-            createDriverSelectDoms();
-            // 获取文件夹缓存列表
-            loadDirCache();
-        },false);
-    }
-
-    // 创建云盘类型选择列表
-    function createDriverTypeSelectDoms() {
-        var dom = '<option value="">选择云盘类型</option>';
-        var driverTypes = Object.keys(driverList);
-
-        for(var i = 0; i < driverTypes.length; i++){
-            var driverT = driverTypes[i];
-            if (selectDriveType == driverT){
-                dom += '<option selected="selected" value="'+ driverT +'">'+ driverT +'</option>';
-            }else {
-                dom += '<option value="'+ driverT +'">'+ driverT +'</option>';
-            }
-        }
-
-        layui.use('form',function () {
-            var form = layui.form;
-            $("#drive_type_select").html(dom);
-            form.render();
-        });
-    }
-
-    // 创建云盘选择列表
-    function createDriverSelectDoms() {
-        var dom = '<option value="">选择云盘</option>';
-        if (selectDriveType.length > 0){
-            var drives = driverList[selectDriveType];
-            for(var i = 0; i < drives.length; i++){
-                var driver = drives[i];
-                if (selectDrive == driver){
-                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
-                }else {
-                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
-                }
-            }
-        }
-
-        layui.use('form',function () {
-            var form = layui.form;
-            $("#drive_select").html(dom);
-            form.render();
-        });
-    }
-
-    // 获取文件夹缓存列表
-    function loadDirCache() {
-        var url = baseUrl + "?m=admin&c=API_Setting&a=loadDriveDirCache&API=&remoteName=" + selectDrive;
-        console.log("获取文件夹缓存列表:" + url);
-        get(url,function (data) {
-            // 更新状态
-            var status = parseInt(data.data.status);
-            var $updateBtn = $(".update-cache-btn");
-            if (status == 1){
-                $updateBtn.text("缓存更新中");
-                $updateBtn.addClass("layui-btn-disabled");
-            }else {
-                $(".single-driver-btn").text("更新缓存");
-                $(".all-driver-btn").text("一键更新所有云盘");
-                $updateBtn.removeClass("layui-btn-disabled");
-            }
-            var dirCache = data.data.data;
-            if (dirCache.length > 0){
-                // 有缓存
-                $(".none-cache-tip").css("display","none");
-                layui.use(['tree', 'util'], function(){
-                    var tree = layui.tree
-                        ,layer = layui.layer
-                        ,util = layui.util;
-
-                    //手风琴模式
-                    tree.render({
-                        elem: '#dir_cache_list'
-                        ,data: dirCache
-                        ,accordion: true,
-                        click:function (obj) {
-                            console.log(obj.data);
-                        }
-                    });
-                });
-            }else{
-                // 没有缓存
-                $(".none-cache-tip").css("display","block");
-                $("#dir_cache_list").html("");
-            }
-        })
-    }
-
-    // 更新缓存
-    function updateCache() {
-        if ($(".update-cache-btn").hasClass("layui-btn-disabled")) return;
-        var url = baseUrl + "?m=admin&c=API_Setting&a=updateDriveDirList&API=&remoteName=" + selectDrive;
-        console.log("更新文件夹缓存:" + url);
-        get(url,function () {
-            // 更新成功 刷新缓存显示列表
-            loadDirCache();
-        },true,true);
-    }
-    
-    // 更新所有云盘目录树缓存
-    function updateAllCloudCache() {
-        if ($(".update-cache-btn").hasClass("layui-btn-disabled")) return;
-        var url = baseUrl + "?m=admin&c=API_Setting&a=updataAllDriverDirCache";
-        console.log("更新所有云盘目录树:" + url);
-        get(url,function () {
-            // 更新成功 刷新缓存显示列表
-            loadDirCache();
-        },true,true);
-    }
-
-    // 复位目录树更新标志位
-    function resetFlag() {
-        var url = baseUrl + "?m=admin&c=API_Setting&a=resetFlag";
-        get(url,function () {
-            loadDirCache();
-        },false);
-    }
-    
-    // 查看目录树更新进度
-    function checkProgress() {
-        layui.use('layer',function () {
-            var layer = layui.layer;
-            layerIndex = layer.open({
-                type: 1,
-                area:['1220px','620px'],
-                title: false,
-                offset:'100px',
-                closeBtn: 0,
-                shadeClose: true,
-                content: $(".add-category-container"),
-                success: function(){
-                    // 开启计时器
-                    $('#timer').timer({
-                        duration : '2s',
-                        callback : reloadLogInfo,
-                        repeat : true
-                    });
-                },
-                end:function () {
-                    $(".add-category-container").css("display","none");
-                    // 停止计时器
-                    $('#timer').timer("remove");
-                }
-            });
-        });
-    }
-
-    // 刷新目录树更新进度信息
-    function reloadLogInfo() {
-        console.log("刷新更新目录树进度");
-        if (!scrollToBottom){
-            stopScrollTime++;
-        }
-
-        // 停止手动滚动3秒后自动开启自动刷新并滚动到日志最下方
-        if (stopScrollTime > 10 && !scrollToBottom){
-            scrollToBottom = true;
-        }
-
-        var url = baseUrl + "/Logs/log.txt";
-        get(url,function (data) {
-            $(".file-transfer-pro-box").html('<pre>'+ data +'</pre>');
-            // 自动滚动到底部
-            if (scrollToBottom){
-                $(".file-transfer-pro-box").scrollTop($(".file-transfer-pro-box")[0].scrollHeight);
-            }
-        },false,false,10000,null,'text');
-    }
-
 </script>
 <{/block}>
 <{block name="content"}>
@@ -374,38 +149,7 @@
             </div>
             <div class="layui-form-mid layui-word-aux">加载云盘/文件列表时同时加载文件总大小和文件总数量，开启后列表加载速度慢</div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label drive-dir-tree-cache-title">云盘文件夹树形列表缓存</label>
-            <div class="layui-input-inline">
-                <div class="layui-form-item select-box">
-                    <select id="drive_type_select" lay-filter="drive-type-list">
-                        <option value="">选择云盘类型</option>
-                    </select>
-                    <select id="drive_select" lay-filter="drive-list">
-                        <option value="">选择云盘</option>
-                    </select>
-                    <button onclick="updateCache()" type="button" class="layui-btn update-cache-btn single-driver-btn">更新缓存</button>
-                    <button onclick="updateAllCloudCache()" type="button" class="layui-btn update-cache-btn all-driver-btn">一键更新所有云盘</button>
-                    <button onclick="checkProgress()" type="button" class="layui-btn check-progress-btn">查看进度</button>
-                    <button onclick="resetFlag()" type="button" class="layui-btn reset-cache-btn">复位标志位</button>
-                    <div id="dir_cache_list" class="dir-cache-list"></div>
-                    <div class="none-cache-tip">没有缓存</div>
-                </div>
-            </div>
-        </div>
     </form>
-</div>
-
-<!--浮层弹窗-->
-<div class="add-category-container">
-    <div style="font-size: 20px;height: 40px;line-height: 40px;ont-weight: 300;" class="moveto-title-box">
-        <span class="moveto-title moveto-span">目录树更新进度</span>
-        </span>
-    </div>
-
-    <!--目录树更新进度-->
-    <div class="file-transfer-pro-box"></div>
-    <div id="timer" style="display: none"></div>
 </div>
 
 <{/block}>

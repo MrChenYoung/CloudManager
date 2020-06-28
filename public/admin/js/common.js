@@ -1,4 +1,15 @@
 
+var scrollToBottom = true;
+var stopScrollTime = 0;
+$(document).ready(function () {
+    // 手动滑动日志文件，停止自动滚动到最底部
+    $(".log-box").scroll(function () {
+        // 手动滚动监听
+        scrollToBottom = false;
+        stopScrollTime = 0;
+    });
+});
+
 // 展示日志
 function checkLog() {
     console.log("打开日志");
@@ -37,10 +48,18 @@ function reloadLog() {
     console.log("刷新日志");
     var url = baseUrl + "/Logs/log.txt";
     get(url,function (data) {
+
+        // 停止手动滚动5秒后自动开启自动刷新并滚动到日志最下方
+        if (stopScrollTime > 5 && !scrollToBottom){
+            scrollToBottom = true;
+        }
+
         var $scroll = $(".log-box");
         $scroll.html('<pre>'+ data +'</pre>');
-        // 自动滚动到底部
-        $scroll.scrollTop($scroll[0].scrollHeight);
+        if (scrollToBottom){
+            // 自动滚动到底部
+            $scroll.scrollTop($scroll[0].scrollHeight);
+        }
     },false,false,10000,null,'text');
 }
 
