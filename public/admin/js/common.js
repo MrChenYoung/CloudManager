@@ -39,7 +39,6 @@ function checkLog() {
 function reloadLog() {
     console.log("刷新日志");
     var url = baseUrl + "/Logs/log.txt";
-
     // 手动滑动日志文件，停止自动滚动到最底部
     $(".log-box").scroll(function () {
         console.log("手动滚动日志");
