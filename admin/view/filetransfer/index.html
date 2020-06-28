@@ -360,7 +360,7 @@
     function createDriverSelectDoms(moveto=false) {
         var dom = '<option value="">选择云盘</option>';
         var seDriver = moveto ? movetoDriver : selectDrive;
-        var drives = driverList[movetoDriverType];
+        var drives = driverList[seDriver];
         for(var i = 0; i < drives.length; i++){
             var driver = drives[i];
             if (seDriver == driver){
