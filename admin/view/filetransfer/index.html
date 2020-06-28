@@ -359,8 +359,8 @@
     // 创建云盘选择列表
     function createDriverSelectDoms(moveto=false) {
         var dom = '<option value="">选择云盘</option>';
-        var seDriver = moveto ? movetoDriver : selectDrive;
-        var drives = driverList[seDriver];
+        var seDriverType = moveto ? movetoDriverType : selectDriveType;
+        var drives = driverList[seDriverType];
         for(var i = 0; i < drives.length; i++){
             var driver = drives[i];
             if (seDriver == driver){
