@@ -53,6 +53,8 @@
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
+        // 隐藏查看日志按钮
+        $(".open-log-btn").css("display","none");
 
         // 请求云盘列表
         loadDriverList();
