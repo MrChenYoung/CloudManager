@@ -128,7 +128,7 @@ EEE;
                     CREATE TABLE $tableName(
                         id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
                         source_path varchar(256) DEFAULT '' COMMENT '源路径',
-                        des_path varchar(256) DEFAULT '' COMMENT '目标路径',
+                        des_path varchar(256) DEFAULT '' COMMENT '目标路径'
                     ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件移动信息表';
 EEE;
         $this->dao->createTable($tableName,$sql);
