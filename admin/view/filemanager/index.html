@@ -462,7 +462,7 @@
     function beforMoveFileHandle(opeType) {
         // 检查要移动的文件大小，如果大于前台移动文件大小限制，在检测是否有正在后台移动的任务，如果没有才能移动
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + sourcePath;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + btoa(encodeURIComponent(sourcePath));
         console.log("移动前检测:" + url);
         get(url,function (data) {
             var canMove = data.data.canMove;
@@ -669,7 +669,7 @@
 
     // 重命名
     function renameFile(name) {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&oldName=" + oldFileName + "&newName=" + name;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=renameFile&driverName=" + selectDrive + "&API=&path=" + btoa(encodeURIComponent(getPathString())) + "&oldName=" + btoa(encodeURIComponent(oldFileName)) + "&newName=" + btoa(encodeURIComponent(name));
         console.log("文件重命名:" + url);
         get(url,function () {
             // 刷新列表
@@ -680,7 +680,7 @@
     // 删除文件
     function deleteFile() {
         confirmAlert(function () {
-            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + getPathString() + editFileName + "&isDir=" + editDir;
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=deleteFile&remoteName=" + selectDrive + "&API=&path=" + btoa(encodeURIComponent(getPathString() + editFileName)) + "&isDir=" + editDir;
             get(url,function () {
                 // 刷新列表
                 loadFileList();
@@ -826,7 +826,7 @@
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
 
         var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath + "&back=" + moveBack;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + btoa(encodeURIComponent(sourcePath)) + "&API=&desPath=" + btoa(encodeURIComponent(desPath)) + "&back=" + moveBack;
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表

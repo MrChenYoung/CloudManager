@@ -183,6 +183,8 @@ class API_FileManagerController extends API_BaseController
         $path = $_GET["path"];
         // 空格转义
         $path = str_replace(" ","\ ",$path);
+        $path = base64_decode($path);
+        $path = urldecode($path);
 
         // 是否是文件夹
         if (!isset($_GET["isDir"])){
@@ -240,6 +242,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
+        $path = urldecode($path);
 
         // 原来的名字
         if (!isset($_GET["oldName"])){
@@ -247,6 +251,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $oldName = $_GET["oldName"];
+        $oldName = base64_decode($oldName);
+        $oldName = urldecode($oldName);
 
         // 新名字
         if (!isset($_GET["newName"])){
@@ -254,6 +260,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $newName = $_GET["newName"];
+        $newName = base64_decode($newName);
+        $newName = urldecode($newName);
 
         // 完整路径 空格转义
         $oldFullPath = str_replace(" ","\ ",$path.$oldName);
@@ -296,7 +304,7 @@ class API_FileManagerController extends API_BaseController
 
         $fullPath = str_replace(" ","\ ",$path.$dirName);
         $cmd = 'rclone mkdir '.$driverName.":".$fullPath;
-        
+
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("文件夹创建失败");
@@ -313,6 +321,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $sourcePath = $_GET["sourcePath"];
+        $sourcePath = base64_decode($sourcePath);
+        $sourcePath = urldecode($sourcePath);
 
         // 目标文件路径
         if (!isset($_GET["desPath"])){
@@ -320,6 +330,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $desPath = $_GET["desPath"];
+        $desPath = base64_decode($desPath);
+        $desPath = urldecode($desPath);
 
         // 是否要在后台移动
         if (!isset($_GET["back"])){
@@ -367,6 +379,9 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $sourcePath = $_GET["sourcePath"];
+        $sourcePath = base64_decode($sourcePath);
+        $sourcePath = urldecode($sourcePath);
+
         // 转义空格
         $sourcePath = str_replace(" ","\ ",$sourcePath);
         // 获取要移动文件的大小
@@ -424,4 +439,5 @@ class API_FileManagerController extends API_BaseController
 
         return $icon;
     }
+
 }
