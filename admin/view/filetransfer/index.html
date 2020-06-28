@@ -233,6 +233,7 @@
     var movetoPathArray = [""];
     var selectTreeDom;
     var shareAddress;
+    var moveBack;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_transferred").addClass("active");
@@ -410,10 +411,8 @@
             switch (opeType) {
                 case 1:
                     // 移动
-                    movetoPathArray = [""];
-                    loadDriverList(function () {
-                        showEditCover(opeType);
-                    });
+                    // 文件移动操作前处理
+                    beforMoveFileHandle(opeType);
                     break;
                 case 2:
                     // 重命名
@@ -436,6 +435,27 @@
             editRow = obj;
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
+        });
+    }
+
+    // 文件移动操作前处理
+    function beforMoveFileHandle(opeType) {
+        // 检查要移动的文件大小，如果大于前台移动文件大小限制，在检测是否有正在后台移动的任务，如果没有才能移动
+        var sourcePath = selectDrive + ":" + getPathString() + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + sourcePath;
+        console.log("移动前检测:" + url);
+        get(url,function (data) {
+            var canMove = data.data.canMove;
+            var msg = data.data.msg;
+            if (canMove){
+                moveBack = data.data.back ? "1" : "0";
+                movetoPathArray = [""];
+                loadMoveDirList(function () {
+                    showEditCover(opeType);
+                });
+            }else {
+                toast(msg,false);
+            }
         });
     }
 
@@ -879,7 +899,7 @@
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
 
         var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath + "&back=" + moveBack;
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
