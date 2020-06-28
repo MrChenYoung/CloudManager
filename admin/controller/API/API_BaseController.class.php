@@ -99,10 +99,6 @@ class API_BaseController extends Controller
             $fileSize = FileManager::formatBytes($fileSize);
         }
 
-        echo "<pre>";
-        var_dump($fileSizeBytes);
-        die;
-
         return ["size"=>$fileSize,"count"=>$fileCount,"sizeBytes"=>$fileSizeBytes];
     }
 }
