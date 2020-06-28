@@ -29,6 +29,16 @@ class API_FileTransferController extends API_BaseController
         // 空格转义
         $path = str_replace(" ","\ ",$path);
 
+        // 要保存到的文件夹名
+        if (isset($_GET["dirName"])){
+            $dirName = $_GET["dirName"];
+            $dirName = base64_decode($dirName);
+            $dirName = urldecode($dirName);
+            // 空格转义
+            $dirName = str_replace(" ","\ ",$dirName);
+            $path += $dirName;
+        }
+
         // 文件要保存到的文件夹
         $dirArr = explode("/",$path);
         $dirName = "";

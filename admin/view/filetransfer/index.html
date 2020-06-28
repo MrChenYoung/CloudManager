@@ -868,7 +868,7 @@
         // 保存文件
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + btoa(encodeURIComponent(getPathString()));
         if (newDirName.length > 0) {
-            url = url + newDirName
+            url = url + "&dirName=" +btoa(encodeURIComponent(newDirName));
         }
         console.log("转存文件:" + url);
         get(url,function () {
