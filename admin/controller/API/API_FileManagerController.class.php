@@ -315,24 +315,20 @@ class API_FileManagerController extends API_BaseController
         }
         $desPath = $_GET["desPath"];
 
+        // 是否要在后台移动
+        if (!isset($_GET["back"])){
+            echo $this->failed("缺少back参数");
+            die;
+        }
+        $back = $_GET["back"];
+
         // 转义空格
         $sourcePath = str_replace(" ","\ ",$sourcePath);
         $desPath = str_replace(" ","\ ",$desPath);
 
-        // 获取要移动文件的大小
-        $res = $this->loadDetaileInfo("","",$sourcePath);
-        $size = (int)$res["sizeBytes"];
         //  如果要移动的文件大于10G，转入后台移动
-        if ($size > 10 * 1024 * 1024 * 1024){
+        if ($back == "1"){
             // 后台移动
-
-            // 查看是否有文件正在后台移动
-            $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
-            if ($tableRes && count($tableRes) > 0){
-                echo $this->failed("有文件正在后台移动中");
-                die;
-            }
-
             $params = [
                 "m"=>"admin",
                 "c"=>"AsynTask",
@@ -375,12 +371,12 @@ class API_FileManagerController extends API_BaseController
             // 查看是否有文件正在后台移动
             $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
             if ($tableRes && count($tableRes) > 0){
-                echo $this->success(["canMove"=>false,"msg"=>"有文件正在后台移动中"]);
+                echo $this->success(["canMove"=>false,"back"=>true,"msg"=>"有文件正在后台移动中"]);
             }else {
-                echo $this->success(["canMove"=>true,"msg"=>""]);
+                echo $this->success(["canMove"=>true,"back"=>true,"msg"=>""]);
             }
         }else {
-            echo $this->success(["canMove"=>true,"msg"=>""]);
+            echo $this->success(["canMove"=>true,"back"=>false,"msg"=>""]);
         }
     }
 

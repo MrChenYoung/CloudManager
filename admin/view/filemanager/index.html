@@ -215,6 +215,8 @@
     var movetoPathArray = [""];
     var movetoDriverType;
     var movetoDriver;
+    // 是否要在后台移动文件 1:是 0:否
+    var moveBack = "0";
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_manager").addClass("active");
@@ -465,6 +467,7 @@
             var canMove = data.data.canMove;
             var msg = data.data.msg;
             if (canMove){
+                moveBack = data.data.back ? "1" : "0";
                 movetoPathArray = [""];
                 loadMoveDirList(function () {
                     showEditCover(opeType);
@@ -823,7 +826,7 @@
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
 
         var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + sourcePath + "&API=&desPath=" + desPath + "&back=" + moveBack;
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
