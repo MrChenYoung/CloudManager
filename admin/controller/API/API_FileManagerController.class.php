@@ -316,8 +316,8 @@ class API_FileManagerController extends API_BaseController
         $desPath = $_GET["desPath"];
 
         // 查看是否有文件正在后台移动
-        $res = DatabaseDataManager::getSingleton()->find("file_move_info");
-        if ($res && count($res) > 0){
+        $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
+        if ($tableRes && count($tableRes) > 0){
             echo $this->failed("有文件正在后台移动中");
             die;
         }
