@@ -33,12 +33,15 @@ class AsynTaskController extends Controller
         // 存储路径
         if (!isset($_REQUEST["savePath"])) die;
         $savePath = $_REQUEST["savePath"];
+        // 云盘名
+        if (!isset($_REQUEST["driverName"])) die;
+        $driverName = $_REQUEST["driverName"];
 
         // 清空日志
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("开始转存文件：".$savePath);
 
-        $cmd = 'gclone copy GDSuiteTeam:{'.$sourceId."} GDSuiteTeam:".$savePath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        $cmd = 'gclone copy '.$driverName.':{'.$sourceId."} '.$driverName.':".$savePath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             LogManager::getSingleton()->addLog("文件转存失败");

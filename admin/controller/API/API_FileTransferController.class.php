@@ -18,6 +18,13 @@ class API_FileTransferController extends API_BaseController
         }
         $address = $_GET["address"];
 
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
         // 路径
         if (!isset($_GET["path"])){
             echo $this->failed("缺少path参数");
@@ -65,7 +72,8 @@ class API_FileTransferController extends API_BaseController
             "c"=>"AsynTask",
             "a"=>"index",
             "sourceId"=>$end,
-            "savePath"=>$path
+            "savePath"=>$path,
+            "driverName"=>$driverName
         ];
 
         MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);

@@ -859,8 +859,11 @@
     
     // 移动文件
     function moveFile() {
+        if (movetoDriver.length == 0){
+            toast("请选择目标云盘");
+            return;
+        }
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
-
         var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
         var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + btoa(encodeURIComponent(sourcePath)) + "&API=&desPath=" + btoa(encodeURIComponent(desPath)) + "&back=" + moveBack;
         console.log("移动文件:" + url);
@@ -885,6 +888,10 @@
 
     // 保存共享的文件
     function saveShareFile(newDirName) {
+        if (selectDrive.length == 0) {
+            toast("请选择云盘");
+            return;
+        }
         if (newDirName.length > 0){
             // 新建文件夹
             var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + btoa(encodeURIComponent(getPathString())) + "&dirName=" + btoa(encodeURIComponent(newDirName));
@@ -903,7 +910,7 @@
     // 保存文件网络请求
     function saveShareFile1(newDirName) {
         // 保存文件
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + btoa(encodeURIComponent(getPathString()));
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + btoa(encodeURIComponent(getPathString())) + "&driverName=" + selectDrive;
         if (newDirName.length > 0) {
             url = url + "&dirName=" +btoa(encodeURIComponent(newDirName));
         }
