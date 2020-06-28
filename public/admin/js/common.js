@@ -6,38 +6,39 @@ var stopScrollTime = 0;
 function checkLog() {
     console.log("打开日志");
 
-    layui.use('layer',function () {
-        var layer = layui.layer;
-        layerIndex = layer.open({
-            type: 1,
-            area:['1220px','620px'],
-            title: false,
-            offset:"100px",
-            closeBtn: 0,
-            shadeClose: true,
-            content: $(".log-container"),
-            success: function(){
-                // 开启计时器
-                $('#timer').timer({
-                    duration : '2s',
-                    callback : reloadLog,
-                    repeat : true
-                });
-                $(".log-container").css("display","block");
-                // 刷新一次
-                reloadLog();
-            },
-            end:function () {
-                $(".log-container").css("display","none");
-                // 停止计时器
-                $('#timer').timer("remove");
-            }
+    // 首次获取日志信息
+    reloadLog(function () {
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            layerIndex = layer.open({
+                type: 1,
+                area:['1220px','620px'],
+                title: false,
+                offset:"100px",
+                closeBtn: 0,
+                shadeClose: true,
+                content: $(".log-container"),
+                success: function(){
+                    // 开启计时器
+                    $('#timer').timer({
+                        duration : '2s',
+                        callback : reloadLog,
+                        repeat : true
+                    });
+                    $(".log-container").css("display","block");
+                },
+                end:function () {
+                    $(".log-container").css("display","none");
+                    // 停止计时器
+                    $('#timer').timer("remove");
+                }
+            });
         });
-    });
+    },true);
 }
 
 // 刷新日志信息
-function reloadLog() {
+function reloadLog(success=null,withHud=false) {
     console.log("刷新日志");
     var url = baseUrl + "/Logs/log.txt";
     // 手动滑动日志文件，停止自动滚动到最底部
@@ -66,7 +67,11 @@ function reloadLog() {
             console.log("日志自动滚动到最底部");
             $scroll.scrollTop($scroll[0].scrollHeight);
         }
-    },false,false,10000,null,'text');
+
+        if (success){
+            success();
+        }
+    },withHud,false,10000,null,'text');
 }
 
 // 跳转到添加rsa密钥页面携带的参数
