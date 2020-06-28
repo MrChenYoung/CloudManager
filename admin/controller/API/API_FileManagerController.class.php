@@ -329,6 +329,7 @@ class API_FileManagerController extends API_BaseController
         // 获取要移动文件的大小
         $res = $this->loadDriverDetailInfo("","",$sourcePath);
         echo "<pre>";
+        echo $sourcePath;
         var_dump($res);
         die;
         $size = $res["sizeBytes"];
