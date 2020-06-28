@@ -19,13 +19,11 @@ function checkLog() {
                 shadeClose: true,
                 content: $(".log-container"),
                 success: function(){
-                    // 开启计时器
-                    $('#timer').timer({
-                        duration : '10s',
-                        callback : reloadLog,
-                        repeat : true
-                    });
                     $(".log-container").css("display","block");
+
+                    // 开启计时器
+                    startTimer();
+
                     // 自动滚动带最底部
                     var $scroll = $(".log-box");
                     $scroll.scrollTop($scroll[0].scrollHeight);
@@ -33,7 +31,7 @@ function checkLog() {
                 end:function () {
                     $(".log-container").css("display","none");
                     // 停止计时器
-                    $('#timer').timer("remove");
+                    stopTimer();
                 }
             });
         });
@@ -81,7 +79,28 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
 // 手动刷新日志
 function refreshLog() {
     console.log("手动刷新日志");
-    reloadLog(null,true,50000);
+    // 停止计时器
+    stop();
+    // 刷新日志
+    reloadLog(function () {
+        // 开启计时器
+        startTimer();
+    },true,50000);
+}
+
+// 开启计时器
+function startTimer() {
+    // 开启计时器
+    $('#timer').timer({
+        duration : '10s',
+        callback : reloadLog,
+        repeat : true
+    });
+}
+
+// 停止计时器
+function stopTimer() {
+    $('#timer').timer("remove");
 }
 
 // 跳转到添加rsa密钥页面携带的参数
