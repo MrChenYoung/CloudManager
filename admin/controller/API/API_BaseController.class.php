@@ -79,12 +79,13 @@ class API_BaseController extends Controller
         $fileSizeBytes = 0;
         if ($fullPath){
             $getSizeCmd = "rclone size ".$fullPath;
-            echo $getSizeCmd;
-            die;
         }else {
             $getSizeCmd = "rclone size ".$remoteName.":".$path;
         }
         $sizeRes = ShellManager::exec($getSizeCmd);
+        echo "<pre>";
+        var_dump($sizeRes);
+        die;
         if (!$sizeRes["success"]){
             // 获取文件详情失败
         }else {
