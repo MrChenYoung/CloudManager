@@ -220,7 +220,7 @@ class API_FileManagerController extends API_BaseController
         }
         $path = $_GET["path"];
 
-        $res = $this->loadDriverDetailInfo($driverName,$path);
+        $res = $this->loadDetaileInfo($driverName,$path);
         echo $this->success($res);
     }
 
@@ -327,7 +327,7 @@ class API_FileManagerController extends API_BaseController
         $desPath = str_replace(" ","\ ",$desPath);
 
         // 获取要移动文件的大小
-        $res = $this->loadDriverDetailInfo("","",$sourcePath);
+        $res = $this->loadDetaileInfo("","",$sourcePath);
         echo "<pre>";
         echo $sourcePath;
         var_dump($res);
