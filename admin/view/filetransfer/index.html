@@ -865,7 +865,7 @@
     // 保存文件网络请求
     function saveShareFile(newDirName) {
         // 保存文件
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + getPathString();
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfer&address=" + $("#share_address_input").val() + "&path=" + btoa(encodeURIComponent(getPathString()));
         if (newDirName.length > 0) {
             url = url + newDirName
         }

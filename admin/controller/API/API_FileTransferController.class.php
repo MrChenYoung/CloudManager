@@ -24,6 +24,10 @@ class API_FileTransferController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
+        $path = urldecode($path);
+        // 空格转义
+        $path = str_replace(" ","\ ",$path);
 
         // 文件要保存到的文件夹
         $dirArr = explode("/",$path);
