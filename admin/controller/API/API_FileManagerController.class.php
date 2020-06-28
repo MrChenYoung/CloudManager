@@ -328,6 +328,9 @@ class API_FileManagerController extends API_BaseController
 
         // 获取要移动文件的大小
         $res = $this->loadDriverDetailInfo("","",$sourcePath);
+        echo "<pre>";
+        var_dump($res);
+        die;
         $size = $res["sizeBytes"];
         //  如果要移动的文件大于10G，转入后台移动
         if ($size > 10 * 1024 * 1024 * 1024){
