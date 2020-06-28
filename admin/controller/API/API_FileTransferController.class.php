@@ -78,4 +78,10 @@ class API_FileTransferController extends API_BaseController
             return false;
         }
     }
+
+    // 复位标志位
+    public function resetTransferFlag(){
+        DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>'0'],["id"=>1]);
+        echo $this->success("");
+    }
 }
