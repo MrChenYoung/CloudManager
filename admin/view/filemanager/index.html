@@ -849,52 +849,50 @@
 <{/block}>
 <{block name="content"}>
 <div class="aw-content-wrap">
-    <div class="mod">
-        <div class="drive-select-box">
-            <form class="layui-form layui-form-pane" action="">
-                <div class="layui-form-item select-box">
-                    <select id="drive_type_select" lay-filter="drive-type-list">
-                        <option value="">选择云盘类型</option>
-                    </select>
-                    <select id="drive_select" lay-filter="drive-list">
-                        <option value="">选择云盘</option>
-                    </select>
-                    <button id="back_btn" onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
-                    <span id="cur_dir" class="layui-breadcrumb">
+    <div class="drive-select-box">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item select-box">
+                <select id="drive_type_select" lay-filter="drive-type-list">
+                    <option value="">选择云盘类型</option>
+                </select>
+                <select id="drive_select" lay-filter="drive-list">
+                    <option value="">选择云盘</option>
+                </select>
+                <button id="back_btn" onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <span id="cur_dir" class="layui-breadcrumb">
                     </span>
-                </div>
-            </form>
-        </div>
-        <div class="menu-box">
-            <ul>
-                <li>
-                    <i onclick="refreshFileList()" title="刷新" class="iconfont icon-shuaxin1"></i>
-                </li>
-                <li>
-                    <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
-                </li>
-            </ul>
-        </div>
-        <div class="layui-form file-table-box" style="text-align: center;">
-            <table id="file_list_table" class="layui-table" lay-skin="nob">
-                <colgroup>
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="200">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>大小</th>
-                    <th>文件数</th>
-                    <th>上次修改时间</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+            </div>
+        </form>
+    </div>
+    <div class="menu-box">
+        <ul>
+            <li>
+                <i onclick="refreshFileList()" title="刷新" class="iconfont icon-shuaxin1"></i>
+            </li>
+            <li>
+                <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-form file-table-box" style="text-align: center;">
+        <table id="file_list_table" class="layui-table" lay-skin="nob">
+            <colgroup>
+                <col width="150">
+                <col width="150">
+                <col width="150">
+                <col width="200">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>大小</th>
+                <th>文件数</th>
+                <th>上次修改时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </div>
 
