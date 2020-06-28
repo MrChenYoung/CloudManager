@@ -660,7 +660,7 @@
 
     // 新建文件夹网络请求
     function createNewDirRequest(dirName) {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + dirName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + btoa(getPathString()) + "&dirName=" + dirName;
         get(url,function () {
             // 刷新列表
             loadFileList();

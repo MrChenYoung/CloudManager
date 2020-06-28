@@ -282,6 +282,7 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
 
         // 文件夹名字
         if (!isset($_GET["dirName"])){

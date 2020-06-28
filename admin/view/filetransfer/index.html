@@ -632,7 +632,7 @@
 
     // 新建文件夹网络请求
     function createNewDirRequest(dirName) {
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + dirName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + btoa(getPathString()) + "&dirName=" + dirName;
         get(url,function () {
             // 刷新列表
             loadFileList();
@@ -894,7 +894,7 @@
     function saveShareFile(newDirName) {
         if (newDirName.length > 0){
             // 新建文件夹
-            var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + getPathString() + "&dirName=" + newDirName;
+            var url = baseUrl + "?m=admin&c=API_FileManager&a=createNewDir&driverName=" + selectDrive + "&API=&path=" + btoa(getPathString()) + "&dirName=" + newDirName;
             showHud();
             get(url,function () {
                 // 保存文件
