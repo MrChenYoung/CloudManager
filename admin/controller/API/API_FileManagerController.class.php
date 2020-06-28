@@ -185,10 +185,10 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
-        // 空格转义
-        $path = str_replace(" ","\ ",$path);
         $path = base64_decode($path);
         $path = urldecode($path);
+        // 空格转义
+        $path = str_replace(" ","\ ",$path);
 
         // 是否是文件夹
         if (!isset($_GET["isDir"])){
@@ -203,9 +203,6 @@ class API_FileManagerController extends API_BaseController
             $cmd = "rclone purge ".$remoteName.":".$path;
         }
 
-        echo $cmd;
-        die;
-        
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("删除失败");
