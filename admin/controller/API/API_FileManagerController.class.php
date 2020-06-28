@@ -329,6 +329,7 @@ class API_FileManagerController extends API_BaseController
             // 查看是否有文件正在后台移动
             $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
             if ($tableRes && count($tableRes) > 0){
+                DatabaseDataManager::getSingleton()->delete("file_move_info");
                 echo $this->failed("有文件正在后台移动中");
                 die;
             }
