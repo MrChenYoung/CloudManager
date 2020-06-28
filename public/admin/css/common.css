@@ -52,3 +52,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
+.log-title {
+    width: 1200px;
+}
