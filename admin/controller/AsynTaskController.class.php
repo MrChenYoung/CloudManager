@@ -63,7 +63,7 @@ class AsynTaskController extends Controller
         // 添加日志
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("移动".$sourcePath."到".$desPath);
-        $cmd = "rclone moveto ".$sourcePath." ".$desPath;
+        $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             // 移动失败

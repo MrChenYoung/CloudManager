@@ -6,6 +6,7 @@ namespace admin\controller\API;
 
 use framework\tools\DatabaseDataManager;
 use framework\tools\FileManager;
+use framework\tools\LogManager;
 use framework\tools\MultiThreadTool;
 use framework\tools\ShellManager;
 
@@ -342,7 +343,7 @@ class API_FileManagerController extends API_BaseController
             echo $this->success("文件后台移动中");
         }else {
             // 前台直接移动
-            $cmd = "rclone moveto ".$sourcePath." ".$desPath;
+            $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
             $res = ShellManager::exec($cmd);
             if (!$res["success"]){
                 echo $this->failed("移动失败");
