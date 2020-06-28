@@ -468,6 +468,7 @@
             var msg = data.data.msg;
             if (canMove){
                 moveBack = data.data.back ? "1" : "0";
+                console.log("后台移动：" + moveBack);
                 movetoPathArray = [""];
                 loadMoveDirList(function () {
                     showEditCover(opeType);
