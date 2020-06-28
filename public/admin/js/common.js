@@ -85,6 +85,9 @@ function refreshLog() {
     reloadLog(function () {
         // 开启计时器
         startTimer();
+        // 自动滚动带最底部
+        var $scroll = $(".log-box");
+        $scroll.scrollTop($scroll[0].scrollHeight);
     },true,50000);
 }
 
