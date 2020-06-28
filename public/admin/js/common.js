@@ -24,6 +24,8 @@ function checkLog() {
                     repeat : true
                 });
                 $(".log-container").css("display","block");
+                // 刷新一次
+                reloadLog();
             },
             end:function () {
                 $(".log-container").css("display","none");
