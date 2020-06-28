@@ -291,13 +291,14 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $dirName = $_GET["dirName"];
-
-        echo $path;
-        die;
+        $dirName = base64_decode($dirName);
+        $dirName = urldecode($dirName);
 
         $fullPath = str_replace(" ","\ ",$path.$dirName);
         $cmd = 'rclone mkdir '.$driverName.":".$fullPath;
 
+        echo $cmd;
+        die;
 
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
