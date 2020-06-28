@@ -39,7 +39,7 @@
         bottom: 20px;
     }
 
-    .btns-box .confirm-btn,.transfer-btn{
+    .btns-box .confirm-btn,transfer-btn{
         background-color: #393D49;
     }
 
@@ -954,23 +954,6 @@
         },true,true);
     }
 
-    // 查看转存进度
-    function checkProgress() {
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransferExist";
-        get(url,function (data) {
-            var result = data.data;
-            if (result.flag){
-                // 显示正在转存的文件名
-                $(".moveto-path").html(result.content);
-                // 有文件正在转存
-                showEditCover(4);
-            }else {
-                // 没有文件正在转存
-                toast(result.content);
-            }
-        });
-    }
-
     // 刷新转存进度信息
     function reloadTransferInfo() {
         console.log("刷新转存日志");
@@ -995,6 +978,23 @@
         },false);
     }
 
+    // 查看日志文件
+    function checkLog() {
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransferExist";
+        get(url,function (data) {
+            var result = data.data;
+            if (result.flag){
+                // 显示正在转存的文件名
+                $(".moveto-path").html(result.content);
+                // 有文件正在转存
+                showEditCover(4);
+            }else {
+                // 没有文件正在转存
+                toast(result.content);
+            }
+        });
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>
@@ -1005,7 +1005,6 @@
                 <div class="layui-form-item select-box">
                     <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
                     <button onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
-                    <button onclick="checkProgress()" type="button" class="layui-btn transfer-btn">查看进度</button>
                     <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">
                 </div>
             </form>
