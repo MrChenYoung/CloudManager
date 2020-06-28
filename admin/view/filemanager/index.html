@@ -429,10 +429,8 @@
             switch (opeType) {
                 case 1:
                     // 移动
-                    movetoPathArray = [""];
-                    loadMoveDirList(function () {
-                        showEditCover(opeType);
-                    });
+                    // 文件移动操作前处理
+                    beforMoveFileHandle();
                     break;
                 case 2:
                     // 重命名
@@ -455,6 +453,25 @@
             editRow = obj;
             editFileName = obj.attr("fileName");
             editDir = obj.attr("isDir");
+        });
+    }
+
+    // 文件移动操作前处理
+    function beforMoveFileHandle() {
+        // 检查要移动的文件大小，如果大于前台移动文件大小限制，在检测是否有正在后台移动的任务，如果没有才能移动
+        var sourcePath = selectDrive + ":" + getPathString() + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + sourcePath;
+        get(url,function (data) {
+            var canMove = data.data.canMove;
+            var msg = data.data.msg;
+            if (canMove){
+                movetoPathArray = [""];
+                loadMoveDirList(function () {
+                    showEditCover(opeType);
+                });
+            }else {
+                toast(msg,false);
+            }
         });
     }
 
