@@ -138,7 +138,7 @@ EEE;
      * 删除数据，根据主键字段删除
      * 参数：主键值，删除主键等于谁的记录
      */
-    public function delete($tbName,$where)
+    public function delete($tbName,$where=[])
     {
         $index = 0;
         $whereStr = "";
@@ -152,7 +152,12 @@ EEE;
             $index++;
         }
 
-        $sql = "DELETE FROM $tbName WHERE $whereStr";
+        if (strlen($whereStr) > 0){
+            $sql = "DELETE FROM $tbName WHERE $whereStr";
+        }else {
+            $sql = "DELETE FROM $tbName";
+        }
+
         return $this -> dao -> query($sql);
     }
 
