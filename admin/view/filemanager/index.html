@@ -463,6 +463,7 @@
         // 检查要移动的文件大小，如果大于前台移动文件大小限制，在检测是否有正在后台移动的任务，如果没有才能移动
         var sourcePath = selectDrive + ":" + getPathString() + editFileName;
         var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + sourcePath;
+        console.log("移动前检测:" + url);
         get(url,function (data) {
             var canMove = data.data.canMove;
             var msg = data.data.msg;
