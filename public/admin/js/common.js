@@ -34,11 +34,11 @@ function checkLog() {
                 }
             });
         });
-    },true);
+    },true,50000);
 }
 
 // 刷新日志信息
-function reloadLog(success=null,withHud=false) {
+function reloadLog(success=null,withHud=false,timeout=10000) {
     console.log("刷新日志");
     var url = baseUrl + "/Logs/log.txt";
     // 手动滑动日志文件，停止自动滚动到最底部
@@ -71,7 +71,7 @@ function reloadLog(success=null,withHud=false) {
         if (success){
             success();
         }
-    },withHud,false,10000,null,'text');
+    },withHud,false,timeout,null,'text');
 }
 
 // 跳转到添加rsa密钥页面携带的参数
