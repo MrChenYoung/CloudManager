@@ -226,6 +226,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
+        $path = urldecode($path);
 
         $res = $this->loadDetaileInfo($driverName,$path);
         echo $this->success($res);
