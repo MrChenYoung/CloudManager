@@ -60,20 +60,6 @@ class API_FileTransferController extends API_BaseController
         echo $this->success("文件后台转存中");
     }
 
-    // 转存日志文件是否存在
-    public function fileTransferExist(){
-        $data = $this->getFileTransferStatus();
-        $fileName = "";
-        if (is_array($data) && key_exists("file_name",$data)){
-            $fileName = $data["file_name"];
-        }
-        if (file_exists(LogManager::getSingleton()->logFilePath)){
-            echo $this->success(["flag"=>true,"content"=>$fileName]);
-        }else {
-            echo $this->success(["flag"=>false,"content"=>"没有转存任务"]);
-        }
-    }
-
     // 是否正在转存文件
     public function fileTransfering(){
         $data = $this->getFileTransferStatus();
