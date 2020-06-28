@@ -21,7 +21,7 @@ function checkLog() {
                 success: function(){
                     // 开启计时器
                     $('#timer').timer({
-                        duration : '2s',
+                        duration : '10s',
                         callback : reloadLog,
                         repeat : true
                     });
