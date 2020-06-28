@@ -149,6 +149,9 @@ class AsynTaskController extends Controller
         if (!isset($_REQUEST["desPath"])) die;
         $desPath = $_REQUEST["desPath"];
 
+        // 添加到数据库记录
+        DatabaseDataManager::getSingleton()->insert("file_move_info",["source_path"=>$sourcePath,"des_path"=>$desPath]);
+
         // 添加日志
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("移动".$sourcePath."到".$desPath);
@@ -161,5 +164,7 @@ class AsynTaskController extends Controller
             // 移动成功
             LogManager::getSingleton()->addLog("文件移动成功");
         }
+        // 从数据库记录删除
+        DatabaseDataManager::getSingleton()->delete("file_move_info");
     }
 }
