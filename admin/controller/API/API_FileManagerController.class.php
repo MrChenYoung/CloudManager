@@ -68,6 +68,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
+        $path = urldecode($path);
 
         // rclone命令获取文件列表信息
         $path = str_replace(" ","\ ",$path);
@@ -136,6 +138,8 @@ class API_FileManagerController extends API_BaseController
             die;
         }
         $path = $_GET["path"];
+        $path = base64_decode($path);
+        $path = urldecode($path);
 
         // rclone命令获取文件列表信息
         $path = str_replace(" ","\ ",$path);

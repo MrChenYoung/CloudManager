@@ -370,7 +370,7 @@
 
     // 请求文件列表
     function loadFileList(withHud=true) {
-        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + getPathString();
+        var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + btoa(encodeURIComponent(getPathString()));
         console.log("获取文件列表:" + url);
         get(url,function (data) {
             if (!withHud){
@@ -383,7 +383,7 @@
 
     // 请求移动目标文件夹选择列表
     function loadMoveDirList(success=null) {
-        var url = "?m=admin&c=API_FileManager&a=loadMoveDirList&API=&remoteName=" + movetoDriver + "&path=" + getPathString(movetoPathArray);
+        var url = "?m=admin&c=API_FileManager&a=loadMoveDirList&API=&remoteName=" + movetoDriver + "&path=" + btoa(encodeURIComponent(getPathString(movetoPathArray)));
         console.log("获取移动目标文件夹列表:" + url);
         get(url,function (data) {
             var dirList = data.data;
