@@ -1,9 +1,6 @@
 
 var scrollToBottom = true;
 var stopScrollTime = 0;
-$(document).ready(function () {
-
-});
 
 // 展示日志
 function checkLog() {
@@ -51,7 +48,7 @@ function reloadLog() {
         scrollToBottom = false;
         stopScrollTime = 0;
     });
-    
+
     get(url,function (data) {
         if (!scrollToBottom){
             // 停止自动滚动计时
