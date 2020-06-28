@@ -18,7 +18,6 @@
 </head>
 
 <body>
-    <img src="<?php echo $webSite?>/public/common/img/login_bg1.jpg" class="bg_img" />
     <input id="encrypt_pass" type="hidden" value="<?php echo $_GET["pass"]?>"/>
     <div id="cotent" class="aw-login">
         <div class="mod center-block" style="padding-top: 60px;">
