@@ -286,7 +286,7 @@
 
     // 请求云盘列表
     function loadDriverList(success=null) {
-        var url = "?m=admin&c=API_FileManager&a=loadDriverList&API=";
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=loadDriverList&API=";
         showHud();
         get(url,function (data) {
             driverList = data.data;
