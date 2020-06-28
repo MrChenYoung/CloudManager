@@ -315,13 +315,6 @@ class API_FileManagerController extends API_BaseController
         }
         $desPath = $_GET["desPath"];
 
-        // 查看是否有文件正在后台移动
-        $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
-        if ($tableRes && count($tableRes) > 0){
-            echo $this->failed("有文件正在后台移动中");
-            die;
-        }
-
         // 转义空格
         $sourcePath = str_replace(" ","\ ",$sourcePath);
         $desPath = str_replace(" ","\ ",$desPath);
@@ -332,6 +325,14 @@ class API_FileManagerController extends API_BaseController
         //  如果要移动的文件大于10G，转入后台移动
         if ($size > 10 * 1024 * 1024 * 1024){
             // 后台移动
+
+            // 查看是否有文件正在后台移动
+            $tableRes = DatabaseDataManager::getSingleton()->find("file_move_info");
+            if ($tableRes && count($tableRes) > 0){
+                echo $this->failed("有文件正在后台移动中");
+                die;
+            }
+
             $params = [
                 "m"=>"admin",
                 "c"=>"AsynTask",
