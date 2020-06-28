@@ -331,9 +331,6 @@ class API_FileManagerController extends API_BaseController
         $size = (int)$res["sizeBytes"];
         //  如果要移动的文件大于10G，转入后台移动
         if ($size > 10 * 1024 * 1024 * 1024){
-            echo "后台移动";
-            die;
-
             // 后台移动
             $params = [
                 "m"=>"admin",
@@ -347,8 +344,6 @@ class API_FileManagerController extends API_BaseController
             // 提示正在后台移动
             echo $this->success("文件后台移动中");
         }else {
-            echo "前台移动";
-            die;
             // 前台直接移动
             $cmd = "rclone moveto ".$sourcePath." ".$desPath;
             $res = ShellManager::exec($cmd);
