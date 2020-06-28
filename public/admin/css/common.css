@@ -8,8 +8,8 @@
     cursor: pointer;
 }
 
-/*右下角添加分类/平台/账号/密码按钮*/
-.add-btn {
+/*右下角查看日志按钮*/
+.open-log-btn {
     position: fixed;
     right: 20px;
     bottom: 30px;
@@ -20,11 +20,15 @@
     border-color: transparent;
     cursor: pointer;
 }
-.add-btn img {
+.open-log-btn i {
     width: 25px;
     height: 25px;
+    display: inline-block;
+    font-size: 25px;
+    color: #ffffff;
+    background-color: #393D49;
 }
-.add-btn:hover {
+.open-log-btn:hover {
     opacity: 0.8;
 }
 
