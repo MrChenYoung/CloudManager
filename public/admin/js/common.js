@@ -38,8 +38,7 @@ function checkLog() {
 // 刷新日志信息
 function reloadLog() {
     console.log("刷新日志");
-    // var url = baseUrl + "/Logs/log.txt";
-    var url = baseUrl + "/log.txt";
+    var url = baseUrl + "/Logs/log.txt";
 
     // 手动滑动日志文件，停止自动滚动到最底部
     $(".log-box").scroll(function () {
