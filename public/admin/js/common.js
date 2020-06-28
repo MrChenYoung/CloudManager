@@ -75,6 +75,12 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
     },withHud,false,timeout,null,'text');
 }
 
+// 清空日志
+function clearLog() {
+    var url = baseUrl + "?m=admin&c=API_FileManager&a=clearLog&API=";
+    get(url,null,false);
+}
+
 
 // 手动刷新日志
 function refreshLog() {

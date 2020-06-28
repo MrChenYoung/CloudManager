@@ -4,6 +4,7 @@
 namespace admin\controller\API;
 use framework\core\Controller;
 use framework\tools\FileManager;
+use framework\tools\LogManager;
 use framework\tools\SessionManager;
 use framework\tools\ShellManager;
 
@@ -100,5 +101,11 @@ class API_BaseController extends Controller
         }
 
         return ["size"=>$fileSize,"count"=>$fileCount,"sizeBytes"=>$fileSizeBytes];
+    }
+
+    // 清空日志
+    public function clearLog(){
+        LogManager::getSingleton()->clearLog();
+        echo $this->success("");
     }
 }
