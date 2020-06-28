@@ -1,6 +1,8 @@
 
 // 展示日志
 function checkLog() {
+    console.log("打开日志");
+
     // 开启计时器
     $('#timer').timer({
         duration : '2s',
