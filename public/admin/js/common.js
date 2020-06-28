@@ -79,6 +79,7 @@ function reloadLog(success=null,withHud=false,timeout=10000) {
 function clearLog() {
     stopTimer();
     var url = baseUrl + "?m=admin&c=API_FileManager&a=clearLog&API=";
+    console.log("清空日志:" + url);
     get(url,function () {
         // 刷新
         reloadLog(function () {
