@@ -47,8 +47,13 @@ function checkLog() {
 // 刷新日志信息
 function reloadLog() {
     console.log("刷新日志");
-    var url = baseUrl + "/Logs/log.txt";
+    // var url = baseUrl + "/Logs/log.txt";
+    var url = baseUrl + "/log.txt";
     get(url,function (data) {
+        if (!scrollToBottom){
+            // 停止自动滚动计时
+            stopScrollTime++;
+        }
 
         // 停止手动滚动5秒后自动开启自动刷新并滚动到日志最下方
         if (stopScrollTime > 5 && !scrollToBottom){
@@ -59,6 +64,7 @@ function reloadLog() {
         $scroll.html('<pre>'+ data +'</pre>');
         if (scrollToBottom){
             // 自动滚动到底部
+            console.log("日志自动滚动到最底部");
             $scroll.scrollTop($scroll[0].scrollHeight);
         }
     },false,false,10000,null,'text');
