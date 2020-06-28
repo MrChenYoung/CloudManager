@@ -37,7 +37,7 @@ class API_FileTransferController extends API_BaseController
         }
         DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>1,"file_name"=>$dirName,"file_path"=>$path],["id"=>1]);
 
-        // 解析处资源id
+        // 解析资源id
         $needle = "folders/";
         $end = substr($address,strpos($address,$needle) + strlen($needle));
         $needle2 = "?";

@@ -21,6 +21,8 @@ class CreateTablesController
         $this->initPassWDTable();
         // 创建文件转存信息表
         $this->initFileTransferInfoTable();
+        // 创建文件后台移动信息表
+        $this->initFileMoveInfoTable();
     }
 
     // 初始化数据库信息
@@ -112,9 +114,23 @@ EEE;
                         file_name varchar(256) DEFAULT '' COMMENT '文件名',
                         file_path varchar(128) DEFAULT '' COMMENT '文件保存路径',
                         status tinyint DEFAULT 0 COMMENT '状态'
-                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='密码表';
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件转存信息表';
 EEE;
         $this->dao->createTable($tableName,$sql);
         $this->dao->insertData($tableName,"id",["id"=>1]);
+    }
+
+    // 创建文件后台移动信息表
+    public function initFileMoveInfoTable(){
+        $tableName = "file_move_info";
+        // 创建视频数据表
+        $sql = <<<EEE
+                    CREATE TABLE $tableName(
+                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        source_path varchar(256) DEFAULT '' COMMENT '源路径',
+                        des_path varchar(256) DEFAULT '' COMMENT '目标路径',
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件移动信息表';
+EEE;
+        $this->dao->createTable($tableName,$sql);
     }
 }

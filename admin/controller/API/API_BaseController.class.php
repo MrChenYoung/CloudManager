@@ -70,12 +70,18 @@ class API_BaseController extends Controller
      * 获取云盘指定路径下的详细信息(总大小和文件总数量)
      * @param $remoteName   云盘名字
      * @param $path         路径
+     * @param $path         云盘名称和路劲的组合，如果传该参数前两个参数可传空
      * @return array        包含大小和文件数量的数组
      */
-    public function loadDetaileInfo($remoteName,$path){
+    public function loadDetaileInfo($remoteName,$path,$fullPath=null){
         $fileSize = "--";
         $fileCount = 0;
-        $getSizeCmd = "rclone size ".$remoteName.":".$path;
+        $fileSizeBytes = 0;
+        if ($fullPath){
+            $getSizeCmd = "rclone size ".$fullPath;
+        }else {
+            $getSizeCmd = "rclone size ".$remoteName.":".$path;
+        }
         $sizeRes = ShellManager::exec($getSizeCmd);
         if (!$sizeRes["success"]){
             // 获取文件详情失败
@@ -88,10 +94,11 @@ class API_BaseController extends Controller
                 $fileSize = trim(str_replace("Bytes","",$fileSize));
             }
 
+            $fileSizeBytes = $fileSize;
             $fileSize = FileManager::formatBytes($fileSize);
         }
 
-        return ["size"=>$fileSize,"count"=>$fileCount];
+        return ["size"=>$fileSize,"count"=>$fileCount,"sizeBytes"=>$fileSizeBytes];
     }
 
     // 获取云盘所有文件大小和文件总数量

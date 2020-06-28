@@ -6,6 +6,7 @@ namespace admin\controller\API;
 
 use framework\tools\DatabaseDataManager;
 use framework\tools\FileManager;
+use framework\tools\MultiThreadTool;
 use framework\tools\ShellManager;
 
 class API_FileManagerController extends API_BaseController
@@ -314,16 +315,38 @@ class API_FileManagerController extends API_BaseController
         }
         $desPath = $_GET["desPath"];
 
+        // 转义空格
         $sourcePath = str_replace(" ","\ ",$sourcePath);
         $desPath = str_replace(" ","\ ",$desPath);
-        $cmd = "rclone moveto ".$sourcePath." ".$desPath;
-        $res = ShellManager::exec($cmd);
-        if (!$res["success"]){
-            echo $this->failed("移动失败");
-            die;
-        }
 
-        echo $this->success("移动成功");
+        // 获取要移动文件的大小
+        $res = $this->loadDriverDetailInfo("","",$sourcePath);
+        $size = $res["sizeBytes"];
+        //  如果要移动的文件大于10G，转入后台移动
+        if ($size > 10 * 1024 * 1024 * 1024){
+            // 后台移动
+            $params = [
+                "m"=>"admin",
+                "c"=>"AsynTask",
+                "a"=>"index",
+                "sourcePath"=>$sourcePath,
+                "desPath"=>$desPath
+            ];
+
+            MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
+            // 提示正在后台移动
+            echo $this->success("文件后台移动中");
+        }else {
+            // 前台直接移动
+            $cmd = "rclone moveto ".$sourcePath." ".$desPath;
+            $res = ShellManager::exec($cmd);
+            if (!$res["success"]){
+                echo $this->failed("移动失败");
+                die;
+            }
+
+            echo $this->success("移动成功");
+        }
     }
 
     // 根据文件类型获取显示图标

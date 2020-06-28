@@ -139,4 +139,27 @@ class AsynTaskController extends Controller
         // 转存完成 修改数据库标识
         DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>'0'],["id"=>1]);
     }
+
+    // 移动文件
+    public function moveFile(){
+        // 源路径
+        if (!isset($_REQUEST["sourcePath"])) die;
+        $sourcePath = $_REQUEST["sourcePath"];
+        // 目标路劲
+        if (!isset($_REQUEST["desPath"])) die;
+        $desPath = $_REQUEST["desPath"];
+
+        // 添加日志
+        LogManager::getSingleton()->clearLog();
+        LogManager::getSingleton()->addLog("移动".$sourcePath."到".$desPath);
+        $cmd = "rclone moveto ".$sourcePath." ".$desPath;
+        $res = ShellManager::exec($cmd);
+        if (!$res["success"]){
+            // 移动失败
+            LogManager::getSingleton()->addLog("文件移动失败");
+        }else {
+            // 移动成功
+            LogManager::getSingleton()->addLog("文件移动成功");
+        }
+    }
 }
