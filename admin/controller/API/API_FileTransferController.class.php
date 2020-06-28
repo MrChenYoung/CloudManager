@@ -36,7 +36,6 @@ class API_FileTransferController extends API_BaseController
             $dirName = urldecode($dirName);
             // 空格转义
             $dirName = str_replace(" ","\ ",$dirName);
-            echo "path:".$path."<br>";
             $path .= $dirName;
         }
 
@@ -68,10 +67,6 @@ class API_FileTransferController extends API_BaseController
             "sourceId"=>$end,
             "savePath"=>$path
         ];
-
-        echo "<pre>";
-        var_dump($params);
-        die;
 
         MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
         // 提示正在后台更新
