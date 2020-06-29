@@ -18,21 +18,21 @@ $driverName =  $argv[4];
 $savePath = $argv[5];
 
 // 开始转存文件，设置标志位
-//$startRes = update($mysqli,["status"=>1],["id"=>1]);
-//if ($startRes === true){
-//    addLog($logPath,"设置标志为成功");
-//}else {
-//    addLog($logPath,"设置标志为失败".$startRes);
-//}
+$startRes = update($mysqli,["status"=>1],["id"=>1]);
+if ($startRes === true){
+    addLog($logPath,"设置标志为成功");
+}else {
+    addLog($logPath,"设置标志为失败".$startRes);
+}
 
 // 执行gclone转存命令
-//$cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
-//$res = myshellExec($cmd);
-//if (!$res["success"]){
-//    addLog($logPath,"文件转存失败");
-//}else {
-//    addLog($logPath,"文件转存成功");
-//}
+$cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+$res = myshellExec($cmd);
+if (!$res["success"]){
+    addLog($logPath,"文件转存失败");
+}else {
+    addLog($logPath,"文件转存成功");
+}
 
 // 转存完成 修改数据库标识
 $endRes = update($mysqli,["status"=>0],["id"=>1]);
