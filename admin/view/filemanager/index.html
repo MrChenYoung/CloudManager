@@ -849,9 +849,15 @@
 
     // 移动文件
     function moveFile1() {
-        var sourcePath = selectDrive + ":" + getPathString() + editFileName;
-        var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + btoa(encodeURIComponent(sourcePath)) + "&API=&desPath=" + btoa(encodeURIComponent(desPath)) + "&back=" + moveBack;
+        var sourcePath = getPathString() + editFileName;
+        var desPath = getPathString(movetoPathArray).replace("根目录","") + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath="
+            + btoa(encodeURIComponent(sourcePath))
+            + "&API=&desPath="
+            + btoa(encodeURIComponent(desPath))
+            + "&back=" + moveBack
+            + "&sourcedriver=" + selectDrive
+            + "&desdriver=" + movetoDriver;
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
