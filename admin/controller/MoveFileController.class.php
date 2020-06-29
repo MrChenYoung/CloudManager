@@ -9,6 +9,8 @@ $mysqli = new \mysqli($mysqlOption['host'],$mysqlOption['user'],$mysqlOption['pa
 
 if ($mysqli -> connect_error){
     addLog($logPath,"数据库连接失败：".$mysqli -> connect_error);
+}else {
+    addLog($logPath,"数据库链接成功");
 }
 
 // 添加log
