@@ -67,6 +67,7 @@ class AsynTaskController extends Controller
         $desPath = $_REQUEST["desPath"];
 
         $cmd = "php ".ADMIN."controller/MoveFileController.class.php ".LogManager::getSingleton()->logFilePath." ".json_encode($GLOBALS["db_info"]);
+        LogManager::getSingleton()->addLog("cmd:".$cmd);
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             LogManager::getSingleton()->addLog("执行测试php脚本失败:".json_encode($res));
