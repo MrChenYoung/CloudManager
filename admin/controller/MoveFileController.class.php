@@ -3,7 +3,7 @@
 // 日志文件路径
 $logPath = $argv[1];
 // mysql数据库信息
-$mysqlOption = json_decode($argv[2]);
+$mysqlOption = json_decode($argv[2],true);
 // 链接数据库
 $mysqli = new \mysqli($mysqlOption['host'],$mysqlOption['user'],$mysqlOption['pass'],$mysqlOption['dbname'],$mysqlOption['port']);
 
