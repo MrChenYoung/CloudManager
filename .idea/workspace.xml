@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/MoveFileController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/MoveFileController.class.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +86,7 @@
       <workItem from="1592817638457" duration="1133000" />
       <workItem from="1592823019514" duration="431000" />
       <workItem from="1592835966847" duration="136175000" />
-      <workItem from="1593232506547" duration="61582000" />
+      <workItem from="1593232506547" duration="61781000" />
     </task>
     <servers />
   </component>
@@ -96,10 +98,10 @@
       <screen x="0" y="23" width="1680" height="978" />
     </state>
     <state x="617" y="72" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1680.978@0.23.1680.978" timestamp="1591849338855" />
-    <state x="582" y="258" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1593357110623">
+    <state x="582" y="258" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1593426577926">
       <screen x="0" y="23" width="1680" height="973" />
     </state>
-    <state x="582" y="258" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.973@0.23.1680.973" timestamp="1593357110623" />
+    <state x="582" y="258" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.973@0.23.1680.973" timestamp="1593426577926" />
     <state x="582" y="258" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.974@0.23.1680.974" timestamp="1592338993067" />
     <state x="582" y="259" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.977@0.23.1680.977" timestamp="1591423726797" />
     <state x="582" y="259" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.978@0.23.1680.978" timestamp="1591718538266" />
