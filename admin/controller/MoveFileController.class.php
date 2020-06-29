@@ -48,12 +48,12 @@ $desPath = $argv[6];
 //// 从数据库记录删除
 $deleteRes = delete($mysqli,[],$logPath);
 if ($deleteRes === true){
-    addLog("添加记录删除成功");
+    addLog($logPath,"添加记录删除成功");
 }else {
-    addLog("添加记录删除失败:".$deleteRes);
+    addLog($logPath,"添加记录删除失败:".$deleteRes);
 }
 
-addLog("文件移动结束");
+addLog($logPath,"文件移动结束");
 
 // 执行shell脚本
 function myshellExec($mycmd){
