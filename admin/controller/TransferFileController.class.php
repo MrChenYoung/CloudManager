@@ -85,7 +85,6 @@ function update($mysqlDAO,$data,$where=[]){
     //2. 拼接更新的字段
     $arr = [];
     foreach($data as $k=>$v){
-        $v = $this->dao->quote($v);
         $arr[] = "`$k` = $v";
     }
     $fields = implode(',',$arr);
