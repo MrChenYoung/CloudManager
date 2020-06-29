@@ -35,7 +35,7 @@
 
     // 检查是否有文件正在转存
     function checkTransferStatus() {
-        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=getFileTransferStatus";
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
         get(url,function (data) {
             if (data){
                 $("#file_transfering_flag").css("display","block");
