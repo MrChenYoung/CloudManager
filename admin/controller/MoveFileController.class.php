@@ -44,6 +44,7 @@ if (!$res["success"]){
 }
 // 从数据库记录删除
 delete($mysqli);
+addLog("文件移动结束");
 
 // 执行shell脚本
 function myshellExec($mycmd){
