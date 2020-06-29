@@ -485,12 +485,12 @@
             var msg = data.data.msg;
             if (canMove){
                 // 是否要在后台进行移动操作
-                selectMoveDesDir();
+                selectMoveDesDir(data);
             }else {
                 var btns = [{
                     title:"确定",
                     func: function(){
-                        selectMoveDesDir();
+                        selectMoveDesDir(data);
                     }
                 },{
                     title:"取消",
@@ -504,7 +504,7 @@
     }
     
     // 移动文件选择目标文件夹
-    function selectMoveDesDir() {
+    function selectMoveDesDir(data) {
         moveBack = data.data.back ? "1" : "0";
         movetoPathArray = [""];
         // 默认移动到当前云盘下
