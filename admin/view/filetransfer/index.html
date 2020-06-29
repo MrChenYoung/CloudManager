@@ -37,7 +37,7 @@
     function checkTransferStatus() {
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
         get(url,function (data) {
-            if (data){
+            if (data.flag){
                 $("#file_transfering_flag").css("display","block");
             }else {
                 $("#file_transfering_flag").css("display","none");
