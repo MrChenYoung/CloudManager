@@ -20,13 +20,10 @@ $desdriver = $argv[5];
 $desPath = $argv[6];
 
 // 添加到数据库记录
-$res = insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath],$logPath);
-if ($res === true){
-    addLog($logPath,"插入数据成功");
-}else {
-    addLog($logPath,"插入数据失败".$res);
-}
-
+//$insertRes = insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath]);
+//if ($insertRes !== true){
+//    addLog($logPath,"插入数据失败".$res);
+//}
 
 //if ($sourcedriver == $desdriver){
 //    $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
@@ -49,8 +46,14 @@ if ($res === true){
 //    addLog("文件移动成功");
 //}
 //// 从数据库记录删除
-//delete($mysqli);
-//addLog("文件移动结束");
+$deleteRes = delete($mysqli,[],$logPath);
+if ($deleteRes === true){
+    addLog("添加记录删除成功");
+}else {
+    addLog("添加记录删除失败:".$deleteRes);
+}
+
+addLog("文件移动结束");
 
 // 执行shell脚本
 function myshellExec($mycmd){
@@ -72,7 +75,7 @@ function addLog($path,$content){
 }
 
 // 插入数据到数据库
-function insert($mysqlDAO,$data,$path){
+function insert($mysqlDAO,$data){
     $sql = "INSERT INTO file_move_info ";
 
     //2. 将传递的数组中的字段名拼接成字符串
@@ -92,7 +95,6 @@ function insert($mysqlDAO,$data,$path){
 
     //执行sql语句
     $result = $mysqlDAO -> query($sql);
-    addLog($path,"sql语句:".$sql);
     if ($result){
         return true;
     }else {
@@ -101,7 +103,7 @@ function insert($mysqlDAO,$data,$path){
 }
 
 // 删除数据库记录
-function delete($mysqlDAO,$where=[]){
+function delete($mysqlDAO,$where=[],$path){
     $index = 0;
     $whereStr = "";
     foreach ($where as $key => $value) {
@@ -120,11 +122,12 @@ function delete($mysqlDAO,$where=[]){
         $sql = "DELETE FROM file_move_info";
     }
 
+    addLog($path,"sql语句:".$sql);
     $res = $mysqlDAO -> query($sql);
     if ($res){
         return true;
     }else {
-        return false;
+        return $mysqlDAO -> error;
     }
 }
 
