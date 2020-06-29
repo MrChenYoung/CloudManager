@@ -41,6 +41,7 @@
     function checkTransferStatus() {
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
         get(url,function (data) {
+            console.log("结果:" + JSON.stringify(data));
             if (data.flag){
                 console.log("有文件正在转存");
                 $("#file_transfering_flag").css("display","block");
