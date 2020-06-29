@@ -729,7 +729,7 @@
         $(".add-category-container").css("height","180px");
         $(".layui-field-title").css('width','430px');
         $(".moveto-title-box").css("display","none");
-        $("fieldset").css("display",'block');
+        $(".cover-title").css("display",'block');
         switch (type) {
             case 0:
                 // 新建文件夹
@@ -749,7 +749,7 @@
                 area = ['820px','620px'];
                 offset = '100px';
                 $(".moveto-box").css("display",'block');
-                $("fieldset").css("display",'none');
+                $(".cover-title").css("display",'none');
                 $(".moveto-title-box").css("display","block");
                 movetoPath = "";
                 // 显示当前选择的目录路径
@@ -956,7 +956,7 @@
 
 <!--浮层弹窗-->
 <div class="add-category-container">
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <fieldset class="layui-elem-field layui-field-title cover-title" style="margin-top: 20px;">
         <legend id="legend_title">重命名</legend>
     </fieldset>
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
