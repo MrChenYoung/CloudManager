@@ -399,6 +399,8 @@ class API_FileManagerController extends API_BaseController
                 die;
             }
 
+            // 如果是跨云盘移动文件夹，原来的云盘里的文件夹会变成空，但是文件夹依然存在，需要再执行删除空文件夹命令
+            ShellManager::exec("rclone purge ".$sourcePath);
             echo $this->success("移动成功");
         }
     }
