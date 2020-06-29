@@ -42,8 +42,10 @@
         var url = baseUrl + "?m=admin&c=API_FileTransfer&a=fileTransfering";
         get(url,function (data) {
             if (data.flag){
+                console.log("有文件正在转存");
                 $("#file_transfering_flag").css("display","block");
             }else {
+                console.log("没有有文件正在转存");
                 $("#file_transfering_flag").css("display","none");
             }
         },false);
