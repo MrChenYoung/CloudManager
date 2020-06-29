@@ -322,6 +322,13 @@ class API_FileManagerController extends API_BaseController
 
     // 移动文件
     function moveFile(){
+        // 源云盘名
+        if (!isset($_GET["sourcedriver"])){
+            echo $this->failed("缺少sourcedriver参数");
+            die;
+        }
+        $sourcedriver = $_GET["sourcedriver"];
+
         // 源文件路径
         if (!isset($_GET["sourcePath"])){
             echo $this->failed("缺少sourcePath参数");
@@ -330,6 +337,14 @@ class API_FileManagerController extends API_BaseController
         $sourcePath = $_GET["sourcePath"];
         $sourcePath = base64_decode($sourcePath);
         $sourcePath = urldecode($sourcePath);
+        $sourcePath = $sourcedriver.":".$sourcePath;
+
+        // 目标云盘名
+        if (!isset($_GET["desdriver"])){
+            echo $this->failed("缺少desdriver参数");
+            die;
+        }
+        $desdriver = $_GET["desdriver"];
 
         // 目标文件路径
         if (!isset($_GET["desPath"])){
@@ -339,6 +354,7 @@ class API_FileManagerController extends API_BaseController
         $desPath = $_GET["desPath"];
         $desPath = base64_decode($desPath);
         $desPath = urldecode($desPath);
+        $desPath = $desdriver.":".$desPath;
 
         // 是否要在后台移动
         if (!isset($_GET["back"])){
@@ -359,7 +375,9 @@ class API_FileManagerController extends API_BaseController
                 "c"=>"AsynTask",
                 "a"=>"index",
                 "sourcePath"=>$sourcePath,
-                "desPath"=>$desPath
+                "desPath"=>$desPath,
+                "desdriver"=>$desdriver,
+                "sourcedriver"=>$sourcedriver
             ];
 
             MultiThreadTool::addTask($this->website."/index.php","moveFile",$params);
@@ -367,7 +385,13 @@ class API_FileManagerController extends API_BaseController
             echo $this->success("文件后台移动中");
         }else {
             // 前台直接移动
-            $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+            if ($sourcedriver == $desdriver){
+                // 云盘内移动文件，不耗费vps流量
+                $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+            }else {
+                // 跨云盘移动文件 耗费vps流量
+                $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+            }
 
             $res = ShellManager::exec($cmd);
             if (!$res["success"]){

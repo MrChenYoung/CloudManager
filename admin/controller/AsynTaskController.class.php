@@ -53,9 +53,15 @@ class AsynTaskController extends Controller
 
     // 移动文件
     public function moveFile(){
+        // 源云盘
+        if (!isset($_REQUEST["sourcedriver"])) die;
+        $sourcedriver = $_REQUEST["sourcedriver"];
         // 源路径
         if (!isset($_REQUEST["sourcePath"])) die;
         $sourcePath = $_REQUEST["sourcePath"];
+        // 目标云盘
+        if (!isset($_REQUEST["desdriver"])) die;
+        $desdriver = $_REQUEST["desdriver"];
         // 目标路劲
         if (!isset($_REQUEST["desPath"])) die;
         $desPath = $_REQUEST["desPath"];
@@ -66,7 +72,12 @@ class AsynTaskController extends Controller
         // 添加日志
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("移动".$sourcePath."到".$desPath);
-        $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        if ($sourcedriver == $desdriver){
+            $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        }else {
+            $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        }
+
         LogManager::getSingleton()->addLog("命令:".$cmd);
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){

@@ -864,9 +864,38 @@
             toast("请选择目标云盘");
             return;
         }
-        var sourcePath = selectDrive + ":" + getPathString() + editFileName;
-        var desPath = movetoDriver + ":" + getPathString(movetoPathArray).replace("根目录","") + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath=" + btoa(encodeURIComponent(sourcePath)) + "&API=&desPath=" + btoa(encodeURIComponent(desPath)) + "&back=" + moveBack;
+
+        if (selectDrive != movetoDriver){
+            // 跨云盘移动文件,不能使用不耗费vps流量的全局参数，移动要耗费流量，给出提示
+            var btns = [{
+                title:"确定",
+                func: function(){
+                    moveFile1();
+                }
+            },{
+                title:"取消",
+                func: function () {
+
+                }
+            }];
+            showAlert("确定要跨云盘移动文件吗？这样会耗费你vps的流量",btns);
+        }else {
+            // 云盘内移动文件，可以不耗费vps流量的全局参数，不耗费vps流量
+            moveFile1();
+        }
+    }
+
+    // 移动文件
+    function moveFile1() {
+        var sourcePath = getPathString() + editFileName;
+        var desPath = getPathString(movetoPathArray).replace("根目录","") + editFileName;
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=moveFile&sourcePath="
+            + btoa(encodeURIComponent(sourcePath))
+            + "&API=&desPath="
+            + btoa(encodeURIComponent(desPath))
+            + "&back=" + moveBack
+            + "&sourcedriver=" + selectDrive
+            + "&desdriver=" + movetoDriver;
         console.log("移动文件:" + url);
         get(url,function () {
             // 移动成功 刷新列表
