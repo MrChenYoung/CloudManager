@@ -362,6 +362,7 @@
 
     // 请求文件列表
     function loadFileList(withHud=true) {
+        console.log("路径:"+getPathString());
         var url = "?m=admin&c=API_FileManager&a=loadFileList&API=&remoteName=" + selectDrive + "&path=" + btoa(encodeURIComponent(getPathString()));
         console.log("获取文件列表:" + url);
         get(url,function (data) {
