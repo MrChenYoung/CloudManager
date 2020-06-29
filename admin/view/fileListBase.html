@@ -372,6 +372,14 @@
             var fileList = data.data;
             createFilesDoms(fileList);
         },withHud,false,500000);
+        
+        // 检查是否有文件正在转存
+        checkTransferStatus();
+    }
+
+    // 检查是否有文件正在转存
+    function checkTransferStatus() {
+
     }
 
     // 请求移动目标文件夹选择列表
@@ -917,8 +925,7 @@
                 <div class="file-transfer-box">
                     <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
                     <button id="transfer_btn" onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
-                    <button onclick="resetTransferFlag()" type="button" class="layui-btn transfer-btn">复位</button>
-                    <!--                <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">-->
+                    <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">
                 </div>
             </div>
         </form>

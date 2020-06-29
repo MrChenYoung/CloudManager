@@ -33,6 +33,18 @@
         });
     });
 
+    // 检查是否有文件正在转存
+    function checkTransferStatus() {
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=getFileTransferStatus";
+        get(url,function (data) {
+            if (data){
+                $("#file_transfering_flag").css("display","block");
+            }else {
+                $("#file_transfering_flag").css("display","none");
+            }
+        },false);
+    }
+
     // 更新转存按钮状态
     function updateTransferBtnStatus() {
         var transferBtn = $(".transfer-btn");
