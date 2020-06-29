@@ -497,7 +497,18 @@
                     showEditCover(1);
                 });
             }else {
-                toast(msg,false);
+                var btns = [{
+                    title:"确定",
+                    func: function(){
+                        showEditCover(1);
+                    }
+                },{
+                    title:"取消",
+                    func: function () {
+
+                    }
+                }];
+                showAlert("有文件正在后台移动，确定继续添加任务吗?",btns);
             }
         });
     }
