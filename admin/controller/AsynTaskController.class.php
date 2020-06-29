@@ -69,7 +69,7 @@ class AsynTaskController extends Controller
         $cmd = "php ".ADMIN."controller/MoveFileController.class.php 123";
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
-            LogManager::getSingleton()->addLog("执行测试php脚本失败");
+            LogManager::getSingleton()->addLog("执行测试php脚本失败:".json_encode($res));
         }else {
             LogManager::getSingleton()->addLog("执行测试php脚本成功");
         }
