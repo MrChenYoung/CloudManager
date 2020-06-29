@@ -485,22 +485,12 @@
             var msg = data.data.msg;
             if (canMove){
                 // 是否要在后台进行移动操作
-                moveBack = data.data.back ? "1" : "0";
-                movetoPathArray = [""];
-                // 默认移动到当前云盘下
-                movetoDriverType = selectDriveType;
-                movetoDriver = selectDrive;
-                createDriverTypeSelectDoms(true);
-                createDriverSelectDoms(true);
-                // 请求文件夹列表
-                loadMoveDirList(function () {
-                    showEditCover(1);
-                });
+                selectMoveDesDir();
             }else {
                 var btns = [{
                     title:"确定",
                     func: function(){
-                        showEditCover(1);
+                        selectMoveDesDir();
                     }
                 },{
                     title:"取消",
@@ -512,6 +502,22 @@
             }
         });
     }
+    
+    // 移动文件选择目标文件夹
+    function selectMoveDesDir() {
+        moveBack = data.data.back ? "1" : "0";
+        movetoPathArray = [""];
+        // 默认移动到当前云盘下
+        movetoDriverType = selectDriveType;
+        movetoDriver = selectDrive;
+        createDriverTypeSelectDoms(true);
+        createDriverSelectDoms(true);
+        // 请求文件夹列表
+        loadMoveDirList(function () {
+            showEditCover(1);
+        });
+    }
+    
 
     // 创建要移动到的文件夹列表dom
     function createMoveDirDoms(data) {
