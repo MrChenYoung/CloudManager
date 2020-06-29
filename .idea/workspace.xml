@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/admin/view/fileListBase.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/controller/MoveFileController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/MoveFileController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/filemanager/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/filemanager/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +19,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -41,26 +42,26 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin/view/filetransfer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/admin/view" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/admin/view/filetransfer" />
-      <recent name="$PROJECT_DIR$/admin/view/setting" />
-      <recent name="$PROJECT_DIR$/admin/view/filemanager" />
-      <recent name="$PROJECT_DIR$/admin/view/mydriver" />
-      <recent name="$PROJECT_DIR$/admin/controller" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/framework/tools" />
       <recent name="$PROJECT_DIR$/public/admin/js" />
       <recent name="$PROJECT_DIR$/admin/controller/API" />
       <recent name="$PROJECT_DIR$/admin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/admin/view" />
+      <recent name="$PROJECT_DIR$/admin/view/filetransfer" />
+      <recent name="$PROJECT_DIR$/admin/view/setting" />
+      <recent name="$PROJECT_DIR$/admin/view/filemanager" />
+      <recent name="$PROJECT_DIR$/admin/view/mydriver" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -85,7 +86,7 @@
       <workItem from="1592817638457" duration="1133000" />
       <workItem from="1592823019514" duration="431000" />
       <workItem from="1592835966847" duration="136175000" />
-      <workItem from="1593232506547" duration="67525000" />
+      <workItem from="1593232506547" duration="69749000" />
     </task>
     <servers />
   </component>
