@@ -41,14 +41,15 @@ class AsynTaskController extends Controller
         LogManager::getSingleton()->clearLog();
         LogManager::getSingleton()->addLog("开始转存文件：".$savePath);
 
-        $cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+        // 执行移动文件php脚本
+        $cmd = "php ".ADMIN."controller/TransferFileController.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
+        $cmd = $cmd." ".$sourceId." ".$driverName." ".$savePath;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
-            LogManager::getSingleton()->addLog("文件转存失败");
+            LogManager::getSingleton()->addLog("执行测试php脚本失败:".json_encode($res));
+        }else {
+            LogManager::getSingleton()->addLog("执行测试php脚本成功:".json_encode($res));
         }
-        LogManager::getSingleton()->addLog("文件转存完成");
-        // 转存完成 修改数据库标识
-        DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>'0'],["id"=>1]);
     }
 
     // 移动文件
