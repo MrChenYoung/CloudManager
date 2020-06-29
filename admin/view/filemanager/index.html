@@ -1,1 +1,9 @@
 <{extends file="fileListBase.html"}>
+<{block name="subScriptCode"}>
+<script>
+    $(document).ready(function () {
+        // 设置边栏服务器信息选中状态
+        $("#file_manager").addClass("active");
+    })
+</script>
+<{/block}>
