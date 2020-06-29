@@ -39,7 +39,7 @@
         bottom: 20px;
     }
 
-    .btns-box .confirm-btn{
+    .btns-box .confirm-btn,.transfer-btn{
         background-color: #393D49;
     }
 
@@ -110,6 +110,8 @@
         padding: 0 10px;
         height: 30px;
         line-height: 30px;
+        display: inline-block;
+        margin-top: -8px;
     }
 
     .layui-btn-disabled {
@@ -117,33 +119,33 @@
     }
 
     .menu-box {
-        background-color: red;
-    }
-
-    .menu-box ul li {
-        width: 30px;
         height: 30px;
         line-height: 30px;
-        cursor: pointer;
-        float: left;
-        margin-left: 10px;
-        text-align: center;
     }
 
-    .menu-box ul li i {
-        display: block;
+    .menu-box .iconfont {
+        display: inline-block;
         width: 30px;
         height: 30px;
         font-size: 25px;
         color: #8a8a8a;
+        cursor: pointer;
+        margin: 0 5px;
     }
 
-    .menu-box ul li i:hover {
+    .menu-box .iconfont:hover {
         -webkit-transition: all 220ms ease-in-out;
         -moz-transition: all 220ms ease-in-out;
         -o-transition: all 220ms ease-in-out;
         transition: all 220ms ease-in-out;
         color: #393D49;
+    }
+
+    .breadcrumb-box {
+        height: 25px;
+        line-height: 25px;
+        vertical-align: bottom;
+        display: inline-block;
     }
 
     .moveto-dir-list {
@@ -193,12 +195,19 @@
         font-size: 14px;
         font-weight: 300;
     }
+
+    .share-address-input {
+        width: 600px;
+        display: inline-block;
+    }
 </style>
 <{/block}>
 <{block name="scriptCode"}>
 <script>
     // 云盘列表数据
     var driverList;
+    var defaultSelectDriverType = "谷歌云盘";
+    var defaultSelectDriver = "GDSuiteTeam";
     // 选择的云盘类型
     var selectDriveType;
     // 选择的云盘
@@ -231,38 +240,46 @@
             form.on('select(drive-type-list)', function(data){
                 // 选择的云盘类型
                 selectDriveType = data.value;
-                movetoDriverType = selectDriveType;
-                // 刷新云盘列表
-                createDriverSelectDoms();
+
+                if (selectDriveType.length > 0){
+                    // 刷新云盘列表
+                    createDriverSelectDoms();
+                }
             });
+
 
             // 监听云盘选择
             form.on('select(drive-list)', function(data){
                 // 选择的云盘
                 selectDrive = data.value;
-                movetoDriver = selectDrive;
-                // 目录回到根目录
-                pathArray = [""];
-                // 刷新列表
-                loadFileList();
+                if (selectDrive.length > 0){
+                    // 目录回到根目录
+                    pathArray = [""];
+                    // 刷新列表
+                    loadFileList();
+                }
             });
 
             // 监听要移动到的云盘类型选择
             form.on('select(moveto-drive-type-list)', function(data){
                 // 选择的云盘类型
                 movetoDriverType = data.value;
-                // 刷新云盘列表
-                createMovetiDriverSelectDoms();
+                if (movetoDriverType.length > 0){
+                    // 刷新云盘列表
+                    createDriverSelectDoms();
+                }
             });
 
             // 监听要移动到的云盘选择
             form.on('select(moveto-drive-list)', function(data){
                 // 选择的云盘
                 movetoDriver = data.value;
-                // 目录回到根目录
-                movetoPathArray = [""];
-                // 刷新移动文件目录列表
-                loadMoveDirList();
+                if (movetoDriver.length > 0){
+                    // 目录回到根目录
+                    movetoPathArray = [""];
+                    // 刷新移动文件目录列表
+                    loadMoveDirList();
+                }
             });
         });
 
@@ -278,17 +295,12 @@
             driverList = data.data;
 
             // 默认选择的云盘类型
-            var driveTypes = Object.keys(driverList);
-            if (driveTypes.length > 0){
-                selectDriveType = driveTypes[0];
-                movetoDriverType = selectDriveType;
-            }
+            selectDriveType = defaultSelectDriverType;
+            movetoDriverType = selectDriveType;
 
             // 默认选择的云盘
-            if (selectDriveType.length > 0){
-                selectDrive = driverList[selectDriveType][0];
-                movetoDriver = selectDrive;
-            }
+            selectDrive = defaultSelectDriver;
+            movetoDriver = selectDrive;
 
             // 创建云盘类型选择列表
             createDriverTypeSelectDoms();
@@ -348,28 +360,6 @@
             }else {
                 $("#drive_select").html(dom);
             }
-            form.render();
-        });
-    }
-
-    // 创建云盘选择列表
-    function createMovetiDriverSelectDoms() {
-        var dom = '<option value="">选择云盘</option>';
-        if (movetoDriverType.length > 0){
-            var drives = driverList[movetoDriverType];
-            for(var i = 0; i < drives.length; i++){
-                var driver = drives[i];
-                if (movetoDriver == driver){
-                    dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
-                }else {
-                    dom += '<option value="'+ driver +'">'+ driver +'</option>';
-                }
-            }
-        }
-
-        layui.use('form',function () {
-            var form = layui.form;
-            $("#moveto_drive_select").html(dom);
             form.render();
         });
     }
@@ -474,13 +464,21 @@
             var canMove = data.data.canMove;
             var msg = data.data.msg;
             if (canMove){
-                moveBack = data.data.back ? "1" : "0";
-                movetoPathArray = [""];
-                loadMoveDirList(function () {
-                    showEditCover(opeType);
-                });
+                // 是否要在后台进行移动操作
+                selectMoveDesDir(data);
             }else {
-                toast(msg,false);
+                var btns = [{
+                    title:"确定",
+                    func: function(){
+                        selectMoveDesDir(data);
+                    }
+                },{
+                    title:"取消",
+                    func: function () {
+
+                    }
+                }];
+                showAlert("有文件正在后台移动，确定继续添加任务吗?",btns);
             }
         });
     }
@@ -768,6 +766,14 @@
                 $input.val(editFileName);
                 oldFileName = editFileName;
                 break;
+            case 3:
+                // 转存文件
+                $("#legend_title").text("转存到文件夹");
+                $input.css("display","block");
+                $(".add-category-container").css("height","180px");
+                $input.attr("placeholder","输入文件夹名称");
+                $input.val("");
+                break;
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -781,7 +787,7 @@
                 shadeClose: true,
                 content: $(".add-category-container"),
                 success: function(){
-                    if (type == 2 || type == 0){
+                    if (type == 2 || type == 0 || type == 3){
                         // 自动获取焦点
                         $input.focus();
                         // // 文字被选中
@@ -823,7 +829,6 @@
                 break;
             case 2:
                 // 重命名
-                // 重命名
                 var newName = $('#new_name_input').val();
                 if (newName.length == 0){
                     toast("名称不能为空");
@@ -833,6 +838,11 @@
                     renameFile(newName);
                     hideEditCover();
                 }
+                break;
+            case 3:
+                // 转存文件
+                var dirName = $('#new_name_input').val();
+                saveShareFile(dirName);
                 break;
         }
     }
@@ -906,21 +916,21 @@
                 <select id="drive_select" lay-filter="drive-list">
                     <option value="">选择云盘</option>
                 </select>
-                <button id="back_btn" onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
-                <span id="cur_dir" class="layui-breadcrumb">
-                    </span>
+                <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入共享资源地址" class="layui-input share-address-input" id="share_address_input">
+                <button id="transfer_btn" onclick="transferShareFile(this)" type="button" class="layui-btn transfer-btn layui-btn-disabled">转存</button>
+                <button onclick="resetTransferFlag()" type="button" class="layui-btn transfer-btn">复位</button>
+                <!--                <img id="file_transfering_flag" style="width: 20px;height: 20px;background-color: transparent;margin-left: 10px;display: none"  src="/public/common/img/loading.gif">-->
             </div>
         </form>
     </div>
     <div class="menu-box">
-        <ul>
-            <li>
-                <i onclick="refreshFileList()" title="刷新" class="iconfont icon-shuaxin1"></i>
-            </li>
-            <li>
-                <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
-            </li>
-        </ul>
+        <i onclick="refreshFileList()" title="刷新" class="iconfont icon-shuaxin1"></i>
+        <i onclick="createNewDir()" title="新建文件夹" class="iconfont icon-wenjian"></i>
+        <button onclick="backLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+        <div class="breadcrumb-box">
+                <span class="layui-breadcrumb">
+                </span>
+        </div>
     </div>
     <div class="layui-form file-table-box" style="text-align: center;">
         <table id="file_list_table" class="layui-table" lay-skin="nob">
@@ -993,8 +1003,6 @@
         <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
         <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
     </div>
-    <!--选择图片上传-->
-    <input type="file" name="file" id="file_select_input" style="display:none">
 </div>
 
 <{/block}>
