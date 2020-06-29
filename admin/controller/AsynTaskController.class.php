@@ -67,7 +67,7 @@ class AsynTaskController extends Controller
         $desPath = $_REQUEST["desPath"];
 
         $cmd = "php ".ADMIN."controller/MoveFileController.class.php 123";
-        $res = shell_exec($cmd);
+        $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             LogManager::getSingleton()->addLog("执行测试php脚本失败");
         }else {
