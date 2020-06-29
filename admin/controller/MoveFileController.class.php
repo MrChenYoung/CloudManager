@@ -20,31 +20,37 @@ $desdriver = $argv[5];
 $desPath = $argv[6];
 
 // 添加到数据库记录
-insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath]);
-
-if ($sourcedriver == $desdriver){
-    $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+$res = insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath]);
+if ($res === true){
+    addLog($logPath,"插入数据成功");
 }else {
-    $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".$logPath." 2>&1";
+    addLog($logPath,"插入数据失败".$res);
 }
 
-// 执行rclone移动移动命令
-addLog($logPath,"命令:".$cmd);
-$res = myshellExec($cmd);
-if (!$res["success"]){
-    // 移动失败
-    addLog("文件移动失败");
-}else {
-    // 移动成功
-    // 如果是跨云盘移动文件夹，原来的云盘里的文件夹会变成空，但是文件夹依然存在，需要再执行删除空文件夹命令
-    if ($sourcedriver != $desdriver){
-        myshellExec("rclone purge ".$sourcePath);
-    }
-    addLog("文件移动成功");
-}
-// 从数据库记录删除
-delete($mysqli);
-addLog("文件移动结束");
+
+//if ($sourcedriver == $desdriver){
+//    $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+//}else {
+//    $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".$logPath." 2>&1";
+//}
+//
+//// 执行rclone移动移动命令
+//addLog($logPath,"命令:".$cmd);
+//$res = myshellExec($cmd);
+//if (!$res["success"]){
+//    // 移动失败
+//    addLog("文件移动失败");
+//}else {
+//    // 移动成功
+//    // 如果是跨云盘移动文件夹，原来的云盘里的文件夹会变成空，但是文件夹依然存在，需要再执行删除空文件夹命令
+//    if ($sourcedriver != $desdriver){
+//        myshellExec("rclone purge ".$sourcePath);
+//    }
+//    addLog("文件移动成功");
+//}
+//// 从数据库记录删除
+//delete($mysqli);
+//addLog("文件移动结束");
 
 // 执行shell脚本
 function myshellExec($mycmd){
@@ -89,7 +95,7 @@ function insert($mysqlDAO,$data){
     if ($result){
         return true;
     }else {
-        return false;
+        return $mysqlDAO -> error;
     }
 }
 
