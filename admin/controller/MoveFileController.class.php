@@ -20,7 +20,7 @@ $desdriver = $argv[5];
 $desPath = $argv[6];
 
 // 添加到数据库记录
-$res = insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath]);
+$res = insert($mysqli,["source_path"=>$sourcePath,"des_path"=>$desPath],$logPath);
 if ($res === true){
     addLog($logPath,"插入数据成功");
 }else {
@@ -72,7 +72,7 @@ function addLog($path,$content){
 }
 
 // 插入数据到数据库
-function insert($mysqlDAO,$data){
+function insert($mysqlDAO,$data,$path){
     $sql = "INSERT INTO file_move_info ";
 
     //2. 将传递的数组中的字段名拼接成字符串
@@ -92,6 +92,7 @@ function insert($mysqlDAO,$data){
 
     //执行sql语句
     $result = $mysqlDAO -> query($sql);
+    addLog($path,"sql语句:".$sql);
     if ($result){
         return true;
     }else {
