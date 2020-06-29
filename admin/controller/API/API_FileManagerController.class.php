@@ -393,9 +393,6 @@ class API_FileManagerController extends API_BaseController
                 $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
             }
 
-            echo $cmd;
-            die;
-
             $res = ShellManager::exec($cmd);
             if (!$res["success"]){
                 echo $this->failed("移动失败");
