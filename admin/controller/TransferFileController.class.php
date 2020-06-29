@@ -26,7 +26,7 @@ if ($startRes === true){
 }
 
 // 执行gclone转存命令
-$cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+$cmd = "gclone copy $driverName:"."{".$sourceId."}"." ".$driverName.":$savePath --drive-server-side-across-configs -P > ".$logPath." 2>&1";
 $res = myshellExec($cmd);
 if (!$res["success"]){
     addLog($logPath,"文件转存失败");
