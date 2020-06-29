@@ -72,7 +72,6 @@ function update($mysqlDAO,$data,$where=[]){
 
         foreach($where as $k=>$v){
             //将可能存在的 单引号 转义并包裹
-            $v = $this->dao->quote($v);
             if ($index){
                 $where_str.= " AND `$k` = $v";
             }else {
