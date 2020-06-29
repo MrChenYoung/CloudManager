@@ -80,7 +80,7 @@ function insert($mysqlDAO,$data,$path){
     $values = [];
     foreach($data as $k=>$v){
         $keys[] = "`$k`";                    // `goods_name`    `shop_price`
-        $values[] = $v;                     // '小米Mix2'  '1 or 1=1 \''
+        $values[] = "'".$v."'";                     // '小米Mix2'  '1 or 1=1 \''
     }
     //3. 拼接字段部分
     $fields = '('.implode(',',$keys).')';    // (`goods_name`,`shop_price`)
