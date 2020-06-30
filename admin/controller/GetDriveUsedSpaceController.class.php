@@ -18,6 +18,7 @@ update($mysqli,["used_space"=>"--","file_count"=>"--"]);
 
 // rclone脚本获取数据
 $cmd = "rclone size $driverName:";
+addLog($logPath,"命令是:".$cmd);
 $res = myshellExec($cmd);
 if ($res["success"]){
     $fileSize = "--";
