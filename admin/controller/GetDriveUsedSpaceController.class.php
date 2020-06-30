@@ -14,7 +14,7 @@ if ($mysqli -> connect_error){
 $driverName =  $argv[3];
 
 // 清空历史记录
-update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
+update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName],$logPath);
 
 // rclone脚本获取数据
 $cmd = "rclone size $driverName:";
@@ -35,7 +35,7 @@ if ($res["success"]){
 
     addLog($logPath,"获取到使用空间大小:".$fileSize);
     // 更新数据库数据
-    update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$driverName]);
+    update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$driverName],$logPath);
 }else {
     addLog($logPath,"获取使用空间失败");
 }
@@ -74,7 +74,7 @@ function addLog($path,$content){
 }
 
 // 更新数据库
-function update($mysqlDAO,$data,$where=[]){
+function update($mysqlDAO,$data,$where=[],$path){
     //1. 判断是否传递了where条件
     if(empty($where) || !is_array($where)){
     }else{
@@ -104,6 +104,7 @@ function update($mysqlDAO,$data,$where=[]){
     //3. 拼接SQL语句
     $sql = "UPDATE driver_list SET $fields $where_str";
 
+    addLog($path,"sql语句:".$sql);
     $result = $mysqlDAO -> query($sql);
     if ($result){
         return true;
