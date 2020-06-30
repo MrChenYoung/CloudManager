@@ -312,6 +312,8 @@ class API_FileManagerController extends API_BaseController
         $fullPath = str_replace(" ","\ ",$path.$dirName);
         $cmd = 'rclone mkdir '.$driverName.":".$fullPath;
 
+        echo $cmd;
+        die;
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("文件夹创建失败");
