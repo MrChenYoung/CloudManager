@@ -21,7 +21,7 @@ class API_MyDriverController extends API_BaseController
             die;
         }
 
-        // 数据库查询云盘额外信息
+        // 数据库查询云盘信息
         $driveData = [];
         $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
         if ($driveInfo){
@@ -29,13 +29,6 @@ class API_MyDriverController extends API_BaseController
                 $driveName = $drive["driver_name"];
                 $driveData[$driveName] = $drive;
             }
-        }
-
-        // 获取是否要同时加载文件详细信息设置项
-        $switchData = DatabaseDataManager::getSingleton()->find("driver_setting",["flag"=>"load_file_detail_info"],["status"]);
-        $switchStatus = false;
-        if ($switchData){
-            $switchStatus = $switchData[0]["status"];
         }
 
         $driverList = $res["result"];
@@ -60,25 +53,22 @@ class API_MyDriverController extends API_BaseController
                     break;
             }
 
-            // 获取大小
-            $size = "--";
-            // 文件数
-            $count = "--";
-            if ($switchStatus){
-                $res = $this->loadDetaileInfo($key,"/");
-                $size = $res["size"];
-                $count = $res["count"];
-            }
 
             // 额外信息
             $mainAdmin = "--";
             $memberCount = "--";
             $remark = "--";
+            // 已使用空间大小
+            $size = "--";
+            // 总文件数
+            $count = "--";
             if (key_exists($key,$driveData)){
                 $dData = $driveData[$key];
                 $mainAdmin = $dData["main_admin"];
                 $memberCount = $dData["member_count"];
                 $remark = $dData["remark"];
+                $size = $dData["used_space"];
+                $count = $dData["file_count"];
             }
 
 
