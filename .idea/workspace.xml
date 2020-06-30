@@ -2,7 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_AccountController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_AttachmentController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_CategoryController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_GeneralInfoController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_IconManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_PassManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_PlatformController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/AccountManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/AttachmentManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/CategoryManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/GeneralInfoController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/PasswdManagerController.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/UploadAttachment.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/account/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/attachment/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/category/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/general/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/passwd/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/platform/index.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +105,7 @@
       <workItem from="1592835966847" duration="136175000" />
       <workItem from="1593232506547" duration="79200000" />
       <workItem from="1593464978389" duration="3558000" />
-      <workItem from="1593509831926" duration="158000" />
+      <workItem from="1593509831926" duration="693000" />
     </task>
     <servers />
   </component>
