@@ -4,6 +4,7 @@
 namespace admin\controller\API;
 
 use framework\tools\DatabaseDataManager;
+use framework\tools\FileManager;
 use framework\tools\ShellManager;
 
 class API_MyDriverController extends API_BaseController
@@ -56,12 +57,6 @@ class API_MyDriverController extends API_BaseController
                 default:
                     $type = "未知";
                     break;
-            }
-
-            // 如果数据库中没有记录 插入
-            $driveExtenInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key]);
-            if (!$driveExtenInfo){
-                DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$key]);
             }
 
             // 获取大小
@@ -147,14 +142,30 @@ class API_MyDriverController extends API_BaseController
         }
     }
 
-    // 修改备注
-    public function modifyRemark(){
+    // 修改云盘信息
+    public function modifyDriveInfo(){
         // 云盘名
         if (!isset($_GET["driverName"])){
             echo $this->failed("缺少driverName参数");
             die;
         }
         $driverName = $_GET["driverName"];
+
+        // 主管理员
+        if (!isset($_GET["mainAdmin"])){
+            echo $this->failed("缺少mainAdmin参数");
+            die;
+        }
+        $mainAdmin = $_GET["mainAdmin"];
+
+        // 成员数量
+        if (!isset($_GET["memberCount"])){
+            echo $this->failed("缺少memberCount参数");
+            die;
+        }
+        $memberCount = (int)$_GET["memberCount"];
+        // 每个成员每天限制拷贝750G数据
+        $memberCount = $memberCount."(".FileManager::formatBytes($memberCount * 750 * 1024 * 1024 * 1024).")";
 
         // 备注
         if (!isset($_GET["remark"])){
@@ -163,19 +174,26 @@ class API_MyDriverController extends API_BaseController
         }
         $remark = $_GET["remark"];
 
-        // 先查询是否有该云盘记录，如果没有，先记录到数据库，再更改备注
+        $data = [
+            "driver_name"=>$driverName,
+            "main_admin"    =>  $mainAdmin,
+            "member_count"  =>  $memberCount,
+            "remark"=>$remark
+        ];
+
+        // 先查询是否有该云盘记录
         $remarkInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$driverName]);
         $res = false;
         if (!$remarkInfo){
-            $res = DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$driverName,"remark"=>$remark]);
+            $res = DatabaseDataManager::getSingleton()->insert("driver_list",$data);
         }else {
-            $res = DatabaseDataManager::getSingleton()->update("driver_list",["remark"=>$remark],["driver_name"=>$driverName]);
+            $res = DatabaseDataManager::getSingleton()->update("driver_list",$data,["driver_name"=>$driverName]);
         }
 
         if ($res){
-            echo $this->success("备注修改成功");
+            echo $this->success("修改成功");
         }else {
-            echo $this->failed("备注修改失败");
+            echo $this->failed("修改失败");
         }
     }
 

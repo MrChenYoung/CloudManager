@@ -226,9 +226,13 @@
         },true,true);
     }
     
-    // 修改备注
-    function modifyRemark(remark) {
-        var url = baseUrl + "?m=admin&c=API_MyDriver&a=modifyRemark&driverName=" + editDriverName + "&API=&remark=" + remark;
+    // 修改云盘信息
+    function modifyDriveInfo(mainAdmin,memberCount,remark) {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=modifyDriveInfo"
+            + "&driverName=" + editDriverName
+            + "&API=&remark=" + remark
+            + "&mainAdmin=" + mainAdmin
+            + "&memberCount=" + memberCount;
         get(url,function () {
             // 刷新列表
             loadDriverList();
@@ -249,14 +253,14 @@
                 hideEditCover();
             }
         }else {
-            // 修改备注
-            var newRemark = $("#remark_area").val();
-            if (newRemark == oldRemark){
-                toast("备注未修改，无序保存");
-            }else {
-                modifyRemark(newRemark);
-                hideEditCover();
-            }
+            // 主管理员
+            var mainAdmin = $("#main_admin").val();
+            // 成员数
+            var memberCount = $("#member_count").val();
+            // 备注
+            var remark = $("#drive_remark").val();
+            modifyDriveInfo(mainAdmin,memberCount,remark);
+            hideEditCover();
         }
     }
 
