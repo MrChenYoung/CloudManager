@@ -13,8 +13,19 @@ if ($mysqli -> connect_error){
 // 保存到的云盘名
 $driverName =  $argv[3];
 
-// 清空历史记录
-update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
+if ($driverName == "1"){
+    // 更新全部云盘
+    update($mysqli,["used_space"=>"--","file_count"=>"--"]);
+
+    // 获取到所有云盘
+    $driveList = find($mysqli);
+    addLog($logPath,"查询到所有的云盘:".json_encode($driveList));
+    die;
+}else {
+    // 更新单个云盘
+    update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
+}
+
 
 // rclone脚本获取数据
 $cmd = "rclone size $driverName:";
@@ -71,6 +82,56 @@ function addLog($path,$content){
     $time = date('Y-m-d H:i:s', time());
     $content = "[$time]".$content."\r\n";
     file_put_contents($path,$content,FILE_APPEND);
+}
+
+// 从数据库查找
+function find($mysqlDAO,$where = [],$fields=[],$other="")
+{
+    //1. 确定查询的条件
+    if(empty($where) || !is_array($where)){
+        $where_str = '';
+    }else{
+        $where_str = '';
+        $index = 0;
+        foreach ($where as $key=>$value) {
+            if ($index == 0){
+                $where_str .= " WHERE ";
+            }else {
+                $where_str .= " AND ";
+            }
+            $where_str .= " `$key` = '$value' ";
+            $index++;
+        }
+    }
+
+    //2. 确定查询的字段
+    if(empty($fields) || !is_array($fields)){
+        $fields_str = '*';
+    }else{
+        $field = [];
+        foreach ($fields as $k=>$v){
+            $field[] = "`$v`";
+        }
+        //将数组的值使用,连接成字符串, `goods_id`,`goods_name`,`shop_price`
+        $fields_str = implode(',',$field);
+    }
+    //3. 拼接sql语句
+    $sql = "SELECT $fields_str FROM driver_list $where_str $other";
+
+    //4. 执行sql语句，返回结果
+    $result = $mysqlDAO -> query($sql);
+    if ($result){
+        // 获取所有行数据 只要关联数组
+        $res = $result -> fetch_all(MYSQLI_ASSOC);
+        // 释放资源
+        $result -> free();
+        return $res;
+    }else {
+        // 查询失败
+        echo "查询失败,错误如下:".$mysqlDAO -> error;
+        $result -> free();
+        exit;
+    }
 }
 
 // 更新数据库

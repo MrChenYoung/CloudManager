@@ -203,7 +203,23 @@ class API_MyDriverController extends API_BaseController
         }
         $driverName = $_GET["driverName"];
 
-        // 后台移动
+        $this->updateUsedInfo($driverName);
+
+        // 提示正在后台获取中
+        echo $this->success("正在后台更新".$driverName."云盘使用详情");
+    }
+
+    // 更新所有盘使用详情
+    public function updateAllDriveUsedInfo() {
+        $this->updateUsedInfo("");
+
+        // 提示正在后台获取中
+        echo $this->success("正在后台更新所有云盘使用详情");
+    }
+
+    // 后台更新云盘使用详细信息
+    private function updateUsedInfo($driverName){
+        // 后台更新使用详情
         $params = [
             "m"=>"admin",
             "c"=>"AsynTask",
@@ -212,7 +228,6 @@ class API_MyDriverController extends API_BaseController
         ];
 
         MultiThreadTool::addTask($this->website."/index.php","getDriveUsedSpace",$params);
-        // 提示正在后台获取中
-        echo $this->success("正在后台获取".$driverName."云盘使用空间大小");
     }
 }
+

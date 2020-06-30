@@ -96,7 +96,8 @@
         var menu_data=[
             {'type':1,'icon':'icon-zhongmingming','title':'重命名'},
             {'type':2,'icon':'icon-beizhu','title':'修改云盘信息'},
-            {'type':3,'icon':'icon-xiangqing','title':'获取大小和文件数'},
+            {'type':3,'icon':'icon-xiangqing','title':'更新使用使用详情'},
+            {'type':5,'icon':'icon-xiangqing','title':'更新所有盘使用详情'},
             {'type':4,'icon':'icon-icon_del','title':'删除'}
         ];
         mouseRightMenuInit($(".layui-table tbody tr"),menu_data,function (menuData) {
@@ -109,12 +110,16 @@
                     showEditCover(opeType);
                     break;
                 case 3:
-                    // 获取大小和文件数
+                    // 更新使用详情信息
                     loadDriverInfo();
                     break;
                 case 4:
                     // 删除
                     deleteDriver();
+                    break;
+                case 5:
+                    // 更新所有盘使用详情
+                    updateAllDriveUsedInfo();
                     break;
             }
         },function (obj) {
@@ -264,6 +269,12 @@
         hideEditCover();
     }
 
+    // 更新所有盘使用详情
+    function updateAllDriveUsedInfo() {
+        var url = baseUrl + "?m=admin&c=API_MyDriver&a=updateAllDriveUsedInfo";
+        get(url,null,true,true);
+    }
+
 </script>
 <{/block}>
 <{block name="content"}>
@@ -283,8 +294,8 @@
             <tr>
                 <th>名称</th>
                 <th>类型</th>
-                <th>大小</th>
-                <th>文件总数</th>
+                <th>已使用空间</th>
+                <th>文件总数量</th>
                 <th>主管理员</th>
                 <th>成员数量</th>
                 <th>备注</th>
