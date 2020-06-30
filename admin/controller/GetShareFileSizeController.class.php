@@ -46,6 +46,16 @@ function addLog($path,$content){
     file_put_contents($path,$content,FILE_APPEND);
 }
 
+// 执行shell脚本
+function myshellExec($mycmd){
+    exec($mycmd.' 2>&1',$result,$status);
+    $success = $status == 0 ? true : false;
+    return [
+        "success"   =>  $success,
+        "result"    =>  $result
+    ];
+}
+
 /**
  *  字节格式化成B KB MB GB TB
  * @param $size 字节大小
