@@ -15,6 +15,7 @@ if (!$res["success"]){
     addLog($logPath,"获取文件列表失败");
 }else {
     $fileList = $res["result"];
+    addLog($logPath,"命令：".$cmd);
     addLog($logPath,"结果:".json_encode($fileList));
     $count = count($fileList);
     $count = $count>=10000 ? $count/10000 .'w' : $count;
