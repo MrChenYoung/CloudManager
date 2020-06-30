@@ -14,7 +14,7 @@ if ($mysqli -> connect_error){
 $driverName =  $argv[3];
 
 // 清空历史记录
-update($mysqli,["used_space"=>"--","file_count"=>"--"]);
+update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
 
 // rclone脚本获取数据
 $cmd = "rclone size $driverName:";
@@ -33,8 +33,9 @@ if ($res["success"]){
     $fileCount = $fileCount>=10000 ? $fileCount/10000 .'w' : $fileCount."";
     $fileSize = formatBytes($fileSize);
 
+    addLog($logPath,"获取到使用空间大小:".$fileSize);
     // 更新数据库数据
-    update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount]);
+    update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$driverName]);
 }else {
     addLog($logPath,"获取使用空间失败");
 }
