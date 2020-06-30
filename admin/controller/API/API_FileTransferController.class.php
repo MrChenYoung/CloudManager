@@ -106,4 +106,43 @@ class API_FileTransferController extends API_BaseController
         DatabaseDataManager::getSingleton()->update("file_transfer_info",["status"=>'0'],["id"=>1]);
         echo $this->success("");
     }
+
+    // 计算共享资源大小
+    public function loadShareFileSize(){
+        // 资源地址
+        if (!isset($_GET["address"])){
+            echo $this->failed("缺少address参数");
+            die;
+        }
+        $address = $_GET["address"];
+
+        // 云盘名
+        if (!isset($_GET["driverName"])){
+            echo $this->failed("缺少driverName参数");
+            die;
+        }
+        $driverName = $_GET["driverName"];
+
+        // 解析资源id
+        $needle = "folders/";
+        $end = substr($address,strpos($address,$needle) + strlen($needle));
+        $needle2 = "?";
+        $pos = strpos($end,$needle2);
+        if ($pos){
+            $end = substr($end,0,$pos);
+        }
+
+        // 后台计算文件大小
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index",
+            "sourceId"=>$end,
+            "driverName"=>$driverName
+        ];
+
+        MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
+        // 提示正在后台更新
+        echo $this->success("文件后台转存中");
+    }
 }

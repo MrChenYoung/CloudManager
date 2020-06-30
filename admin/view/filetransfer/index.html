@@ -52,10 +52,13 @@
     // 更新转存按钮状态
     function updateTransferBtnStatus() {
         var transferBtn = $(".transfer-btn");
+        var getShareFileSizeBtn = $("#share_file_size_btn");
         if (shareAddress.length > 0){
             transferBtn.removeClass("layui-btn-disabled");
+            getShareFileSizeBtn.removeClass("layui-btn-disabled");
         }else {
             transferBtn.addClass("layui-btn-disabled");
+            getShareFileSizeBtn.addClass("layui-btn-disabled");
         }
     }
     
@@ -124,6 +127,15 @@
         get(url,function () {
             fileTransfering();
         },false);
+    }
+
+    // 计算要转存的资源的大小
+    function getShareFileSize() {
+        var $this = $(obj);
+        if ($this.hasClass("layui-btn-disabled")) return;
+
+        var url = baseUrl + "?m=admin&c=API_FileTransfer&a=loadShareFileSize&address=" + $("#share_address_input").val() + "&driverName=" + selectDrive;
+        get(url,null,true,true);
     }
 
 </script>
