@@ -117,7 +117,7 @@ class AsynTaskController extends Controller
         LogManager::getSingleton()->addLog("开始获取".$driverName."云盘已使用空间大小...");
 
         // 执行计算文件大小php脚本
-        $cmd = "php ".ADMIN."controller/TransferFileController.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
+        $cmd = "php ".ADMIN."controller/GetDriveUsedSpaceController.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
         $cmd = $cmd." ".$driverName;
         ShellManager::exec($cmd);
     }
