@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "publish": "git add -A && git commit -m 'new' && git push vps master"
+    "publish": "git add -A && git commit -m 'new' && git push vps master && git push vps2 master"
   },
   "author": "",
   "license": "ISC"
