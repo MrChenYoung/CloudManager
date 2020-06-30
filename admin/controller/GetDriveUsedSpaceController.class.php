@@ -18,7 +18,6 @@ update($mysqli,["used_space"=>"--","file_count"=>"--"]);
 
 // rclone脚本获取数据
 $cmd = "rclone size $driverName:";
-addLog($logPath,"命令是:".$cmd);
 $res = myshellExec($cmd);
 if ($res["success"]){
     $fileSize = "--";
@@ -36,6 +35,8 @@ if ($res["success"]){
 
     // 更新数据库数据
     update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount]);
+}else {
+    addLog($logPath,"获取使用空间失败");
 }
 
 
