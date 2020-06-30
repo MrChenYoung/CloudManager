@@ -8,8 +8,7 @@ $sourceId = $argv[2];
 $driverName =  $argv[3];
 
 // 执行gclone计算文件大小
-//$cmd = "gclone ls $driverName:"."{".$sourceId."}";
-$cmd = "gclone ls code007:/";
+$cmd = "gclone ls $driverName:"."{".$sourceId."}";
 $res = myshellExec($cmd);
 
 if (!$res["success"]){
