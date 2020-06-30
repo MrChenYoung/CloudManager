@@ -75,7 +75,6 @@
         for(var i = 0; i < data.length; i++){
             var driver = data[i];
             var driverName = driver["name"];
-            console.log("云盘:" + JSON.stringify(driver));
             driverData[driverName] = driver;
             dom += '<tr driverName="'+ driverName +'" remark="'+ driver["remark"] +'"><td>'+ driverName +'</td>';
             dom += '<td>'+ driver["type"] +'</td>';
@@ -145,7 +144,6 @@
             // 重命名
             $("#legend_title").text("重命名");
             $input.css("display","block");
-            $("#remark_area").css("display","none");
             $(".add-category-container").css("width","430px");
             $(".add-category-container").css("height","180px");
             // 显示原来的名字
@@ -155,6 +153,7 @@
             // 添加/修改备注
             $("#legend_title").text("修改云盘信息");
             $("#new_name_input").css("display","none");
+            $(".add-category-container .layui-form").css("display","none");
             $(".add-category-container").css("width","780px");
             $(".add-category-container").css("height","480px");
             $(".cover-title").css("width","780px");
