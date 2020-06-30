@@ -5,6 +5,7 @@ namespace admin\controller\API;
 
 use framework\tools\DatabaseDataManager;
 use framework\tools\FileManager;
+use framework\tools\MultiThreadTool;
 use framework\tools\ShellManager;
 
 class API_MyDriverController extends API_BaseController
@@ -206,7 +207,16 @@ class API_MyDriverController extends API_BaseController
         }
         $driverName = $_GET["driverName"];
 
-        $res = $this->loadDetaileInfo($driverName,"/");
-        echo $this->success($res);
+        // 后台移动
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index",
+            "driverName"=>$driverName
+        ];
+
+        MultiThreadTool::addTask($this->website."/index.php","getDriveUsedSpace",$params);
+        // 提示正在后台获取中
+        echo $this->success("正在后台获取".$driverName."云盘使用空间大小");
     }
 }

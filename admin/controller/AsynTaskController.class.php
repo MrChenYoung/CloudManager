@@ -105,4 +105,20 @@ class AsynTaskController extends Controller
             LogManager::getSingleton()->addLog("计算共享资源大小成功:".json_encode($res));
         }
     }
+
+    // 获取云盘已使用空间和文件总数量
+    public function getDriveUsedSpace(){
+        // 云盘名
+        if (!isset($_REQUEST["driverName"])) die;
+        $driverName = $_REQUEST["driverName"];
+
+        // 清空日志
+        LogManager::getSingleton()->clearLog();
+        LogManager::getSingleton()->addLog("开始获取".$driverName."云盘已使用空间大小...");
+
+        // 执行计算文件大小php脚本
+        $cmd = "php ".ADMIN."controller/TransferFileController.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
+        $cmd = $cmd." ".$driverName;
+        ShellManager::exec($cmd);
+    }
 }
