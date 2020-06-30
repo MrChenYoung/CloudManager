@@ -8,9 +8,12 @@ $sourceId = $argv[2];
 $driverName =  $argv[3];
 
 // 执行gclone计算文件大小
-$cmd = "gclone ls $driverName:"."{".$sourceId."}";
+//$cmd = "gclone ls $driverName:"."{".$sourceId."}";
+$cmd = "gclone ls code007:/";
 $res = myshellExec($cmd);
 
+addLog($logPath,"结果:".json_encode($res));
+die;
 if (!$res["success"]){
     addLog($logPath,"获取文件列表失败");
 }else {
