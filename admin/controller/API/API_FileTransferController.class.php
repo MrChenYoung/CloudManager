@@ -141,8 +141,8 @@ class API_FileTransferController extends API_BaseController
             "driverName"=>$driverName
         ];
 
-        MultiThreadTool::addTask($this->website."/index.php","fileTransfer",$params);
+        MultiThreadTool::addTask($this->website."/index.php","getShareFileSize",$params);
         // 提示正在后台更新
-        echo $this->success("文件后台转存中");
+        echo $this->success("文件后台计算中");
     }
 }
