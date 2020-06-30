@@ -9,30 +9,29 @@ $driverName =  $argv[3];
 
 // 执行gclone计算文件大小
 $cmd = "gclone ls $driverName:"."{".$sourceId."}";
-addLog($logPath,"命令：".$cmd);
-die;
 $res = myshellExec($cmd);
 
 if (!$res["success"]){
     addLog($logPath,"获取文件列表失败");
 }else {
     $fileList = $res["result"];
-    addLog($logPath,"命令：".$cmd);
-    addLog($logPath,"结果:".json_encode($fileList));
     $count = count($fileList);
     $count = $count>=10000 ? $count/10000 .'w' : $count;
     $size = 0;
-//    foreach ($fileList as $fileDes) {
-//        // 多个空格合并为一个空格
-//        $patt = '/\s{1,}/';
-//        $fileDes = preg_replace($patt,' ',$fileDes);
-//        $fileDesArray = explode(" ",$fileDes);
-//        $fileSize = (int)$fileDesArray[0];
-//        $filePath = $fileDesArray[1];
-//        addLog($logPath,"共<".$count.">个文件");
-//        addLog($logPath,"当前计算位置:".$filePath);
-//        $size += $fileSize;
-//    }
+    foreach ($fileList as $fileDes) {
+        // 多个空格合并为一个空格
+        $patt = '/\s{1,}/';
+        $fileDes = preg_replace($patt,' ',$fileDes);
+        // 去掉首尾空格
+        $fileDes = trim($fileDes);
+        // 转换成数组
+        $fileDesArray = explode(" ",$fileDes);
+        $fileSize = $fileDesArray[0];
+        $filePath = $fileDesArray[1];
+        addLog($logPath,"共<".$count.">个文件");
+        addLog($logPath,"当前计算位置:".$filePath);
+        $size += (int)$fileSize;
+    }
 
     // 总大小格式化
     $size = formatBytes($size);
