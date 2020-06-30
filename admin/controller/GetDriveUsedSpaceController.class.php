@@ -19,36 +19,40 @@ if ($driverName == "1"){
 
     // 获取到所有云盘
     $driveList = find($mysqli);
-    addLog($logPath,"查询到所有的云盘:".json_encode($driveList));
-    die;
+    foreach ($driveList as $drive) {
+
+    }
 }else {
     // 更新单个云盘
-    update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
+    updateUsedInfo($driverName,$mysqli,$logPath);
 }
+addLog($logPath,"更新云盘使用详情完成");
 
+// 更新单个云盘使用情况
+function updateUsedInfo($dName,$mysqlDAO,$lPath){
+    // rclone脚本获取数据
+    $cmd = "rclone size $dName:";
+    $res = myshellExec($cmd);
+    if ($res["success"]){
+        $fileSize = "--";
+        $fileCount = 0;
 
-// rclone脚本获取数据
-$cmd = "rclone size $driverName:";
-$res = myshellExec($cmd);
-if ($res["success"]){
-    $fileSize = "--";
-    $fileCount = 0;
+        $res = $res["result"];
+        $fileCount = (int)trim(str_replace("Total objects:","",$res[0]));
+        preg_match("/\((.*)\)/",$res[1],$match);
+        if (count($match) > 1){
+            $fileSize = $match[1];
+            $fileSize = trim(str_replace("Bytes","",$fileSize));
+        }
+        $fileCount = $fileCount>=10000 ? $fileCount/10000 .'w' : $fileCount."";
+        $fileSize = formatBytes($fileSize);
 
-    $res = $res["result"];
-    $fileCount = (int)trim(str_replace("Total objects:","",$res[0]));
-    preg_match("/\((.*)\)/",$res[1],$match);
-    if (count($match) > 1){
-        $fileSize = $match[1];
-        $fileSize = trim(str_replace("Bytes","",$fileSize));
+        addLog($lPath,"获取到<".$dName.">云盘使用空间大小:".$fileSize."文件总数:".$fileCount);
+        // 更新数据库数据
+        update($mysqlDAO,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$dName]);
+    }else {
+        addLog($lPath,"获取<".$dName.">云盘使用详情失败");
     }
-    $fileCount = $fileCount>=10000 ? $fileCount/10000 .'w' : $fileCount."";
-    $fileSize = formatBytes($fileSize);
-
-    addLog($logPath,"获取到使用空间大小:".$fileSize);
-    // 更新数据库数据
-    update($mysqli,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$driverName]);
-}else {
-    addLog($logPath,"获取使用空间失败");
 }
 
 
