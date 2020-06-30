@@ -97,7 +97,7 @@ function update($mysqlDAO,$data,$where=[],$path){
     //2. 拼接更新的字段
     $arr = [];
     foreach($data as $k=>$v){
-        $arr[] = "`$k` = $v";
+        $arr[] = "`$k` = '".$v."'";
     }
     $fields = implode(',',$arr);
 
