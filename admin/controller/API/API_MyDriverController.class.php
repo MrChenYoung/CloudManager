@@ -53,6 +53,12 @@ class API_MyDriverController extends API_BaseController
                     break;
             }
 
+            // 如果云盘信息记录不存在  插入记录
+            $fileInfoExist = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key]);
+            if (!$fileInfoExist){
+                DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$key]);
+            }
+
 
             // 额外信息
             $mainAdmin = "--";
