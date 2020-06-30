@@ -127,13 +127,8 @@
     function loadDriverInfo() {
         var url = baseUrl + "?m=admin&c=API_MyDriver&a=loadFileDetailInfo&driverName=" + editDriverName + "&API=";
         console.log("获取云盘详情：" + url);
-        get(url,function (data) {
-            var info = data.data;
-            var size = info["size"];
-            var count = info["count"];
-            editRow.find(".driver-size").text(size);
-            editRow.find(".file-count").text(count);
-        });
+        get(url,function () {
+        },true,true);
     }
 
     // 显示编辑界面
