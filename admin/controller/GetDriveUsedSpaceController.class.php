@@ -85,9 +85,9 @@ function update($mysqlDAO,$data,$where=[],$path){
         foreach($where as $k=>$v){
             //将可能存在的 单引号 转义并包裹
             if ($index){
-                $where_str.= " AND `$k` = $v";
+                $where_str.= " AND `$k` = '".$v."'";
             }else {
-                $where_str.= "`$k` = $v";
+                $where_str.= "`$k` = '".$v."'";
             }
 
             $index++;
