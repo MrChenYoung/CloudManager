@@ -12,8 +12,6 @@ $driverName =  $argv[3];
 $cmd = "gclone ls code007:/";
 $res = myshellExec($cmd);
 
-addLog($logPath,"结果:".json_encode($res));
-die;
 if (!$res["success"]){
     addLog($logPath,"获取文件列表失败");
 }else {
