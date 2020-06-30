@@ -19,6 +19,16 @@ class API_MyDriverController extends API_BaseController
             die;
         }
 
+        // 数据库查询云盘额外信息
+        $driveData = [];
+        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
+        if ($driveInfo){
+            foreach ($driveInfo as $drive) {
+                $driveName = $drive["driver_name"];
+                $driveData[$driveName] = $drive;
+            }
+        }
+
         // 获取是否要同时加载文件详细信息设置项
         $switchData = DatabaseDataManager::getSingleton()->find("driver_setting",["flag"=>"load_file_detail_info"],["status"]);
         $switchStatus = false;
@@ -34,7 +44,11 @@ class API_MyDriverController extends API_BaseController
             $type = "";
             switch ($driver["type"]){
                 case "drive":
-                    $type = "谷歌云盘";
+                    if (key_exists("team_drive",$driver)){
+                        $type = "谷歌团队盘";
+                    }else {
+                        $type = "谷歌云盘";
+                    }
                     break;
                 case "onedrive":
                     $type = "微软oneDriver";
@@ -42,6 +56,12 @@ class API_MyDriverController extends API_BaseController
                 default:
                     $type = "未知";
                     break;
+            }
+
+            // 如果数据库中没有记录 插入
+            $driveExtenInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key]);
+            if (!$driveExtenInfo){
+                DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$key]);
             }
 
             // 获取大小
@@ -53,19 +73,27 @@ class API_MyDriverController extends API_BaseController
                 $size = $res["size"];
                 $count = $res["count"];
             }
-            // 备注
+
+            // 额外信息
+            $mainAdmin = "--";
+            $memberCount = "--";
             $remark = "--";
-            $remarkInfo = DatabaseDataManager::getSingleton()->find("driver_list",["driver_name"=>$key],["remark"]);
-            if ($remarkInfo){
-                $remark = $remarkInfo[0]["remark"];
+            if (key_exists($key,$driveData)){
+                $dData = $driveData[$key];
+                $mainAdmin = $dData["main_admin"];
+                $memberCount = $dData["member_count"];
+                $remark = $dData["remark"];
             }
 
+
             $data[] = [
-                "name"  =>  $key,
-                "type"  =>  $type,
-                "size"  =>  $size,
-                "count" =>  $count,
-                "remark"=>  $remark
+                "name"          =>  $key,
+                "type"          =>  $type,
+                "size"          =>  $size,
+                "count"         =>  $count,
+                "mainAdmin"     => $mainAdmin,
+                "memberCount"   => $memberCount,
+                "remark"        =>  $remark
             ];
         }
 

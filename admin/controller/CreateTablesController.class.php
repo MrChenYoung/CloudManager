@@ -49,6 +49,8 @@ class CreateTablesController
                     CREATE TABLE $tableName(
                         id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
                         driver_name varchar(64) DEFAULT '' COMMENT '云盘名',
+                        main_admin varchar(64) DEFAULT '' COMMENT '主管理员',
+                        member_count varchar(64) DEFAULT '' COMMENT '成员数量'
                         remark varchar(300) DEFAULT '' COMMENT '备注'
                     ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='云盘表';
 EEE;

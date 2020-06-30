@@ -78,6 +78,8 @@
             dom += '<td>'+ driver["type"] +'</td>';
             dom += '<td class="driver-size">'+ driver["size"] +'</td>';
             dom += '<td class="file-count">'+ driver["count"] +'</td>';
+            dom += '<td>'+ driver["mainAdmin"] +'</td>';
+            dom += '<td>'+ driver["memberCount"] +'</td>';
             dom += '<td>'+ driver["remark"] +'</td></tr>';
         }
 
@@ -258,6 +260,8 @@
                 <col width="150">
                 <col width="150">
                 <col width="150">
+                <col width="150">
+                <col width="150">
                 <col width="250">
             </colgroup>
             <thead>
@@ -266,6 +270,8 @@
                 <th>类型</th>
                 <th>大小</th>
                 <th>文件总数</th>
+                <th>主管理员</th>
+                <th>成员数量</th>
                 <th>备注</th>
             </tr>
             </thead>
