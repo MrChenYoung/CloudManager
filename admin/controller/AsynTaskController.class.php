@@ -120,11 +120,6 @@ class AsynTaskController extends Controller
         $cmd = "php ".ADMIN."controller/GetDriveUsedSpaceController.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
         $cmd = $cmd." ".(strlen($driverName) > 0 ? $driverName : "1");
         LogManager::getSingleton()->addLog("cmd命令:".$cmd);
-        $res = ShellManager::exec($cmd);
-        if (!$res["success"]){
-            LogManager::getSingleton()->addLog("更新失败:".json_encode($res));
-        }else {
-            LogManager::getSingleton()->addLog("更新成功:".json_encode($res));
-        }
+        ShellManager::exec($cmd);
     }
 }
