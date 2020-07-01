@@ -12,7 +12,6 @@ if ($mysqli -> connect_error){
 
 // 云盘名
 $driverName =  $argv[3];
-
 if ($driverName == "1"){
     // 更新全部云盘
     update($mysqli,["used_space"=>"--","file_count"=>"--"]);
@@ -20,7 +19,9 @@ if ($driverName == "1"){
     // 获取到所有云盘
     $driveList = find($mysqli);
     foreach ($driveList as $drive) {
-        updateUsedInfo($drive["driver_name"],$mysqli,$logPath);
+        $gdName = $drive["driver_name"];
+        addLog($logPath,"更新<".$gdName.">盘使用详情中...");
+        updateUsedInfo($gdName,$mysqli,$logPath);
     }
 }else {
     // 更新单个云盘
