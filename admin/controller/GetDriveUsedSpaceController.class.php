@@ -24,6 +24,8 @@ if ($driverName == "1"){
         updateUsedInfo($gdName,$mysqli,$logPath);
     }
 }else {
+    update($mysqli,["used_space"=>"--","file_count"=>"--"],["driver_name"=>$driverName]);
+
     addLog($logPath,"更新".$driverName."盘使用详情中...");
     // 更新单个云盘
     updateUsedInfo($driverName,$mysqli,$logPath);
