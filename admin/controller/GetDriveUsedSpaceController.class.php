@@ -10,6 +10,8 @@ if ($mysqli -> connect_error){
     addLog($logPath,"数据库连接失败：".$mysqli -> connect_error);
 }
 
+addLog($logPath,"测试log");
+
 // 云盘名
 $driverName =  $argv[3];
 if ($driverName == "1"){
