@@ -13,6 +13,7 @@ if ($mysqli -> connect_error){
 // 云盘名
 $driverName =  $argv[3];
 if ($driverName == "1"){
+    addLog($logPath,"更新全部开始");
     // 更新全部云盘
     update($mysqli,["used_space"=>"--","file_count"=>"--"]);
 
@@ -24,6 +25,7 @@ if ($driverName == "1"){
         updateUsedInfo($gdName,$mysqli,$logPath);
     }
 }else {
+    addLog($logPath,"更新单个开始");
     // 更新单个云盘
     updateUsedInfo($driverName,$mysqli,$logPath);
 }
