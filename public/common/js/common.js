@@ -125,9 +125,8 @@ function request(url, data=null, complete=null,withHud=true,showToast=false,time
             if (withHud) {
                 hideHud();
             }
-            if (showToast){
-                toast("请求服务器失败");
-            }
+            toast("请求失败:" + errorMessage);
+
             console.log("请求失败了偶尔Lee:" + errorMessage);
             if (failFunc){
                 failFunc();
