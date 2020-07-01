@@ -13,7 +13,6 @@ if ($mysqli -> connect_error){
 // 云盘名
 $driverName =  $argv[3];
 if ($driverName == "1"){
-    addLog($logPath,"更新全部开始");
     // 更新全部云盘
     update($mysqli,["used_space"=>"--","file_count"=>"--"]);
 
@@ -22,10 +21,10 @@ if ($driverName == "1"){
     foreach ($driveList as $drive) {
         $gdName = $drive["driver_name"];
         addLog($logPath,"更新".$gdName."盘使用详情中...");
-//        updateUsedInfo($gdName,$mysqli,$logPath);
+        updateUsedInfo($gdName,$mysqli,$logPath);
     }
 }else {
-    addLog($logPath,"更新单个开始");
+    addLog($logPath,"更新".$driverName."盘使用详情中...");
     // 更新单个云盘
     updateUsedInfo($driverName,$mysqli,$logPath);
 }
@@ -54,7 +53,7 @@ function updateUsedInfo($dName,$mysqlDAO,$lPath){
         // 更新数据库数据
         update($mysqlDAO,["used_space"=>$fileSize,"file_count"=>$fileCount],["driver_name"=>$dName]);
     }else {
-        addLog($lPath,"获取<".$dName.">云盘使用详情失败");
+        addLog($lPath,"获取".$dName."云盘使用详情失败");
     }
 }
 
