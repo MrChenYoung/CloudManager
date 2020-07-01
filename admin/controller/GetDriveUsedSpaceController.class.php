@@ -10,7 +10,7 @@ if ($mysqli -> connect_error){
     addLog($logPath,"数据库连接失败：".$mysqli -> connect_error);
 }
 
-// 保存到的云盘名
+// 云盘名
 $driverName =  $argv[3];
 
 if ($driverName == "1"){
@@ -20,7 +20,7 @@ if ($driverName == "1"){
     // 获取到所有云盘
     $driveList = find($mysqli);
     foreach ($driveList as $drive) {
-
+        updateUsedInfo($drive["driver_name"],$mysqli,$logPath);
     }
 }else {
     // 更新单个云盘
