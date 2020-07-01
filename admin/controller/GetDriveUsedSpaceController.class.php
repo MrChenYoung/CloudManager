@@ -23,7 +23,7 @@ if ($driverName == "1"){
     $driveList = find($mysqli);
     foreach ($driveList as $drive) {
         $gdName = $drive["driver_name"];
-        addLog($logPath,"更新<".$gdName.">盘使用详情中...");
+        addLog($logPath,"更新".$gdName."盘使用详情中...");
         updateUsedInfo($gdName,$mysqli,$logPath);
     }
 }else {
