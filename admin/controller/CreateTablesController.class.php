@@ -79,6 +79,10 @@ EEE;
         ],[
             "flag"     =>  "'updatingDirTree'",
             "func_desc"=>  "'是否正在更新云盘目录树'"
+        ],[
+            "flag"     =>  "'useGdUtils'",
+            "func_desc"=>  "'是否使用GdUtils接口'",
+            "status"   =>   1
         ]];
 
         foreach ($data as $datum) {

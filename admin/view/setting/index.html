@@ -97,7 +97,13 @@
             // 是否加载文件详情
             form.on('switch(load_file_detail_info_switch)', function (data) {
                 var switchStatus = data.elem.checked;
-                changeSwitchStatus(switchStatus);
+                changeSwitchStatus(switchStatus,"load_file_detail_info");
+            });
+
+            // 是否使用gd-utils接口
+            form.on('switch(use_gd_utils_API)', function (data) {
+                var switchStatus = data.elem.checked;
+                changeSwitchStatus(switchStatus,"useGdUtils");
             });
         });
 
@@ -113,24 +119,36 @@
             // 设置页面按钮开关
             for (var i = 0; i < settingData.length; i++){
                 var setData = settingData[i];
-                if (setData.flag == "load_file_detail_info"){
-                    // 是否加载文件详情
-                    var status = parseInt(setData.status);
-                    var switcher = $(".load_file_detail_info_switch");
-                    layui.use('form',function () {
-                        var form = layui.form;
-                        status == 0 ? switcher.removeAttr('checked') : switcher.attr('checked',"");
-                        form.render();
-                    });
+                var status = parseInt(setData.status);
+                var flag = setData.flag;
+                switch (flag) {
+                    case "load_file_detail_info":
+                        // 是否加载文件详情
+                        var switcher = $("#load_file_detail_info_switch");
+                        layui.use('form',function () {
+                            var form = layui.form;
+                            status == 0 ? switcher.removeAttr('checked') : switcher.attr('checked',"");
+                            form.render();
+                        });
+                        break;
+                    case "useGdUtils":
+                        // 是否使用gd-utils接口
+                        var switcher = $("#use_gd_utils_API");
+                        layui.use('form',function () {
+                            var form = layui.form;
+                            status == 0 ? switcher.removeAttr('checked') : switcher.attr('checked',"");
+                            form.render();
+                        });
+                        break;
                 }
             }
         },false);
     }
 
     // 设置开关状态
-    function changeSwitchStatus(status) {
+    function changeSwitchStatus(status,flag) {
         var sta = status ? "1" : "0";
-        var url = "?m=admin&c=API_Setting&a=changeSetting&API=&flag=load_file_detail_info&status=" + sta;
+        var url = "?m=admin&c=API_Setting&a=changeSetting&API=&flag=" + flag + "&status=" + sta;
         get(url,function () {
             // 刷新设置页
             loadSettingData();
@@ -145,9 +163,16 @@
         <div class="layui-form-item">
             <label class="layui-form-label file-exten-info-title">加载文件额外信息</label>
             <div class="layui-input-inline">
-                <input class="load_file_detail_info_switch" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="load_file_detail_info_switch" lay-text="ON|OFF">
+                <input id="load_file_detail_info_switch" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="load_file_detail_info_switch" lay-text="ON|OFF">
             </div>
             <div class="layui-form-mid layui-word-aux">加载云盘/文件列表时同时加载文件总大小和文件总数量，开启后列表加载速度慢</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label file-exten-info-title">使用gd-utils接口</label>
+            <div class="layui-input-inline">
+                <input id="use_gd_utils_API" type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="use_gd_utils_API" lay-text="ON|OFF">
+            </div>
+            <div class="layui-form-mid layui-word-aux">gd-utils接口只支持转存和计算文件大小功能</div>
         </div>
     </form>
 </div>
