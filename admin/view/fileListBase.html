@@ -372,15 +372,13 @@
             var fileList = data.data;
             createFilesDoms(fileList);
         },withHud,false,500000);
-        
+
         // 检查是否有文件正在转存
         checkTransferStatus();
     }
 
     // 检查是否有文件正在转存
-    function checkTransferStatus() {
-
-    }
+    function checkTransferStatus() {}
 
     // 请求移动目标文件夹选择列表
     function loadMoveDirList(success=null) {
