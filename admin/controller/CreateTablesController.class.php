@@ -23,6 +23,8 @@ class CreateTablesController
         $this->initFileTransferInfoTable();
         // 创建文件后台移动信息表
         $this->initFileMoveInfoTable();
+        // 创建同步信息表
+        $this->initFileSysncInfoTable();
     }
 
     // 初始化数据库信息
@@ -141,4 +143,21 @@ EEE;
 EEE;
         $this->dao->createTable($tableName,$sql);
     }
+
+    // 创建同步信息表
+    public function initFileSysncInfoTable(){
+        $tableName = "file_sysnc_info";
+        // 创建视频数据表
+        $sql = <<<EEE
+                    CREATE TABLE $tableName(
+                        id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        source_path varchar(256) DEFAULT '' COMMENT '源路径',
+                        des_path varchar(256) DEFAULT '' COMMENT '目标路径',
+                        type tinyint DEFAULT 0 COMMENT '类型',
+                        status tinyint DEFAULT 0 COMMENT '是否正在同步'
+                    ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件同步信息表';
+EEE;
+        $this->dao->createTable($tableName,$sql);
+    }
+
 }
