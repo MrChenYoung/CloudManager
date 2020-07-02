@@ -50,6 +50,26 @@
         font-size: 16px;
     }
 
+    /*右下角添加分类/平台/账号/密码按钮*/
+    .add-btn {
+        position: fixed;
+        right: 60px;
+        bottom: 30px;
+        background-color: #393D49;
+        width: 40px;
+        height: 40px;
+        border-radius: 30px;
+        border-color: transparent;
+        cursor: pointer;
+    }
+    .add-btn img {
+        width: 25px;
+        height: 25px;
+    }
+    .add-btn:hover {
+        opacity: 0.8;
+    }
+
     .list-title {
         text-align: left;
     }
@@ -339,7 +359,10 @@
         <button onclick="cancel()" type="button" class="layui-btn layui-btn-primary">取消</button>
         <button onclick="confirm()" type="button" class="layui-btn confirm-btn">确认</button>
     </div>
-    <!--选择图片上传-->
-    <input type="file" name="file" id="file_select_input" style="display:none">
 </div>
+
+<!--添加按钮-->
+<button type="button" class="add-btn" onclick="addData()">
+    <img src="<{$data.imageUrl}>add.png">
+</button>
 <{/block}>
