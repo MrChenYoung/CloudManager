@@ -123,6 +123,7 @@ class API_FileTransferController extends API_BaseController
         }
         $driverName = $_GET["driverName"];
 
+        
         // 解析资源id
         $needle = "folders/";
         $end = substr($address,strpos($address,$needle) + strlen($needle));
