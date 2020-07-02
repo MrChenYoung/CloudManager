@@ -462,36 +462,49 @@
 
     // 文件移动操作前处理
     function beforMoveFileHandle(opeType) {
-        // 检查要移动的文件大小，如果大于前台移动文件大小限制，在检测是否有正在后台移动的任务，如果没有才能移动
-        var sourcePath = selectDrive + ":" + getPathString() + editFileName;
-        var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + btoa(encodeURIComponent(sourcePath));
-        console.log("移动前检测:" + url);
-        get(url,function (data) {
-            var canMove = data.data.canMove;
-            var msg = data.data.msg;
-            if (canMove){
-                // 是否要在后台进行移动操作
-                selectMoveDesDir(data);
-            }else {
-                var btns = [{
-                    title:"确定",
-                    func: function(){
-                        selectMoveDesDir(data);
-                    }
-                },{
-                    title:"取消",
-                    func: function () {
-
-                    }
-                }];
-                showAlert("有文件正在后台移动，确定继续添加任务吗?",btns);
+        // 选择前台还是后台移动
+        var selectBtns = [{
+            title:"前台",
+            func: function(){
+                selectMoveDesDir("0");
             }
-        });
+        },{
+            title:"后台",
+            func: function () {
+                // 检测是否有正在后台移动的任务，如果有给出提示
+                var sourcePath = selectDrive + ":" + getPathString() + editFileName;
+                var url = baseUrl + "?m=admin&c=API_FileManager&a=beforMoveFileCheck&sourcePath=" + btoa(encodeURIComponent(sourcePath));
+                console.log("移动前检测:" + url);
+                get(url,function (data) {
+                    var canMove = data.data.canMove;
+                    var msg = data.data.msg;
+                    if (canMove){
+                        // 没有文件在后台移动
+                        selectMoveDesDir("1");
+                    }else {
+                        // 有文件正在后台移动
+                        var btns = [{
+                            title:"确定",
+                            func: function(){
+                                selectMoveDesDir("1");
+                            }
+                        },{
+                            title:"取消",
+                            func: function () {
+
+                            }
+                        }];
+                        showAlert("有文件正在后台移动，确定继续添加任务吗?",btns);
+                    }
+                });
+            }
+        }];
+        showAlert("选择在前台还是后台移动。大文件建议后台移动",selectBtns);
     }
 
     // 移动文件选择目标文件夹
-    function selectMoveDesDir(data) {
-        moveBack = data.data.back ? "1" : "0";
+    function selectMoveDesDir(back) {
+        moveBack = back;
         movetoPathArray = [""];
         // 默认移动到当前云盘下
         movetoDriverType = selectDriveType;
