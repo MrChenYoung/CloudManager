@@ -45,9 +45,9 @@ function updateUsedInfo($dName,$mysqlDAO,$lPath){
         $sizeNeedle = "Total size:";
         $countStr = "";
         $countNeedle = "Total objects:";
-        
+
         $res = $res["result"];
-        addLog($lPath,"结果:".$res);
+        addLog($lPath,"结果:".json_encode($res));
         foreach ($res as $item) {
             if (strpos($item,$sizeNeedle)){
                 $sizeStr = $item;
