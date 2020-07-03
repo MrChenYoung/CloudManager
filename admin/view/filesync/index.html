@@ -119,6 +119,10 @@
     var desDriveType;
     // 选择的目标路径云盘
     var desDrive;
+    // 源路径存储
+    var srcPathArray = [""];
+    // 目标路径存储
+    var desPathArray = [""];
 
     var editRow;
     var driverData = {};
@@ -260,6 +264,94 @@
             }
             form.render();
         });
+    }
+
+    // 请求文件夹列表
+    function loadDriveDirList(des=true,success=null) {
+        var drive = des ? desDrive : srcDrive;
+        var pathArray = des ? desPathArray : srcPathArray;
+
+        var url = "?m=admin&c=API_FileManager&a=loadMoveDirList&API=&remoteName=" + drive + "&path=" + btoa(encodeURIComponent(getPathString(pathArray)));
+        console.log("获取文件夹列表:" + url);
+        get(url,function (data) {
+            var dirList = data.data;
+            createMoveDirDoms(dirList);
+            if (success){
+                success();
+            }
+        },true,false,500000);
+    }
+
+    // 创建文件夹列表dom
+    function createMoveDirDoms(data,des=true) {
+        var dom = "";
+        for(var i = 0; i < data.length; i++){
+            var file = data[i];
+            var style = 'cursor: pointer';
+            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<div fileName="'+ file["Name"] +'" onclick="openMoveDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td></tr>';
+        }
+
+        if (des){
+            $("#des_dir_list_table tbody").html(dom);
+            // 绑定双击事件
+            $('#des_dir_list_table tbody tr').dblclick(function () {
+                openMoveDir(this);
+            });
+        }else {
+            $("#src_dir_list_table tbody").html(dom);
+            // 绑定双击事件
+            $('#src_dir_list_table tbody tr').dblclick(function () {
+                openMoveDir(this);
+            });
+        }
+
+        // 更新路径显示
+        updatePathUI(des);
+    }
+
+    // 更新路径显示
+    function updatePathUI(des=true) {
+        var pathArray = des ? desPathArray : srcPathArray;
+        // 判断返回上一级目录是否可以点击
+        var canBack = pathArray.length >= 2 ? true : false;
+        var $backBtn = des ? $("#des_back_btn") : $("#src_back_btn");
+        if (canBack){
+            // 可以返回
+            $backBtn.removeClass("layui-btn-disabled");
+        }else {
+            // 不可以返回
+            $backBtn.addClass("layui-btn-disabled");
+        }
+        // 创建路径显示dom
+        var dom = "";
+        for (var i = 0; i < pathArray.length; i ++){
+            var path = pathArray[i];
+            if (i == 0 && path == ""){
+                path = "根目录";
+            }
+
+            if (i == pathArray.length - 1){
+                // 最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)"><cite>'+ path +'</cite></a>';
+            }else {
+                // 不是最后一个
+                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)">'+ path +'</a>';
+                dom += '<span lay-separator="">/</span>';
+            }
+        }
+
+        if (des){
+            $("#des_cur_dir").html(dom);
+        }else {
+            $("#src_cur_dir").html(dom);
+        }
+    }
+
+
+    // 获取目录路径
+    function getPathString(array=srcPathArray) {
+        return array.join("/") + "/";
     }
 
     // 显示编辑界面
@@ -454,13 +546,13 @@
                 <select id="des_drive_select" lay-filter="moveto-drive-list">
                     <option value="">选择云盘</option>
                 </select>
-                <button id="move_back_btn" onclick="backMoveLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
-                <span id="move_cur_dir" class="layui-breadcrumb">
+                <button id="des_back_btn" onclick="backMoveLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <span id="des_cur_dir" class="layui-breadcrumb">
                 </span>
             </div>
         </form>
-        <div id="moveto_dir_list" class="moveto-dir-list">
-            <table id="dir_list_table" class="layui-table" lay-skin="nob">
+        <div id="des_dir_list" class="moveto-dir-list">
+            <table id="des_dir_list_table" class="layui-table" lay-skin="nob">
                 <colgroup>
                     <col width="150">
                 </colgroup>
