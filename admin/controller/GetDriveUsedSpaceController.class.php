@@ -49,11 +49,11 @@ function updateUsedInfo($dName,$mysqlDAO,$lPath){
         $res = $res["result"];
         addLog($lPath,"结果:".json_encode($res));
         foreach ($res as $item) {
-            if (strpos($item,$sizeNeedle)){
+            if (strpos($item,$sizeNeedle) !== false){
                 $sizeStr = $item;
             }
 
-            if (strpos($item,$countNeedle)){
+            if (strpos($item,$countNeedle) !== false){
                 $countStr = $item;
             }
         }
