@@ -172,49 +172,51 @@
                 element = layui.element,
                 table = layui.table;
 
-            // 监听云盘类型选择
-            form.on('select(drive-type-list)', function(data){
-                // 选择的云盘类型
-                selectDriveType = data.value;
 
-                if (selectDriveType.length > 0){
+            // 监听源云盘类型选择
+            form.on('select(src-drive-type-list)', function(data){
+                // 选择的云盘类型
+                srcDriveType = data.value;
+
+                if (srcDriveType.length > 0){
+                    // 刷新云盘列表
+                    createDriverSelectDoms(false);
+                }
+            });
+
+            // 监听目标云盘类型选择
+            form.on('select(des-drive-type-list)', function(data){
+                // 选择的云盘类型
+                desDriveType = data.value;
+
+                if (desDriveType.length > 0){
                     // 刷新云盘列表
                     createDriverSelectDoms();
                 }
             });
 
 
-            // 监听云盘选择
-            form.on('select(drive-list)', function(data){
+            // 监听源云盘选择
+            form.on('select(src-drive-list)', function(data){
                 // 选择的云盘
-                selectDrive = data.value;
-                if (selectDrive.length > 0){
+                srcDrive = data.value;
+                if (srcDrive.length > 0){
                     // 目录回到根目录
-                    pathArray = [""];
+                    srcPathArray = [""];
                     // 刷新列表
-                    loadFileList();
+                    loadDriveDirList(false);
                 }
             });
 
-            // 监听要移动到的云盘类型选择
-            form.on('select(moveto-drive-type-list)', function(data){
-                // 选择的云盘类型
-                movetoDriverType = data.value;
-                if (movetoDriverType.length > 0){
-                    // 刷新云盘列表
-                    createDriverSelectDoms();
-                }
-            });
-
-            // 监听要移动到的云盘选择
-            form.on('select(moveto-drive-list)', function(data){
+            // 监听目标云盘选择
+            form.on('select(des-drive-list)', function(data){
                 // 选择的云盘
-                movetoDriver = data.value;
-                if (movetoDriver.length > 0){
+                desDrive = data.value;
+                if (desDrive.length > 0){
                     // 目录回到根目录
-                    movetoPathArray = [""];
-                    // 刷新移动文件目录列表
-                    loadMoveDirList();
+                    desPathArray = [""];
+                    // 刷新列表
+                    loadDriveDirList();
                 }
             });
         });
@@ -662,10 +664,10 @@
         </div>
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item select-box">
-                <select id="des_drive_type_select" lay-filter="moveto-drive-type-list">
+                <select id="des_drive_type_select" lay-filter="des-drive-type-list">
                     <option value="">选择云盘类型</option>
                 </select>
-                <select id="des_drive_select" lay-filter="moveto-drive-list">
+                <select id="des_drive_select" lay-filter="des-drive-list">
                     <option value="">选择云盘</option>
                 </select>
                 <button id="des_back_btn" onclick="backDesDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
