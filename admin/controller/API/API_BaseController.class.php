@@ -102,7 +102,6 @@ class API_BaseController extends Controller
                 }
             }
 
-
             $sizeRes = $sizeRes["result"];
             $fileCount = (int)trim(str_replace($countNeedle,"",$countStr));
             preg_match("/\((.*)\)/",$sizeStr,$match);

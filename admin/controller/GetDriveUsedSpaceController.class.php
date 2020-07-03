@@ -41,9 +41,24 @@ function updateUsedInfo($dName,$mysqlDAO,$lPath){
         $fileSize = "--";
         $fileCount = 0;
 
+        $sizeStr = "";
+        $sizeNeedle = "Total size:";
+        $countStr = "";
+        $countNeedle = "Total objects:";
+
         $res = $res["result"];
-        $fileCount = (int)trim(str_replace("Total objects:","",$res[0]));
-        preg_match("/\((.*)\)/",$res[1],$match);
+        foreach ($res as $item) {
+            if (strpos($item,$sizeNeedle)){
+                $sizeStr = $item;
+            }
+
+            if (strpos($item,$countNeedle)){
+                $countStr = $item;
+            }
+        }
+
+        $fileCount = (int)trim(str_replace("Total objects:","",$countStr));
+        preg_match("/\((.*)\)/",$sizeStr,$match);
         if (count($match) > 1){
             $fileSize = $match[1];
             $fileSize = trim(str_replace("Bytes","",$fileSize));
