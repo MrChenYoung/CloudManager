@@ -160,17 +160,22 @@ class API_FileManagerController extends API_BaseController
             $dir = preg_replace($patt,' ',$dir);
             // 以空格为基准分成数组
             $dirArray = explode(" ",$dir);
-            $dirName = trim($dirArray[count($dirArray)-1]);
-
-            echo "<pre>";
-            var_dump($dirArray);
-            die;
 
             // 时间转换
-            $timeStr = $dirArray[1].$dirArray[2];
-            $timeStr = trim($dirArray[count($dirArray)-3]);
+            $timeStr = $dirArray[2].$dirArray[3];
+            $timeStr = trim($timeStr);
             date_default_timezone_set('Asia/Shanghai');
             $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
+
+            // 文件夹名
+            $dirName = "";
+            for($i = 5;$i < count($dirArray); $i++){
+                if ($i > 5){
+                    $dirName .= " ";
+                }
+                $dirName .= $dirArray[$i];
+            }
+
             $dirData = ["Name"=>$dirName,"ModTime"=>$timeStr,"icon"=>"icon-wenjian"];
             $data[] = $dirData;
         }
