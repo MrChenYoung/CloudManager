@@ -109,6 +109,24 @@
         overflow-y: auto;
     }
 
+    .file-name {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 10px;
+        max-width: 350px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space:nowrap;
+        vertical-align: bottom;
+        scrollbar-width: none; /* firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+    }
+
+    .file-name::-webkit-scrollbar {
+        display: none; /* Chrome Safari */
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
