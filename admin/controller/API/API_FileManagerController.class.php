@@ -145,9 +145,7 @@ class API_FileManagerController extends API_BaseController
         $path = str_replace(" ","\ ",$path);
         // rclone命令获取文件夹列表信息
         $cmd = "rclone lsd ".$remoteName.":".$path;
-
-        echo $cmd;
-        die;
+        
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("获取文件夹列表失败");
