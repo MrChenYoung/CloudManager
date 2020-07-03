@@ -114,7 +114,7 @@
         height: 20px;
         width: 20px;
     }
-    
+
     .file-name {
         display: inline-block;
         height: 30px;
@@ -307,7 +307,7 @@
         console.log("获取文件夹列表:" + url);
         get(url,function (data) {
             var dirList = data.data;
-            createDriveDirDoms(dirList);
+            createDriveDirDoms(dirList,des);
             if (success){
                 success();
             }
@@ -317,24 +317,25 @@
     // 创建文件夹列表dom
     function createDriveDirDoms(data,des=true) {
         var dom = "";
+        var desFlag = des ? "1" : "0";
         for(var i = 0; i < data.length; i++){
             var file = data[i];
             var style = 'cursor: pointer';
-            dom += '<tr fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
-            dom += '<div fileName="'+ file["Name"] +'" onclick="openMoveDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td></tr>';
+            dom += '<tr desFlag="'+ desFlag +'" fileName="'+ file["Name"] +'" ><td><i class="file-icon iconfont '+ file["icon"] +'"></i>';
+            dom += '<div desFlag="'+ desFlag +'" fileName="'+ file["Name"] +'" onclick="openDir(this)" class="file-name" style="'+ style +'">'+ file["Name"] +'</div></td></tr>';
         }
 
         if (des){
             $("#des_dir_list_table tbody").html(dom);
             // 绑定双击事件
             $('#des_dir_list_table tbody tr').dblclick(function () {
-                openMoveDir(this);
+                openDir(this);
             });
         }else {
             $("#src_dir_list_table tbody").html(dom);
             // 绑定双击事件
             $('#src_dir_list_table tbody tr').dblclick(function () {
-                openMoveDir(this);
+                openDir(this);
             });
         }
 
@@ -384,6 +385,18 @@
     // 获取目录路径
     function getPathString(array=srcPathArray) {
         return array.join("/") + "/";
+    }
+
+    // 打开移动文件选择目录
+    function openDir(obj) {
+        var $this = $(obj);
+        var dirName = $this.attr('fileName');
+        var desFlag = $this.attr("desFlag");
+        var pathArray = desFlag == "1" ? desPathArray : srcPathArray;
+        // 目标目录名进栈
+        pathArray.push(dirName);
+        // 刷新目录列表
+        loadDriveDirList(desFlag == "1" ? true : false);
     }
 
     // 显示编辑界面
