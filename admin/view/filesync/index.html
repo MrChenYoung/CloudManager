@@ -204,9 +204,9 @@
             createDriverTypeSelectDoms();
             // 创建云盘选择列表
             createDriverSelectDoms();
-            // 请求文件列表
-            // loadFileList(false);
-
+            // 请求文件夹列表
+            loadDriveDirList();
+            loadDriveDirList(false);
             if (success){
                 success();
             }
@@ -275,7 +275,7 @@
         console.log("获取文件夹列表:" + url);
         get(url,function (data) {
             var dirList = data.data;
-            createMoveDirDoms(dirList);
+            createDriveDirDoms(dirList);
             if (success){
                 success();
             }
@@ -283,7 +283,7 @@
     }
 
     // 创建文件夹列表dom
-    function createMoveDirDoms(data,des=true) {
+    function createDriveDirDoms(data,des=true) {
         var dom = "";
         for(var i = 0; i < data.length; i++){
             var file = data[i];
