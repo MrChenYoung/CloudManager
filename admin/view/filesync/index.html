@@ -591,6 +591,25 @@
         showAlert("选择同步类型",btns);
     }
 
+    // 目标目录返回上一级目录
+    function backDesDir() {
+        if (desPathArray.length == 1) return;
+        // 目录名出栈
+        desPathArray.pop();
+        // 刷新文件列表
+        loadDriveDirList();
+    }
+
+    // 源目录返回上一级目录
+    function backSrcDir() {
+        if (srcPathArray.length == 1) return;
+        // 目录名出栈
+        srcPathArray.pop();
+        // 刷新文件列表
+        loadDriveDirList(false);
+    }
+
+    
 </script>
 <{/block}>
 <{block name="content"}>
@@ -645,7 +664,7 @@
                 <select id="des_drive_select" lay-filter="moveto-drive-list">
                     <option value="">选择云盘</option>
                 </select>
-                <button id="des_back_btn" onclick="backMoveLastDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                <button id="des_back_btn" onclick="backDesDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
                 <span id="des_cur_dir" class="layui-breadcrumb">
                 </span>
             </div>
