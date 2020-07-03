@@ -162,6 +162,60 @@
         // 设置边栏服务器信息选中状态
         $("#file_sync").addClass("active");
 
+        // 监听select选择变化
+        layui.use(['form','element','table'],function () {
+            var form = layui.form,
+                element = layui.element,
+                table = layui.table;
+
+            // 监听云盘类型选择
+            form.on('select(drive-type-list)', function(data){
+                // 选择的云盘类型
+                selectDriveType = data.value;
+
+                if (selectDriveType.length > 0){
+                    // 刷新云盘列表
+                    createDriverSelectDoms();
+                }
+            });
+
+
+            // 监听云盘选择
+            form.on('select(drive-list)', function(data){
+                // 选择的云盘
+                selectDrive = data.value;
+                if (selectDrive.length > 0){
+                    // 目录回到根目录
+                    pathArray = [""];
+                    // 刷新列表
+                    loadFileList();
+                }
+            });
+
+            // 监听要移动到的云盘类型选择
+            form.on('select(moveto-drive-type-list)', function(data){
+                // 选择的云盘类型
+                movetoDriverType = data.value;
+                if (movetoDriverType.length > 0){
+                    // 刷新云盘列表
+                    createDriverSelectDoms();
+                }
+            });
+
+            // 监听要移动到的云盘选择
+            form.on('select(moveto-drive-list)', function(data){
+                // 选择的云盘
+                movetoDriver = data.value;
+                if (movetoDriver.length > 0){
+                    // 目录回到根目录
+                    movetoPathArray = [""];
+                    // 刷新移动文件目录列表
+                    loadMoveDirList();
+                }
+            });
+        });
+
+
         // 请求同步列表
         // loadFileSyncList();
     });
