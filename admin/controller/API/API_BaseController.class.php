@@ -88,9 +88,24 @@ class API_BaseController extends Controller
         if (!$sizeRes["success"]){
             // 获取文件详情失败
         }else {
+            $sizeStr = "";
+            $sizeNeedle = "Total size:";
+            $countStr = "";
+            $countNeedle = "Total objects:";
+            foreach ($sizeRes as $item) {
+                if (strpos($item,$sizeNeedle)){
+                    $sizeStr = $item;
+                }
+
+                if (strpos($item,$countNeedle)){
+                    $countStr = $item;
+                }
+            }
+
+
             $sizeRes = $sizeRes["result"];
-            $fileCount = (int)trim(str_replace("Total objects:","",$sizeRes[0]));
-            preg_match("/\((.*)\)/",$sizeRes[1],$match);
+            $fileCount = (int)trim(str_replace($countNeedle,"",$countStr));
+            preg_match("/\((.*)\)/",$sizeStr,$match);
             if (count($match) > 1){
                 $fileSize = $match[1];
                 $fileSize = trim(str_replace("Bytes","",$fileSize));
@@ -108,4 +123,5 @@ class API_BaseController extends Controller
         LogManager::getSingleton()->clearLog();
         echo $this->success("");
     }
+
 }
