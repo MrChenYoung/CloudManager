@@ -145,7 +145,7 @@ class API_FileManagerController extends API_BaseController
         $path = str_replace(" ","\ ",$path);
         // rclone命令获取文件夹列表信息
         $cmd = "rclone lsd ".$remoteName.":".$path;
-        
+
         $res = ShellManager::exec($cmd);
         if (!$res["success"]){
             echo $this->failed("获取文件夹列表失败");
@@ -155,12 +155,19 @@ class API_FileManagerController extends API_BaseController
         $dirList = $res["result"];
         $data = [];
         foreach ($dirList as $dir) {
+            // 多个连续空格合并成一个
             $patt = '/\s{1,}/';
             $dir = preg_replace($patt,' ',$dir);
+            // 以空格为基准分成数组
             $dirArray = explode(" ",$dir);
             $dirName = trim($dirArray[count($dirArray)-1]);
 
+            echo "<pre>";
+            var_dump($dirArray);
+            die;
+
             // 时间转换
+            $timeStr = $dirArray[1].$dirArray[2];
             $timeStr = trim($dirArray[count($dirArray)-3]);
             date_default_timezone_set('Asia/Shanghai');
             $timeStr = date('Y-m-d H:i:s',strtotime($timeStr));
