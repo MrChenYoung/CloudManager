@@ -32,4 +32,9 @@ class API_FileSyncController extends API_BaseController
         }
         echo $this->success($data);
     }
+
+    // 添加/修改同步信息
+    public function updateSyncInfo(){
+
+    }
 }
