@@ -221,7 +221,6 @@
             });
         });
 
-
         // 请求同步列表
         // loadFileSyncList();
     });
@@ -418,6 +417,7 @@
         }
         // 创建路径显示dom
         var dom = "";
+        var desFlag = des ? "1" : "0";
         for (var i = 0; i < pathArray.length; i ++){
             var path = pathArray[i];
             if (i == 0 && path == ""){
@@ -426,10 +426,10 @@
 
             if (i == pathArray.length - 1){
                 // 最后一个
-                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)"><cite>'+ path +'</cite></a>';
+                dom += '<a desFlag="'+ desFlag +'" dirIndex="'+ i +'" href="javascript:;" onclick="pathDirClicked(this)"><cite>'+ path +'</cite></a>';
             }else {
                 // 不是最后一个
-                dom += '<a dirIndex="'+ i +'" href="javascript:;" onclick="movePathDirClicked(this)">'+ path +'</a>';
+                dom += '<a desFlag="'+ desFlag +'" dirIndex="'+ i +'" href="javascript:;" onclick="pathDirClicked(this)">'+ path +'</a>';
                 dom += '<span lay-separator="">/</span>';
             }
         }
@@ -457,6 +457,36 @@
         pathArray.push(dirName);
         // 刷新目录列表
         loadDriveDirList(desFlag == "1" ? true : false);
+    }
+
+    // 返回到指定文件夹下
+    function pathDirClicked(obj) {
+        var $this = $(obj);
+        var dirIndex = parseInt($this.attr('dirIndex'));
+        var desFlag = $this.attr("desFlag") == "1" ? true : false;
+        var pathArray = desFlag ? desPathArray : srcPathArray;
+        if (dirIndex == 0){
+            // 回到根目录
+            if (desFlag){
+                desPathArray = [""];
+            }else {
+                srcPathArray = [""];
+            }
+        }else {
+            var newPathArray = [""];
+            for (var i = 1; i <= dirIndex; i++){
+                var p = pathArray[i];
+                newPathArray.push(p);
+            }
+            if (desFlag){
+                desPathArray = newPathArray;
+            }else {
+                srcPathArray = newPathArray;
+            }
+        }
+
+        // 刷新文件夹列表
+        loadDriveDirList(desFlag);
     }
 
     // 显示编辑界面
