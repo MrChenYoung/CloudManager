@@ -60,6 +60,8 @@
     var oldDriverName;
     var editRow;
     var driverData = {};
+    // 排在最前面的云盘类型
+    var firstDriveType = "谷歌云盘";
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
@@ -79,22 +81,22 @@
 
     // 创建云盘列表
     function createDriverDoms(data) {
-        var dom = "";
+        var firstDriveDom = "";
+        var otherDriveDom = "";
         for(var i = 0; i < data.length; i++){
             var driver = data[i];
             var driverName = driver["name"];
+            var driveType = driver["type"];
             driverData[driverName] = driver;
-            dom += '<tr driverName="'+ driverName +'" remark="'+ driver["remark"] +'"><td>'+ driverName +'</td>';
-            dom += '<td>'+ driver["type"] +'</td>';
-            dom += '<td class="driver-size">'+ driver["size"] +'</td>';
-            dom += '<td class="file-count">'+ driver["count"] +'</td>';
-            dom += '<td>'+ driver["mainAdmin"] +'</td>';
-            dom += '<td>'+ driver["memberCount"] +'</td>';
-            dom += '<td>'+ driver["remark"] +'</td></tr>';
+            if (driveType == firstDriveType){
+                firstDriveDom += getDriveDom(driver);
+            }else {
+                otherDriveDom += getDriveDom(driver);
+            }
         }
 
         // 添加分类一行
-        $("tbody").html(dom);
+        $("tbody").html(firstDriveDom + otherDriveDom);
 
         // 添加右键菜单
         var menu_data=[
@@ -130,6 +132,18 @@
             editRow = obj;
             editDriverName = obj.attr('driverName');
         });
+    }
+
+    function getDriveDom(driver) {
+        var dom = "";
+        dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
+        dom += '<td>'+ driver["type"] +'</td>';
+        dom += '<td class="driver-size">'+ driver["size"] +'</td>';
+        dom += '<td class="file-count">'+ driver["count"] +'</td>';
+        dom += '<td>'+ driver["mainAdmin"] +'</td>';
+        dom += '<td>'+ driver["memberCount"] +'</td>';
+        dom += '<td>'+ driver["remark"] +'</td></tr>';
+        return dom;
     }
 
     // 获取云盘文件大小和文件数量
