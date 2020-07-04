@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/admin/controller/SyncDataContorller.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_FileSyncController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/API/API_FileSyncController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/view/filesync/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/filesync/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +94,7 @@
       <workItem from="1593638077638" duration="92000" />
       <workItem from="1593666015184" duration="1913000" />
       <workItem from="1593675153040" duration="6000" />
-      <workItem from="1593683688812" duration="29891000" />
+      <workItem from="1593683688812" duration="32175000" />
     </task>
     <servers />
   </component>
@@ -117,12 +121,13 @@
       <screen x="0" y="23" width="1680" height="974" />
     </state>
     <state x="551" y="187" key="#jsencrypt.min.js/0.23.1680.974@0.23.1680.974" timestamp="1592328478505" />
-    <state x="503" y="337" key="NewPhpClassDialog" timestamp="1593694229946">
-      <screen x="0" y="23" width="1680" height="973" />
+    <state x="503" y="338" key="NewPhpClassDialog" timestamp="1593850356043">
+      <screen x="0" y="23" width="1680" height="976" />
     </state>
     <state x="503" y="337" key="NewPhpClassDialog/0.23.1680.972@0.23.1680.972" timestamp="1593451171814" />
     <state x="503" y="337" key="NewPhpClassDialog/0.23.1680.973@0.23.1680.973" timestamp="1593694229946" />
     <state x="493" y="322" key="NewPhpClassDialog/0.23.1680.974@0.23.1680.974" timestamp="1592338910533" />
+    <state x="503" y="338" key="NewPhpClassDialog/0.23.1680.976@0.23.1680.976" timestamp="1593850356043" />
     <state x="493" y="324" key="NewPhpClassDialog/0.23.1680.977@0.23.1680.977" timestamp="1591432968811" />
     <state x="493" y="324" key="NewPhpClassDialog/0.23.1680.978@0.23.1680.978" timestamp="1591859585914" />
     <state x="493" y="324" key="NewPhpClassDialog/0.23.1680.979@0.23.1680.979" timestamp="1592105542746" />

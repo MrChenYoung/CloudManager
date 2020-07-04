@@ -335,6 +335,12 @@
             loadFileSyncList();
         },true,true);
     }
+    
+    // 同步数据
+    function syncInfo() {
+        var url = "?m=admin&c=API_FileSync&a=startSyncInfo&API=&syncId=" + editSyncId;
+        get(url,null,true,true);
+    }
 
     // 请求云盘列表
     function loadDriverList(success=null) {

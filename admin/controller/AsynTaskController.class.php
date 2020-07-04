@@ -122,4 +122,27 @@ class AsynTaskController extends Controller
         LogManager::getSingleton()->addLog("cmd命令:".$cmd);
         ShellManager::exec($cmd);
     }
+
+    // 开启同步任务
+    public function startSyncData(){
+        // 源路径
+        if (!isset($_REQUEST["sourcePath"])) die;
+        $sourcePath = $_REQUEST["sourcePath"];
+        // 目标路径
+        if (!isset($_REQUEST["desPath"])) die;
+        $desPath = $_REQUEST["desPath"];
+        // 同步信息id
+        if (!isset($_REQUEST["syncId"])) die;
+        $syncId = $_REQUEST["syncId"];
+
+        // 清空日志
+        LogManager::getSingleton()->clearLog();
+        LogManager::getSingleton()->addLog("开始同步...");
+
+        // 执行计算文件大小php脚本
+        $cmd = "php ".ADMIN."controller/SyncDataContorller.class.php ".LogManager::getSingleton()->logFilePath." '".json_encode($GLOBALS["db_info"])."'";
+        $cmd = $cmd." ".(strlen($sourcePath) > 0 ? $sourcePath : "1")." ".(strlen($desPath) > 0 ? $desPath : "1")." ".$syncId;
+        LogManager::getSingleton()->addLog("cmd命令:".$cmd);
+        ShellManager::exec($cmd);
+    }
 }
