@@ -557,6 +557,15 @@
         showAlert("选择同步类型",btns);
     }
 
+    // 源目录返回上一级目录
+    function backSrcDir() {
+        if (srcPathArray.length == 1) return;
+        // 目录名出栈
+        srcPathArray.pop();
+        // 刷新文件列表
+        loadDriveDirList(false);
+    }
+
     // 目标目录返回上一级目录
     function backDesDir() {
         if (desPathArray.length == 1) return;
@@ -685,7 +694,7 @@
                     <option value="">选择云盘</option>
                 </select>
                 <div class="path-box">
-                    <button id="src_back_btn" onclick="backDesDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                    <button id="src_back_btn" onclick="backSrcDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
                     <span id="src_cur_dir" class="layui-breadcrumb">
                 </span>
                 </div>
