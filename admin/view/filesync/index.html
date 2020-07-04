@@ -589,6 +589,16 @@
         // 加载云盘信息
         loadDriverList(function () {
             if (syncType == 0){
+                // 创建云盘类型选择列表
+                createDriverTypeSelectDoms();
+                createDriverTypeSelectDoms(false);
+                // 创建云盘选择列表
+                createDriverSelectDoms();
+                createDriverSelectDoms(false);
+                // 请求文件夹列表
+                loadDriveDirList();
+                loadDriveDirList(false);
+
                 // 云盘同步
                 $("#cover_title").text("添加云盘同步");
                 $("#local_path_form").css("display","none");
@@ -599,16 +609,6 @@
                 $(".des-dir-list").css("margin-top","-23px");
                 $(".des-dir-list").css("width","390px");
                 $(".file-name").css("max-width","320px");
-
-                // 创建云盘类型选择列表
-                createDriverTypeSelectDoms();
-                createDriverTypeSelectDoms(false);
-                // 创建云盘选择列表
-                createDriverSelectDoms();
-                createDriverSelectDoms(false);
-                // 请求文件夹列表
-                loadDriveDirList();
-                loadDriveDirList(false);
             }else {
                 // 添加本地同步
                 $("#cover_title").text("添加本地同步");
