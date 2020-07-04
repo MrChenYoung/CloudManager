@@ -147,6 +147,15 @@
         background-color: red;
         width: 340px;
         height: 26px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space:nowrap;
+        scrollbar-width: none; /* firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+    }
+
+    .path-in-box::-webkit-scrollbar {
+        display: none; /* Chrome Safari */
     }
 
 </style>
