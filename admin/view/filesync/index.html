@@ -290,7 +290,7 @@
                     break;
                 case 3:
                     // 删除
-                    loadDriverInfo();
+                    deleteSyncInfp();
                     break;
             }
         },function (obj) {
@@ -326,6 +326,14 @@
             }
             showEditCover();
         });
+    }
+    
+    // 删除同步
+    function deleteSyncInfp() {
+        var url = "?m=admin&c=API_FileManager&a=deleteSyncInfo&API=&syncId=" + editSyncId;
+        get(url,function () {
+            loadFileSyncList();
+        },true,true);
     }
 
     // 请求云盘列表

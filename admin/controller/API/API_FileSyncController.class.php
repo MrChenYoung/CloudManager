@@ -162,4 +162,14 @@ class API_FileSyncController extends API_BaseController
             echo $this->failed("获取同步信息失败");
         }
     }
+
+    // 删除同步
+    public function deleteSyncInfo(){
+        // 同步信息id
+        if (!isset($_GET["syncId"])){
+            echo $this->failed("缺少syncId参数");
+            die;
+        }
+        $syncId = $_GET["syncId"];
+    }
 }
