@@ -181,7 +181,7 @@
     // 目标路径存储
     var desPathArray = [""];
 
-    var editRow;
+    var editSyncId;
     var driverData = {};
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
@@ -281,7 +281,7 @@
             switch (opeType) {
                 case 1:
                     // 编辑
-
+                    editSyncInfo();
                 case 2:
                     // 同步
                     showEditCover(opeType);
@@ -292,8 +292,27 @@
                     break;
             }
         },function (obj) {
-            editRow = obj;
-            editDriverName = obj.attr('driverName');
+            editSyncId = obj.attr('syncId');
+        });
+    }
+
+    // 编辑同步
+    function editSyncInfo() {
+        var url = baseUrl + "?m=admin&c=API_FileSync&a=editSyncInfo"
+            + "&syncId=" + editSyncId;
+        get(url,function (data) {
+            var syncData = data.data;
+            var type = syncData["type"];
+            var sourceDrive = syncData["srcDrive"];
+            var sourcePath = syncData["srcPath"];
+            var destinationDrive = syncData["desDrive"];
+            var destinationPath = syncData["desPath"];
+            syncType = type;
+            srcDrive = sourceDrive;
+            srcPathArray = sourcePath.split("/");
+            desDrive = destinationDrive;
+            desPath = destinationPath.split("/");
+            showEditCover();
         });
     }
 
@@ -304,13 +323,31 @@
         get(url,function (data) {
             driverList = data.data;
 
-            // 默认选择的云盘类型
-            srcDriveType = defaultSelectDriverType;
-            desDriveType = defaultSelectDriverType;
+            if (srcDrive == undefined){
+                // 默认选择的云盘类型
+                srcDriveType = defaultSelectDriverType;
+                desDriveType = defaultSelectDriverType;
 
-            // 默认选择的云盘
-            srcDrive = defaultSelectDriver;
-            desDrive = defaultSelectDriver;
+                // 默认选择的云盘
+                srcDrive = defaultSelectDriver;
+                desDrive = defaultSelectDriver;
+            }else {
+                var driverTypes = Object.keys(driverList);
+                for(var i = 0; i < driverTypes.length; i++){
+                    var driveType = driverTypes[i];
+                    var drives = driverList[driveType];
+                    for (var j = 0; j < drives.length; j++){
+                        var driveName = drives[j];
+                        if (driveName == srcDrive){
+                            srcDriveType = driveType;
+                        }
+
+                        if (driveName == desDrive){
+                            desDriveType = driveType;
+                        }
+                    }
+                }
+            }
 
             if (success){
                 success();
@@ -454,7 +491,6 @@
             $("#src_cur_dir").html(dom);
         }
     }
-
 
     // 获取目录路径
     function getPathString(array=srcPathArray) {

@@ -24,7 +24,7 @@ class API_FileSyncController extends API_BaseController
         $data = [];
         if ($res){
             foreach ($res as $re) {
-                $type = $re["type"] == 1 ? "本地同步" : "线上同步";
+                $type = $re["type"] == 1 ? "本地同步" : "云盘同步";
                 $status = $re["status"] == 1 ? "同步中" : "未同步";
                 $re["typeStr"] = $type;
                 $re["statusStr"] = $status;
@@ -91,6 +91,53 @@ class API_FileSyncController extends API_BaseController
             echo $this->success("添加同步成功");
         }else {
             echo $this->failed("添加同步失败");
+        }
+    }
+
+    // 编辑同步
+    public function editSyncInfo(){
+        // 同步类型
+        if (!isset($_GET["syncId"])){
+            echo $this->failed("缺少syncId参数");
+            die;
+        }
+        $syncId = $_GET["syncId"];
+
+        $res = DatabaseDataManager::getSingleton()->find($this->tableName,["id"=>$syncId]);
+        if ($res){
+            $res = $res[0];
+            $type = $res["type"]."";
+            $status = $res["status"];
+
+            if ($status == 1){
+                // 正在同步中
+                echo $this->failed("正在同步中，无法编辑");
+            }else {
+                $srcPath = $res["source_path"];
+                $srcDrive = "";
+                if ($type == "0"){
+                    $srcArr = explode(":",$srcPath);
+                    $srcDrive = $srcArr[0];
+                    $srcPath = $srcArr[1];
+                }
+
+                $desPath = $res["des_path"];
+                $desDrive = "";
+                $desArr = explode(":",$desPath);
+                $desDrive = $desArr[0];
+                $desPath = $desArr[1];
+
+                $data = [
+                    "type"      =>  $type,
+                    "srcDrive"  =>  $srcDrive,
+                    "srcPath"   =>  $srcPath,
+                    "desDrive"  =>  $desDrive,
+                    "desPath"   =>  $desPath
+                ];
+                echo $this->success($data);
+            }
+        }else {
+            echo $this->failed("获取同步信息失败");
         }
     }
 }
