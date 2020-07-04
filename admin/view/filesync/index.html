@@ -296,13 +296,6 @@
             srcDrive = defaultSelectDriver;
             desDrive = defaultSelectDriver;
 
-            // 创建云盘类型选择列表
-            createDriverTypeSelectDoms();
-            // 创建云盘选择列表
-            createDriverSelectDoms();
-            // 请求文件夹列表
-            loadDriveDirList();
-            loadDriveDirList(false);
             if (success){
                 success();
             }
@@ -503,17 +496,6 @@
         });
     }
 
-    // 删除云盘
-    function deleteDriver() {
-        confirmAlert(function () {
-            var url = baseUrl + "?m=admin&c=API_MyDriver&a=deleteDrive&name=" + editDriverName + "&API=";
-            get(url,function () {
-                // 刷新列表
-                loadDriverList();
-            },true,true);
-        });
-    }
-
     // 确认
     function confirm() {
         if (syncType == "1"){
@@ -607,6 +589,16 @@
                 $(".select-des-drive-dir-box").css("width","390px");
                 $(".des-dir-list").css("margin-top","-23px");
                 $(".des-dir-list").css("width","390px");
+
+                // 创建云盘类型选择列表
+                createDriverTypeSelectDoms();
+                createDriverTypeSelectDoms(false);
+                // 创建云盘选择列表
+                createDriverSelectDoms();
+                createDriverSelectDoms(false);
+                // 请求文件夹列表
+                loadDriveDirList();
+                loadDriveDirList(false);
             }else {
                 // 添加本地同步
                 $("#cover_title").text("添加本地同步");
