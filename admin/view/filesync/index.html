@@ -311,6 +311,7 @@
             syncType = type;
             srcDrive = sourceDrive;
             srcPathArray = sourcePath.split("/");
+            console.log("源目录：" + srcPathArray);
             desDrive = destinationDrive;
             desPath = destinationPath.split("/");
             showEditCover();
@@ -642,7 +643,6 @@
     // 显示编辑界面
     function showEditCover() {
         // 加载云盘信息
-        console.log("——————————————————————————————————————————-=======");
         loadDriverList(function () {
             if (syncType == 0){
                 // 创建云盘类型选择列表
