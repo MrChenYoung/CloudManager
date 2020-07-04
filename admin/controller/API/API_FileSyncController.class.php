@@ -43,6 +43,21 @@ class API_FileSyncController extends API_BaseController
         }
         $type = $_GET["type"];
 
+        // 是否是编辑同步信息
+        if (!isset($_GET["edit"])){
+            echo $this->failed("缺少edit参数");
+            die;
+        }
+        $edit = $_GET["edit"];
+
+        // 要编辑的同步信息id
+        if (!isset($_GET["syncId"])){
+            echo $this->failed("缺少syncId参数");
+            die;
+        }
+        $syncId = $_GET["syncId"];
+
+
         // 源云盘
         if (!isset($_GET["srcDrive"])){
             echo $this->failed("缺少srcDrive参数");
@@ -86,11 +101,18 @@ class API_FileSyncController extends API_BaseController
             "des_path"      =>$desPath,
             "type"          =>$type
         ];
-        $res = DatabaseDataManager::getSingleton()->insert($this->tableName,$data);
-        if ($res){
-            echo $this->success("添加同步成功");
+
+        $isEdit = $edit == "1" ? true : false;
+        if ($isEdit){
+            $res = DatabaseDataManager::getSingleton()->update($this->tableName,$data,["id"=>$syncId]);
         }else {
-            echo $this->failed("添加同步失败");
+            $res = DatabaseDataManager::getSingleton()->insert($this->tableName,$data);
+        }
+
+        if ($res){
+            echo $this->success($isEdit ? "同步信息修改成功" : "添加同步成功");
+        }else {
+            echo $this->failed($isEdit ? "同步信息修改失败" : "添加同步失败");
         }
     }
 

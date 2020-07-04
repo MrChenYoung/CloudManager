@@ -180,9 +180,10 @@
     var srcPathArray = [""];
     // 目标路径存储
     var desPathArray = [""];
-
     var editSyncId;
     var driverData = {};
+    // 是否是编辑同步信息
+    var isEditSyncInfo = false;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#file_sync").addClass("active");
@@ -299,6 +300,7 @@
 
     // 编辑同步
     function editSyncInfo() {
+        isEditSyncInfo = true;
         var url = baseUrl + "?m=admin&c=API_FileSync&a=editSyncInfo"
             + "&syncId=" + editSyncId;
         get(url,function (data) {
@@ -587,7 +589,9 @@
             + "&srcPath=" + srcPath
             + "&srcDrive=" + srcDrive
             + "&desPath=" + desPath
-            + "&desDrive=" + desDrive;
+            + "&desDrive=" + desDrive
+            + "&edit=" + (isEditSyncInfo ? "1" : "0")
+            + "&syncId=" + editSyncId;
         get(url,function () {
             // 添加同步成功
             loadFileSyncList();
@@ -601,6 +605,7 @@
     
     // 添加同步信息
     function addSync() {
+        isEditSyncInfo = false;
         var btns = [{
             title:"本地同步",
             func: function(){
