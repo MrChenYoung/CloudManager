@@ -524,13 +524,9 @@
                 hideEditCover();
             }
         }else {
-            // 主管理员
-            var mainAdmin = $("#main_admin").val();
-            // 成员数
-            var memberCount = $("#member_count").val();
-            // 备注
-            var remark = $("#drive_remark").val();
-            modifyDriveInfo(mainAdmin,memberCount,remark);
+            // 云盘同步
+            // 同步请求
+            syncInfoUpdate();
             hideEditCover();
         }
     }
@@ -543,7 +539,14 @@
         var desPath = btoa(encodeURIComponent(getPathString(desPathArray)));
         var url = baseUrl + "?m=admin&c=API_FileSync&a=updateSyncInfo"
             + "&type=" + syncType
-            + "&srcPath=" + srcPath;
+            + "&srcPath=" + srcPath
+            + "&srcDrive=" + srcDrive
+            + "&desPath=" + desPath
+            + "&desDrive=" + desDrive;
+        get(url,function () {
+            // 添加同步成功
+            loadFileSyncList();
+        },true,true);
     }
 
     // 取消
