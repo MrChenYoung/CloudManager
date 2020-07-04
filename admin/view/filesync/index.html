@@ -44,7 +44,7 @@
     }
 
     .add-category-container {
-        width: 780px;
+        width: 800px;
         height: 630px;
         background-color: #FFF;
         padding: 10px;
@@ -489,43 +489,6 @@
         loadDriveDirList(desFlag);
     }
 
-    // 显示编辑界面
-    function showEditCover() {
-        // 加载云盘信息
-        loadDriverList(function () {
-            if (syncType == 0){
-                // 重命名
-                $("#cover_title").text("添加云盘同步");
-            }else {
-                // 添加/修改备注
-                $("#cover_title").text("添加本地同步");
-                $(".add-category-container .layui-form").css("display","block");
-
-                // var currentDriver = driverData[editDriverName];
-                // $("#drive_name").val(editDriverName);
-            }
-            $(".add-category-container").css("display","block");
-            layui.use('layer',function () {
-                var layer = layui.layer;
-                layerIndex = layer.open({
-                    type: 1,
-                    area:['800px','650px'],
-                    title: false,
-                    offset:'120px',
-                    closeBtn: 0,
-                    shadeClose: true,
-                    content: $(".add-category-container"),
-                    success: function(){
-
-                    },
-                    end:function () {
-                        $(".add-category-container").css("display","none");
-                    }
-                });
-            });
-        });
-    }
-
     // 隐藏编辑界面
     function hideEditCover(){
         // 关闭浮层
@@ -625,6 +588,49 @@
         loadDriveDirList(false);
     }
 
+    // 显示编辑界面
+    function showEditCover() {
+        // 加载云盘信息
+        loadDriverList(function () {
+            if (syncType == 0){
+                // 云盘同步
+                $("#cover_title").text("添加云盘同步");
+                $("#local_path_form").css("display","none");
+                $(".select-src-drive-dir-box").css("display","inline-block");
+                $(".select-des-drive-dir-box").css("display","inline-block");
+                $(".select-src-drive-dir-box").css("width","390px");
+                $(".select-des-drive-dir-box").css("width","390px");
+                $(".des-dir-list").css("width","390px");
+            }else {
+                // 添加本地同步
+                $("#cover_title").text("添加本地同步");
+                $(".add-category-container .layui-form").css("display","block");
+                $(".select-src-drive-dir-box").css("display","none");
+
+                // var currentDriver = driverData[editDriverName];
+                // $("#drive_name").val(editDriverName);
+            }
+            $(".add-category-container").css("display","block");
+            layui.use('layer',function () {
+                var layer = layui.layer;
+                layerIndex = layer.open({
+                    type: 1,
+                    area:['820px','650px'],
+                    title: false,
+                    offset:'120px',
+                    closeBtn: 0,
+                    shadeClose: true,
+                    content: $(".add-category-container"),
+                    success: function(){
+
+                    },
+                    end:function () {
+                        $(".add-category-container").css("display","none");
+                    }
+                });
+            });
+        });
+    }
 
 </script>
 <{/block}>
@@ -658,7 +664,7 @@
 <!--浮层弹窗-->
 <div class="add-category-container">
     <p class="cover-title" id="cover_title">添加同步</p>
-    <form class="layui-form layui-form-pane" action="">
+    <form id="local_path_form" class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">源目录</label>
             <div class="layui-input-inline">
@@ -666,6 +672,42 @@
             </div>
         </div>
     </form>
+
+    <div class="select-src-drive-dir-box">
+        <div class="moveto-title-box">
+            <span class="moveto-title moveto-span">选择源目录</span>
+            </span>
+        </div>
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item select-box">
+                <select id="src_drive_type_select" lay-filter="des-drive-type-list">
+                    <option value="">选择云盘类型</option>
+                </select>
+                <select id="src_drive_select" lay-filter="des-drive-list">
+                    <option value="">选择云盘</option>
+                </select>
+                <div>
+                    <button id="src_back_btn" onclick="backDesDir()" type="button" class="layui-btn back-btn layui-btn-disabled"><i class="layui-icon layui-icon-return"></i></button>
+                    <span id="src_cur_dir" class="layui-breadcrumb">
+                </span>
+                </div>
+            </div>
+        </form>
+        <div id="src_dir_list" class="des-dir-list">
+            <table id="des_dir_list_table" class="layui-table" lay-skin="nob">
+                <colgroup>
+                    <col width="150">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>目录名</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div class="select-des-drive-dir-box">
         <div class="moveto-title-box">
