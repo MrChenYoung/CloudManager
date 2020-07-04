@@ -171,5 +171,12 @@ class API_FileSyncController extends API_BaseController
             die;
         }
         $syncId = $_GET["syncId"];
+
+        $res = DatabaseDataManager::getSingleton()->delete($this->tableName,["id"=>$syncId]);
+        if ($res){
+            echo $this->success("删除成功");
+        }else {
+            echo $this->failed("删除失败");
+        }
     }
 }
