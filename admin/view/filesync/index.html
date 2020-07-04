@@ -310,10 +310,18 @@
             var destinationPath = syncData["desPath"];
             syncType = type;
             srcDrive = sourceDrive;
-            srcPathArray = sourcePath.split("/");
-            console.log("源目录：" + srcPathArray);
+            if (sourcePath == "/"){
+                srcPathArray = [""];
+            }else {
+                srcPathArray = sourcePath.split("/");
+            }
+
             desDrive = destinationDrive;
-            desPath = destinationPath.split("/");
+            if (destinationPath == "/"){
+                desPathArray = [""];
+            }else {
+                desPathArray = destinationPath.split("/");
+            }
             showEditCover();
         },false);
     }
