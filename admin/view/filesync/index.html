@@ -330,7 +330,7 @@
     
     // 删除同步
     function deleteSyncInfp() {
-        var url = "?m=admin&c=API_FileManager&a=deleteSyncInfo&API=&syncId=" + editSyncId;
+        var url = "?m=admin&c=API_FileSync&a=deleteSyncInfo&API=&syncId=" + editSyncId;
         get(url,function () {
             loadFileSyncList();
         },true,true);
