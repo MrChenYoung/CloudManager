@@ -18,7 +18,7 @@ $desPath =  $argv[4];
 $syncId =  $argv[5];
 update($mysqli,["status"=>1],["id"=>$syncId]);
 
-$cmd = "rclone sync ".$srcPath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+$cmd = "rclone sync ".$srcPath." ".$desPath." -P >> ".$logPath." 2>&1";
 // 执行rclone同步命令
 addLog($logPath,"命令:".$cmd);
 $res = myshellExec($cmd);
