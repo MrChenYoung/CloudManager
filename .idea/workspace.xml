@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/admin/view/mydriver/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/mydriver/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/home/view/layout.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,8 @@
       <workItem from="1593666015184" duration="1913000" />
       <workItem from="1593675153040" duration="6000" />
       <workItem from="1593683688812" duration="33537000" />
-      <workItem from="1593859565556" duration="1074000" />
+      <workItem from="1593859565556" duration="1152000" />
+      <workItem from="1594056698371" duration="11000" />
     </task>
     <servers />
   </component>
