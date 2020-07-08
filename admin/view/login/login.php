@@ -8,7 +8,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="blank" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
-    <title>账号管家</title>
+    <title>云盘管家</title>
 
     <?php $webSite = "http://".$_SERVER['HTTP_HOST'];  $pubP = $webSite."/public"?>
     <link href="<?php echo $pubP?>/common/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -22,7 +22,7 @@
     <div id="cotent" class="aw-login">
         <div class="mod center-block" style="padding-top: 60px;">
             <div class="mod-logo" style="text-align: center">
-                <h1 style="font:50px 'microsoft yahei';color: #FFFFFF">账号管家</h1>
+                <h1 style="font:50px 'microsoft yahei';color: #FFFFFF">云盘管家</h1>
             </div>
 
             <form method="post" action="<?php echo $webSite.'/index.php'?>" id="login_submit">
