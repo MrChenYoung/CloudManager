@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/AsynTaskController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/view/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/view/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/framework/core/Controller.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/framework/core/Controller.class.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +109,7 @@
       <workItem from="1594363665977" duration="618000" />
       <workItem from="1594410583629" duration="22000" />
       <workItem from="1594497233448" duration="1501000" />
-      <workItem from="1594589605622" duration="1046000" />
+      <workItem from="1594589605622" duration="1235000" />
     </task>
     <servers />
   </component>

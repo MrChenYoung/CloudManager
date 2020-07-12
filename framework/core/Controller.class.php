@@ -42,6 +42,9 @@ class Controller
             "imageUrl"      => $imageUrl,
             "dbname"        => $GLOBALS["db_info"]["dbname"]
         ];
+
+        $spaceInfo = $this -> getMovieDiskSpace();
+        $this -> dataExtension = ["totalSpace" => $spaceInfo[0],"freeSpace" => $spaceInfo[1]];
     }
 
     /**
@@ -141,10 +144,16 @@ class Controller
     }
 
     /**
-     * 打开PHPinfo界面
+     * 获取服务器磁盘空间使用详情
      */
-    public function openPhpInfo(){
-        echo phpinfo();
+    public function getMovieDiskSpace(){
+        $totalSpace = $freeSpace = "0KB";
+        $path = "/";
+
+        $totalSpace = $this -> formatBytes(disk_total_space($path));
+        $freeSpace = $this -> formatBytes(disk_free_space($path));
+
+        return [$totalSpace,$freeSpace];
     }
 }
 
