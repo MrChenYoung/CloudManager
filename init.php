@@ -18,3 +18,7 @@ function initDb(){
     require_once "./admin/controller/CreateTablesController.class.php";
     new \admin\controller\CreateTablesController();
 }
+
+// 初始化日志文件
+require_once "./framework/tools/LogManager.class.php";
+\framework\tools\LogManager::getSingleton();
