@@ -63,6 +63,34 @@
         width: 140px;
     }
 
+    .layui-form-item .layui-input-inline{
+        width: 140px;
+    }
+
+    /*右下角查看日志按钮*/
+    .open-log-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 30px;
+        background-color: #393D49;
+        width: 40px;
+        height: 40px;
+        border-radius: 30px;
+        border-color: transparent;
+        cursor: pointer;
+    }
+    .open-log-btn i {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        font-size: 25px;
+        color: #ffffff;
+        background-color: #393D49;
+    }
+    .open-log-btn:hover {
+        opacity: 0.8;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -104,12 +132,37 @@
             });
         });
 
+        // 请求数据库列表
+        loadDbList();
         // 请求数据表
         loadTableList();
-
         // 获取备份历史文件
         loadDbBackupLists();
     });
+
+    // 请求数据库列表
+    function loadDbList() {
+        var url = baseUrl + "?m=admin&c=API_Database&a=loadAllDatabase&API=";
+        console.log("获取数据库列表:" + url);
+        get(url,function (data) {
+            var listDb = data.data.list;
+            var currentDb = data.data.currentDb;
+            layui.use('form',function () {
+                var form = layui.form;
+                var dom = '';
+                for (var i = 0; i < listDb.length; i++){
+                    var dbName = listDb[i];
+                    if (dbName == currentDb){
+                        dom += '<option selected="selected" value="'+ dbName +'">'+ dbName +'</option>';
+                    }else{
+                        dom += '<option disabled="" value="'+ dbName +'">'+ dbName +'</option>';
+                    }
+                }
+                $("#db_select").html(dom);
+                form.render();
+            });
+        },false);
+    }
 
     // 请求数据表
     function loadTableList() {
@@ -143,7 +196,7 @@
         get(url,function (data) {
             // 创建备份历史列表
             createBackupListDom(data.data);
-        },false);
+        });
     }
 
     // 创建备份文件列表
@@ -171,7 +224,7 @@
         get(url,function () {
             // 刷新列表
             loadDbBackupLists();
-        },false,true);
+        },true,true);
     }
 
     // 导入备份
@@ -189,14 +242,24 @@
         },"确认导入吗？这将覆盖原有数据库数据");
     }
 
+    // 备份当前数据库
+    function backupCurrentDB() {
+        backupDb("0");
+    }
+    
+    // 备份所有数据库
+    function backupAllDB() {
+        backupDb("1");
+    }
+
     // 备份数据库
-    function backupDB() {
-        var url = baseUrl + "?m=admin&c=API_Database&a=backupDB&API=&tbName=" + selectedTableName;
+    function backupDb(all) {
+        var url = baseUrl + "?m=admin&c=API_Database&a=backupDB&API=&tbName=" + selectedTableName + "&backupAll=" + all;
         console.log("备份数据库:" + url);
         get(url,function () {
             // 备份完成 刷新备份历史列表
             loadDbBackupLists();
-        },true,true);
+        },true,true,50000);
     }
 
     // 上传备份文件
@@ -209,27 +272,34 @@
         var $this = $(obj);
         var backName = $this.attr("backName");
         var dirName = selectedTableName.length > 0 ? selectedTableName : "all";
-        var url = baseUrl + "/admin/resource/dbBackup/" + dirName + "/" + backName;
-
+        var url = "http://cloudmount.yycode.ml/GDSuite/我的数据/备份数据/db/" + $("#db_name").val() + "/" + dirName + "/" + backName;
         var $eleForm = $("<form method='get'></form>");
         $eleForm.attr("action",url);
         $(document.body).append($eleForm);
         //提交表单，实现下载
         $eleForm.submit();
     }
+
 </script>
 <{/block}>
 <{block name="content"}>
 <div class="aw-content-wrap">
     <input id="msg_input" type="hidden" value="<{$data.msg}>">
     <input id="select_tb_name" type="hidden" value="<{$data.tbName}>">
-    <button onclick="backupDB()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">新增备份</button>
-    <button onclick="uploadBackupDB()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">上传文件</button>
+    <button onclick="backupCurrentDB()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">新增备份</button>
+    <button onclick="backupAllDB()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">备份所有数据库</button>
+    <button onclick="uploadBackupDB()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">上传备份</button>
     <div class="notice-box">
         <span id="notice_area" class="notice-area">警告:导入数据库会覆盖原有数据库数据，请谨慎操作</span>
     </div>
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
+            <label class="layui-form-label">当前数据库</label>
+            <div class="layui-input-inline">
+                <select id="db_select" lay-filter="db-data-filter">
+                    <option value="">请选择</option>
+                </select>
+            </div>
             <label class="layui-form-label">当前数据表</label>
             <div class="layui-input-inline">
                 <select id="table_select" lay-filter="table-data-filter">
@@ -258,9 +328,32 @@
             </table>
         </div>
     </div>
-    <form id="upload_back_form" enctype="multipart/form-data" method="post" action="<{$data.baseUrl}>/admin/controller/UploadDBBack.php">
+    <form id="upload_back_form" enctype="multipart/form-data" method="post" action="<{$data.baseUrl}>?m=admin&c=API_Database&a=uploadBackup">
         <input type="file" name="file" id="file_select_input" style="display:none">
         <input type="text" name="tbName" id="tb_name_input" style="display:none">
     </form>
 </div>
+
+<!--查看日志按钮-->
+<button type="button" class="open-log-btn" onclick="checkLog()">
+    <i title="查看日志" class="iconfont icon-jurassic_log"></i>
+</button>
+
+<!--日志信息展示浮层弹窗-->
+<div class="log-container">
+    <fieldset class="layui-elem-field layui-field-title log-title" style="margin-top: 20px;">
+        <legend>
+            后台任务日志
+            <i style="display: inline-block;width: 30px;height: 30px;font-size: 20px;color: #8a8a8a;cursor:pointer;" onclick="refreshLog()" title="刷新" class="iconfont icon-shuaxin1"></i>
+            <i style="display: inline-block;width: 30px;height: 30px;font-size: 20px;color: #8a8a8a;cursor:pointer;" onclick="clearLog()" title="清空" class="iconfont icon-qingkong"></i>
+        </legend>
+    </fieldset>
+
+
+    <!--日志显示区域-->
+    <div class="log-box"></div>
+    <div id="timer" style="display: none"></div>
+</div>
+
+<input type="hidden" id="db_name" value="<{$data.dbname}>">
 <{/block}>

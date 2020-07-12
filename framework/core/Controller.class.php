@@ -39,7 +39,8 @@ class Controller
         // 数据
         $this -> data = [
             "baseUrl"       => $this -> website,
-            "imageUrl"      => $imageUrl
+            "imageUrl"      => $imageUrl,
+            "dbname"        => $GLOBALS["db_info"]["dbname"]
         ];
     }
 
