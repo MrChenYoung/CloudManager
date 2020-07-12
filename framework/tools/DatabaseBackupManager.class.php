@@ -51,21 +51,30 @@ class DatabaseBackupManager
      * @param string $database
      * @param string $charset
      */
-    function __construct($host = '', $username = '', $password = '', $database = '', $port = '', $charset = '') {
-        $option = $GLOBALS['db_info'];
-        $this->host = empty($host) ? $option['host'] : $host;
-        $this->username = empty($username) ? $option['user'] : $username;
-        $this->password = empty($password) ? $option['pass'] : $password;
-        $this->database = empty($database) ? $option['dbname'] : $database;
-        $this->port = empty($port) ? $option['port'] : $port;
-        $this->charset = empty($charset) ? $option['charset'] : $charset;
+    function __construct($option) {
+        $host = $option['host'];
+        $username = $option['user'];
+        $password = $option['pass'];
+        $database = $option['dbname'];
+        $port = $option['port'];
+        $charset = $option['charset'];
+        $this->database = $database;
 
         set_time_limit(0);//无时间限制
         @ob_end_flush();
         // 连接数据库
-        $this->db = @mysqli_connect ( $this->host, $this->username, $this->password,$this->database,$this->port) or die( '<p class="dbDebug"><span class="err">Mysql Connect Error : </span>'.mysqli_error($this->db).'</p>');
-        // 数据库编码方式
-        mysqli_query ( $this->db,'SET NAMES ' . $this->charset);
+        $this->db = new \mysqli($host, $username, $password,$database,$port);
+        if ($this->db -> connect_error){
+            echo "数据库连接失败：".$this->db -> connect_error;
+        }else {
+            // 数据库编码方式
+            mysqli_query ( $this->db,'SET NAMES ' . $charset);
+        }
+    }
+
+    // 获取连接错误信息
+    function connectError(){
+        return $this->db -> connect_error;
     }
 
     /*
@@ -87,7 +96,7 @@ class DatabaseBackupManager
 
     /**
      * 数据库备份
-     * 参数：备份哪个表(可选),备份目录(可选，默认为backup),分卷大小(可选,默认2000，即2M)
+     * 参数：备份哪个表(可选),备份目录(可选，默认为backup),分卷大小(可选,默认512000，即500M)
      *
      * @param $string $dir
      * @param int $size
@@ -99,7 +108,7 @@ class DatabaseBackupManager
         if (! is_dir ( $dir )) {
             mkdir ( $dir, 0777, true ) or die ( '创建文件夹失败' );
         }
-        $size = $size ? $size : 2048;
+        $size = $size ? $size : 512000;
         $sql = '';
         // 只备份某个表
         if (! empty ( $tablename )) {
