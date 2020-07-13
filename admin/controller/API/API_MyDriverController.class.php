@@ -23,11 +23,8 @@ class API_MyDriverController extends API_BaseController
 
         // 数据库查询云盘信息
         $driveData = [];
-        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list",[],[],"ORDER BY sort ASC");
+        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
 
-        echo "<pre>";
-        var_dump($driveInfo);
-        die;
         if ($driveInfo){
             foreach ($driveInfo as $drive) {
                 $driveName = $drive["driver_name"];
@@ -39,6 +36,7 @@ class API_MyDriverController extends API_BaseController
         $driverList = implode("",$driverList);
         $driverList = json_decode($driverList,true);
         $data = [];
+        $sortData = [];
         foreach ($driverList as $key=>$driver) {
             $type = "";
             switch ($driver["type"]){
@@ -62,7 +60,6 @@ class API_MyDriverController extends API_BaseController
             if (!$fileInfoExist){
                 DatabaseDataManager::getSingleton()->insert("driver_list",["driver_name"=>$key]);
             }
-
 
             // 额外信息
             $sort = 0;
@@ -94,7 +91,11 @@ class API_MyDriverController extends API_BaseController
                 "remark"        =>  $remark,
                 "sort"          => $sort
             ];
+            $sortData[] = $sort;
         }
+
+        // 按照sort排序
+        array_multisort($sortData, SORT_ASC, $data);
 
         echo $this->success($data);
     }
