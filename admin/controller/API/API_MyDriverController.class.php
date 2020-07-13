@@ -23,7 +23,7 @@ class API_MyDriverController extends API_BaseController
 
         // 数据库查询云盘信息
         $driveData = [];
-        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
+        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list",[],[],"ORDER BY sort DESC");
         if ($driveInfo){
             foreach ($driveInfo as $drive) {
                 $driveName = $drive["driver_name"];
@@ -61,6 +61,7 @@ class API_MyDriverController extends API_BaseController
 
 
             // 额外信息
+            $sort = 0;
             $mainAdmin = "--";
             $memberCount = "--";
             $remark = "--";
@@ -75,6 +76,7 @@ class API_MyDriverController extends API_BaseController
                 $remark = $dData["remark"];
                 $size = $dData["used_space"];
                 $count = $dData["file_count"];
+                $sort = $dData["sort"];
             }
 
 
@@ -85,7 +87,8 @@ class API_MyDriverController extends API_BaseController
                 "count"         =>  $count,
                 "mainAdmin"     => $mainAdmin,
                 "memberCount"   => $memberCount,
-                "remark"        =>  $remark
+                "remark"        =>  $remark,
+                "sort"          => $sort
             ];
         }
 
@@ -171,11 +174,19 @@ class API_MyDriverController extends API_BaseController
         }
         $remark = $_GET["remark"];
 
+        // 排序
+        if (!isset($_GET["sort"])){
+            echo $this->failed("缺少sort参数");
+            die;
+        }
+        $sort = $_GET["sort"];
+
         $data = [
             "driver_name"=>$driverName,
             "main_admin"    =>  $mainAdmin,
             "member_count"  =>  $memberCount,
-            "remark"=>$remark
+            "remark"=>$remark,
+            "sort" => $sort
         ];
 
         // 先查询是否有该云盘记录

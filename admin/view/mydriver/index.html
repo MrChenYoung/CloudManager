@@ -50,6 +50,10 @@
         font-size: 16px;
     }
 
+    .layui-form-item .cat-sort {
+        width: 100px;
+    }
+
 </style>
 <{/block}>
 <{block name="scriptCode"}>
@@ -63,9 +67,17 @@
     // 排在最前面的云盘类型
     var firstDriveType = "谷歌云盘";
     var secondDriveType = "谷歌团队盘";
+    // 排序
+    var sort = 0;
     $(document).ready(function () {
         // 设置边栏服务器信息选中状态
         $("#my_driver").addClass("active");
+
+        // 监听输入排序
+        var catSortInput = $("#cat_sort");
+        catSortInput.bind("input propertychange", function (event) {
+            sort = catSortInput.val();
+        });
 
         // 请求云盘列表
         loadDriverList();
@@ -82,25 +94,17 @@
 
     // 创建云盘列表
     function createDriverDoms(data) {
-        var firstDriveDom = "";
-        var secondDriveDom = "";
-        var otherDriveDom = "";
+        var dom = "";
         for(var i = 0; i < data.length; i++){
             var driver = data[i];
             var driverName = driver["name"];
             var driveType = driver["type"];
             driverData[driverName] = driver;
-            if (driveType == firstDriveType){
-                firstDriveDom += getDriveDom(driver);
-            }else if(driveType == secondDriveType) {
-                secondDriveDom += getDriveDom(driver);
-            }else {
-                otherDriveDom += getDriveDom(driver);
-            }
+            dom += getDriveDom(driver);
         }
 
         // 添加分类一行
-        $("tbody").html(firstDriveDom + secondDriveDom + otherDriveDom);
+        $("tbody").html(dom);
 
         // 添加右键菜单
         var menu_data=[
@@ -141,6 +145,7 @@
     function getDriveDom(driver) {
         var dom = "";
         dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
+        dom += '<td>'+ driver["sort"] +'</td>';
         dom += '<td>'+ driver["type"] +'</td>';
         dom += '<td class="driver-size">'+ driver["size"] +'</td>';
         dom += '<td class="file-count">'+ driver["count"] +'</td>';
@@ -191,6 +196,7 @@
             $("#main_admin").val(currentDriver["mainAdmin"]);
             $("#member_count").val(currentDriver["memberCount"]);
             $("#drive_remark").val(currentDriver["remark"]);
+            $("#cat_sort").val(currentDriver["sort"]);
         }
         $(".add-category-container").css("display","block");
         layui.use('layer',function () {
@@ -254,7 +260,8 @@
             + "&driverName=" + editDriverName
             + "&API=&remark=" + remark
             + "&mainAdmin=" + mainAdmin
-            + "&memberCount=" + memberCount;
+            + "&memberCount=" + memberCount
+            + "&sort=" + sort;
         get(url,function () {
             // 刷新列表
             loadDriverList();
@@ -305,6 +312,7 @@
     <div class="layui-form" style="text-align: center;">
         <table class="layui-table">
             <colgroup>
+                <col width="100">
                 <col width="150">
                 <col width="150">
                 <col width="150">
@@ -315,6 +323,7 @@
             </colgroup>
             <thead>
             <tr>
+                <th>排序</th>
                 <th>名称</th>
                 <th>类型</th>
                 <th>已使用空间</th>
@@ -338,6 +347,12 @@
     <input id="new_name_input" type="text" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
 
     <form class="layui-form layui-form-pane" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline cat-sort">
+                <input style="text-align: center" id="cat_sort" type="text" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">云盘名称</label>
             <div class="layui-input-inline">

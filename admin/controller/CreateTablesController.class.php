@@ -50,6 +50,7 @@ class CreateTablesController
         $sql = <<<EEE
                     CREATE TABLE $tableName(
                         id int AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+                        sort int DEFAULT 0  COMMENT '排序',
                         driver_name varchar(64) DEFAULT '' COMMENT '云盘名',
                         used_space varchar(64) DEFAULT '--' COMMENT '已使用空间',
                         file_count varchar(64) DEFAULT '--' COMMENT '文件总数量',
