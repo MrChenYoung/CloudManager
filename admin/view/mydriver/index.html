@@ -144,8 +144,9 @@
 
     function getDriveDom(driver) {
         var dom = "";
-        dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'"><td>'+ driver["name"] +'</td>';
+        dom += '<tr driverName="'+ driver["name"] +'" remark="'+ driver["remark"] +'">';
         dom += '<td>'+ driver["sort"] +'</td>';
+        dom += '<td>'+ driver["name"] +'</td>';
         dom += '<td>'+ driver["type"] +'</td>';
         dom += '<td class="driver-size">'+ driver["size"] +'</td>';
         dom += '<td class="file-count">'+ driver["count"] +'</td>';
