@@ -433,3 +433,13 @@ body .toast-fail-style .layui-layer-content{
 }
 
 
+.main-hud {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255,255,255,0.5);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 9999999;
+	display: none;
+}

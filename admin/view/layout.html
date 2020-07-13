@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<{PUBLIC_PATH}>common/css/common.css" type="text/css">
     <link rel="stylesheet" href="<{PUBLIC_PATH}>admin/css/common.css">
     <link rel="icon" type="image/x-ico" href="<{PUBLIC_PATH}>common/img/favicon.ico" />
+    <link rel="stylesheet/less" type="text/css" href="<{PUBLIC_PATH}>common/css/less.less" />
     <{block name="myStyles"}> <{/block}>
     <{block name="mySubStyles"}> <{/block}>
 </head>
@@ -22,6 +23,13 @@
 <input id="base_url" type="hidden" value="<{$data.baseUrl}>">
 <!--图片baseUrl-->
 <input id="image_base_url" type="hidden" value="<{$data.imageUrl}>">
+
+<!--加载数据等待界面-->
+<div class="main-hud" onclick="hideHud()">
+    <span class="ant-spin-dot ant-spin-dot-spin">
+            <i></i><i></i><i></i><i></i>
+    </span>
+</div>
 
 <!--侧边栏-->
 <div id="as_float_menu" class="as-float-menu">
@@ -130,6 +138,7 @@
 <script src="<{PUBLIC_PATH}>admin/js/common.js"  type="text/javascript"></script>
 <script src="<{PUBLIC_PATH}>common/js/sidebar.js" type="text/javascript"></script>
 <script src="<{PUBLIC_PATH}>common/js/timer.jquery.min.js" type="text/javascript"></script>
+<script src="<{PUBLIC_PATH}>common/js/less.min.js"></script>
 <{block name="scriptCode"}><{/block}>
 <{block name="subScriptCode"}><{/block}>
 
