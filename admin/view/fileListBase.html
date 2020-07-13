@@ -341,11 +341,11 @@
 
         var drives = driverList[seDriverType];
         for(var i = 0; i < drives.length; i++){
-            var driver = drives[i];
+            var driver = drives[i]["name"];
             if (seDriver == driver){
-                dom += '<option selected="selected" value="'+ driver["name"] +'">'+ driver["name"] +'</option>';
+                dom += '<option selected="selected" value="'+ driver +'">'+ driver +'</option>';
             }else {
-                dom += '<option value="'+ driver["name"] +'">'+ driver["name"] +'</option>';
+                dom += '<option value="'+ driver +'">'+ driver +'</option>';
             }
         }
 
