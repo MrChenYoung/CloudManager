@@ -14,6 +14,16 @@ class API_FileManagerController extends API_BaseController
 {
     // 获取云盘列表
     public function loadDriverList($return=false){
+        // 数据库查询云盘信息
+        $driveListData = [];
+        $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
+        if ($driveInfo){
+            foreach ($driveInfo as $drive) {
+                $driveName = $drive["driver_name"];
+                $driveListData[$driveName] = $drive;
+            }
+        }
+
         // 把rclone配置文件打包成json
         $cmd = "rclone config dump";
         $res = ShellManager::exec($cmd);
@@ -30,6 +40,7 @@ class API_FileManagerController extends API_BaseController
         $driverList = implode("",$driverList);
         $driverList = json_decode($driverList,true);
         $data = [];
+        $sortData = [];
         foreach ($driverList as $key=>$driver) {
             $type = "";
             switch ($driver["type"]){
@@ -43,7 +54,22 @@ class API_FileManagerController extends API_BaseController
                     $type = "未知";
                     break;
             }
-            $data[$type][] = $key;
+            $sort = 0;
+            if (key_exists($key,$driveListData)){
+                $dData = $driveListData[$key];
+                $sort = $dData["sort"];
+                $sortData[$type][] = $sort;
+            }
+
+            $driveData = ["name"=>$key,"sort"=>$sort];
+            $data[$type][] = $driveData;
+        }
+
+        // 排序
+        foreach ($data as $tp=>$datum) {
+            $sArray = $sortData[$tp];
+            // 按照sort排序
+            array_multisort($sArray, SORT_ASC, $data[$tp]);
         }
 
         if ($return){
