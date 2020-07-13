@@ -13,7 +13,7 @@
 
     .add-category-container {
         width: 430px;
-        height: 180px;
+        height: 200px;
         background-color: #FFF;
         padding: 10px;
         border-radius: 2px;
@@ -187,9 +187,9 @@
             $("#new_name_input").css("display","none");
             $(".add-category-container .layui-form").css("display","block");
             $(".add-category-container").css("width","780px");
-            $(".add-category-container").css("height","480px");
+            $(".add-category-container").css("height","500px");
             $(".cover-title").css("width","780px");
-            area = ['800px','500px'];
+            area = ['800px','520px'];
             offset = '120px';
 
             var currentDriver = driverData[editDriverName];
@@ -289,6 +289,8 @@
             var memberCount = $("#member_count").val();
             // 备注
             var remark = $("#drive_remark").val();
+            // 排序
+            sort = $("#cat_sort").val();
             modifyDriveInfo(mainAdmin,memberCount,remark);
             hideEditCover();
         }
