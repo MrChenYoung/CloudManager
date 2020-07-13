@@ -45,6 +45,8 @@ class DatabaseDataManager extends DatabaseManager
         //3. 拼接sql语句
         $sql = "SELECT $fields_str FROM $tbName $where_str $other";
 
+        echo "sql:".$sql;
+        die;
         //4. 执行sql语句，返回结果
         return $this -> dao -> fetchAll($sql);
     }
