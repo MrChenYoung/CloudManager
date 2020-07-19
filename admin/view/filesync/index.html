@@ -451,6 +451,11 @@
 
     // 创建文件夹列表dom
     function createDriveDirDoms(data,des=true) {
+        if (des){
+            console.log("创建目标目录");
+        }else {
+            console.log("创建源目录");
+        }
         var dom = "";
         var desFlag = des ? "1" : "0";
         for(var i = 0; i < data.length; i++){
