@@ -679,8 +679,11 @@
                 createDriverSelectDoms();
                 createDriverSelectDoms(false);
                 // 请求文件夹列表
-                loadDriveDirList();
-                loadDriveDirList(false);
+                setTimeout(function () {
+                    loadDriveDirList();
+                    loadDriveDirList(false);
+                },20);
+
 
                 // 云盘同步
                 $("#cover_title").text("添加云盘同步");
