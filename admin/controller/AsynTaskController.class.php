@@ -186,7 +186,7 @@ class AsynTaskController extends Controller
         if (!isset($_REQUEST["path"])) die;
         $path = $_REQUEST["path"];
 
-        $cmd = "php ".ADMIN."controller/GetFileInfo.php ".LogManager::getSingleton()->logFilePath." '".$path;
+        $cmd = "php ".ADMIN."controller/GetFileInfo.php ".LogManager::getSingleton()->logFilePath." ".$path;
         ShellManager::exec($cmd);
     }
 }
