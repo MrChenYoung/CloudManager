@@ -189,33 +189,24 @@ class API_FileSyncController extends API_BaseController
         }
         $syncId = $_GET["syncId"];
 
-        // 查询同步信息
-        $res = DatabaseDataManager::getSingleton()->find($this->tableName,["id"=>$syncId]);
-        if ($res){
-            $res = $res[0];
-            $status = $res["status"];
-            if ($status == 1){
-                echo $this->failed("同步任务已经开始");
-            }else {
-                $source_path = $res["source_path"];
-                $des_path = $res["des_path"];
-
-                // 后台开启同步
-                $params = [
-                    "m"=>"admin",
-                    "c"=>"AsynTask",
-                    "a"=>"index",
-                    "sourcePath"=>$source_path,
-                    "desPath"=>$des_path,
-                    "syncId"=>$syncId
-                ];
-
-                MultiThreadTool::addTask($this->website."/index.php","startSyncData",$params);
-                // 提示正在后台移动
-                echo $this->success("同步任务已经开始");
-            }
-        }else {
-            echo $this->failed("请求同步信息失败");
+        // 是否同步所有任务
+        if (!isset($_GET["syncAll"])){
+            echo $this->failed("缺少syncAll参数");
+            die;
         }
+        $syncAll = $_GET["syncAll"];
+
+        // 后台开启同步
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index",
+            "syncAll"=>$syncAll,
+            "syncId"=>$syncId
+        ];
+
+        MultiThreadTool::addTask($this->website."/index.php","startSyncData",$params);
+        // 提示正在后台移动
+        echo $this->success("后台同步中...");
     }
 }

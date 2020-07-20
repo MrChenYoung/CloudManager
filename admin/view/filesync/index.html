@@ -347,7 +347,7 @@
     
     // 同步数据
     function syncInfo() {
-        var url = "?m=admin&c=API_FileSync&a=startSyncInfo&API=&syncId=" + editSyncId;
+        var url = "?m=admin&c=API_FileSync&a=startSyncInfo&API=&syncId=" + editSyncId + "&syncAll=0";
         get(url,null,true,true);
     }
 
@@ -740,7 +740,8 @@
     
     // 一键同步所有的同步列表
     function syncAll() {
-
+        var url = "?m=admin&c=API_FileSync&a=startSyncInfo&API=&syncId=" + "&syncAll=1";
+        get(url,null,true,true);
     }
 
 </script>

@@ -155,7 +155,9 @@ EEE;
                         source_path varchar(256) DEFAULT '' COMMENT '源路径',
                         des_path varchar(256) DEFAULT '' COMMENT '目标路径',
                         type tinyint DEFAULT 0 COMMENT '类型',
-                        status tinyint DEFAULT 0 COMMENT '是否正在同步'
+                        status tinyint DEFAULT 0 COMMENT '是否正在同步',
+                        lastStartTime varchar(256) DEFAULT '' COMMENT '上次同步开始时间',
+                        lastCompTime varchar(256) DEFAULT '' COMMENT '上次同步完成时间',
                     ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件同步信息表';
 EEE;
         $this->dao->createTable($tableName,$sql);
