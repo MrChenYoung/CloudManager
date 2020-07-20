@@ -274,7 +274,10 @@
             dom += '<tr syncId="'+ syncId +'" ><td>'+ syncsData["typeStr"] +'</td>';
             dom += '<td><div class="source-path">'+ syncsData["source_path"] +'</div></td>';
             dom += '<td><div class="des-path">'+ syncsData["des_path"] +'</div></td>';
-            dom += '<td>'+ syncsData["statusStr"] +'</td></tr>';
+            dom += '<td>'+ syncsData["statusStr"] +'</td>';
+            dom += '<td>'+ syncsData["lastStartTime"] +'</td>';
+            dom += '<td>'+ syncsData["lastCompTime"] +'</td>';
+            dom += '</tr>';
         }
 
         // 添加分类一行
@@ -761,6 +764,8 @@
                 <col width="150">
                 <col width="150">
                 <col width="150">
+                <col width="150">
+                <col width="150">
             </colgroup>
             <thead>
             <tr>
@@ -768,6 +773,8 @@
                 <th>源路径</th>
                 <th>目标路径</th>
                 <th>同步状态</th>
+                <th>上次同步开始时间</th>
+                <th>上次同步结束时间</th>
             </tr>
             </thead>
             <tbody>
