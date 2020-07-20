@@ -179,4 +179,14 @@ class AsynTaskController extends Controller
             LogManager::getSingleton()->addLog("执行测试php脚本成功:".json_encode($res));
         }
     }
+
+    // 获取文件详情
+    public function getFileInfo(){
+        // 文件路径
+        if (!isset($_REQUEST["path"])) die;
+        $path = $_REQUEST["path"];
+
+        $cmd = "php ".ADMIN."controller/GetFileInfo.php ".LogManager::getSingleton()->logFilePath." '".$path;
+        ShellManager::exec($cmd);
+    }
 }

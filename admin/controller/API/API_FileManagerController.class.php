@@ -269,8 +269,19 @@ class API_FileManagerController extends API_BaseController
         $path = base64_decode($path);
         $path = urldecode($path);
 
-        $res = $this->loadDetaileInfo($driverName,$path);
-        echo $this->success($res);
+        $path = $driverName.":".$path;
+
+        // 后台获取文件详情
+        $params = [
+            "m"=>"admin",
+            "c"=>"AsynTask",
+            "a"=>"index",
+            "path"=>$path
+        ];
+
+        MultiThreadTool::addTask($this->website."/index.php","getFileInfo",$params);
+        // 提示正在后台移动
+        echo $this->success("文件详情后台获取中");
     }
 
     // 重命名
