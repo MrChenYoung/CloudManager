@@ -747,6 +747,21 @@
         get(url,null,true,true);
     }
 
+    // 清空日志
+    function clearLog() {
+        var url = baseUrl + "?m=admin&c=API_FileManager&a=clearLog&API=";
+        get(url,true,true);
+    }
+    
+    // 下载日志
+    function downloadLog() {
+        var url = baseUrl + "/Logs/log.txt";
+        var $eleForm = $("<form method='get'></form>");
+        $eleForm.attr("action",url);
+        $(document.body).append($eleForm);
+        //提交表单，实现下载
+        $eleForm.submit();
+    }
 </script>
 <{/block}>
 <{block name="content"}>

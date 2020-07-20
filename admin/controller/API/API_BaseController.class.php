@@ -122,7 +122,7 @@ class API_BaseController extends Controller
     // 清空日志
     public function clearLog(){
         LogManager::getSingleton()->clearLog();
-        echo $this->success("");
+        echo $this->success("日志清除成功");
     }
 
 }
