@@ -760,15 +760,15 @@
         var url = "/Logs/log.txt";
 
         var newwindow = window.open(url);
-        newwindow.document.charset="UTF-8";
-
-        // var htmlobj = $.ajax({url:url,type:"get", contentType: "application/x-www-form-urlencoded; charset=utf-8", async:false});
-        // if(htmlobj.status=="200"){
-        //     newwindow.document.write(htmlobj.responseText);
-        //     newwindow.document.charset="UTF-8";
-        // }else{
-        //     newwindow.close();
-        // }
+        // newwindow.document.charset="UTF-8";
+        
+        var htmlobj = $.ajax({url:url,type:"get", contentType: "application/x-www-form-urlencoded; charset=utf-8", async:false});
+        if(htmlobj.status=="200"){
+            newwindow.document.write(htmlobj.responseText);
+            newwindow.document.charset="UTF-8";
+        }else{
+            newwindow.close();
+        }
     }
 </script>
 <{/block}>
