@@ -756,6 +756,7 @@
     // 下载日志
     function downloadLog() {
         var url = baseUrl + "/Logs/log.txt";
+        console.log("下载日志:" + url);
         var $eleForm = $("<form method='get'></form>");
         $eleForm.attr("action",url);
         $(document.body).append($eleForm);
