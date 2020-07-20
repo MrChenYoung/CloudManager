@@ -757,16 +757,18 @@
     function downloadLog(obj) {
         var $this = $(obj);
 
-        var url = "data:text/html;charset=utf-8,/Logs/log.txt";
+        var url = "/Logs/log.txt";
 
-        window.open(url);
+        var newwindow = window.open(url);
+        newwindow.document.charset="UTF-8";
 
-        // console.log("下载日志:" + url);
-        // var $eleForm = $("<form method='get'></form>");
-        // $eleForm.attr("action",url);
-        // $eleForm.appendTo($("body"));
-        // //提交表单，实现下载
-        // $eleForm.submit();
+        // var htmlobj = $.ajax({url:url,type:"get", contentType: "application/x-www-form-urlencoded; charset=utf-8", async:false});
+        // if(htmlobj.status=="200"){
+        //     newwindow.document.write(htmlobj.responseText);
+        //     newwindow.document.charset="UTF-8";
+        // }else{
+        //     newwindow.close();
+        // }
     }
 </script>
 <{/block}>
