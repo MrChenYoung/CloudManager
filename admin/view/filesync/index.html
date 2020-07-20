@@ -754,14 +754,16 @@
     }
     
     // 下载日志
-    function downloadLog() {
+    function downloadLog(obj) {
+        var $this = $(obj);
+
         var url = baseUrl + "/Logs/log.txt";
         console.log("下载日志:" + url);
         var $eleForm = $("<form method='get'></form>");
         $eleForm.attr("action",url);
         $(document.body).append($eleForm);
         //提交表单，实现下载
-        // $eleForm.submit();
+        $eleForm.submit();
     }
 </script>
 <{/block}>
@@ -774,7 +776,7 @@
         <div style="width: 100%;text-align: left">
             <button onclick="syncAll()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">一键同步</button>
             <button onclick="clearLog()" type="button" class="layui-btn layui-btn-primary">清空日志</button>
-            <button onclick="downloadLog()" type="button" class="layui-btn layui-btn-primary">下载日志</button>
+            <button onclick="downloadLog(this)" type="button" class="layui-btn layui-btn-primary">下载日志</button>
         </div>
         <table class="layui-table">
             <colgroup>
