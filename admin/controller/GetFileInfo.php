@@ -10,7 +10,9 @@ $cmd = "rclone size ".$path;
 $res = myshellExec($cmd);
 if ($res["success"]){
     addLog($logPath,"获取文件详情成功,详情如下：");
-    addLog($logPath,$res["result"]);
+    foreach ($res["result"] as $re) {
+        addLog($logPath,$re);
+    }
 }else {
     addLog($logPath,"获取文件详情失败");
 }
