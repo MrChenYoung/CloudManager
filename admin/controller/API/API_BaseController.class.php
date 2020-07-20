@@ -83,6 +83,8 @@ class API_BaseController extends Controller
         }else {
             $getSizeCmd = "rclone size ".$remoteName.":".$path;
         }
+
+
         $sizeRes = ShellManager::exec($getSizeCmd);
 
         if (!$sizeRes["success"]){

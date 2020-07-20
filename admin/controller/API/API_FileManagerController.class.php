@@ -426,14 +426,12 @@ class API_FileManagerController extends API_BaseController
             // 前台直接移动
             if ($sourcedriver == $desdriver){
                 // 云盘内移动文件，不耗费vps流量
-                $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+                $cmd = "gclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
             }else {
                 // 跨云盘移动文件 耗费vps流量
-                $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
+                $cmd = "gclone moveto ".$sourcePath." ".$desPath." -P >> ".LogManager::getSingleton()->logFilePath." 2>&1";
             }
 
-            echo "移动命令:".$cmd;
-            die;
             $res = ShellManager::exec($cmd);
             if (!$res["success"]){
                 echo $this->failed("移动失败");

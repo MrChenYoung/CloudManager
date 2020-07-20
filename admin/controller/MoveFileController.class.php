@@ -26,9 +26,9 @@ if ($insertRes !== true){
 }
 
 if ($sourcedriver == $desdriver){
-    $cmd = "rclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
+    $cmd = "gclone moveto ".$sourcePath." ".$desPath." --drive-server-side-across-configs -P >> ".$logPath." 2>&1";
 }else {
-    $cmd = "rclone moveto ".$sourcePath." ".$desPath." -P >> ".$logPath." 2>&1";
+    $cmd = "gclone moveto ".$sourcePath." ".$desPath." -P >> ".$logPath." 2>&1";
 }
 
 // 执行rclone移动移动命令

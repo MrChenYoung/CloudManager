@@ -728,6 +728,11 @@
             });
         });
     }
+    
+    // 一键同步所有的同步列表
+    function syncAll() {
+
+    }
 
 </script>
 <{/block}>
@@ -737,6 +742,7 @@
         <fieldset class="layui-elem-field layui-field-title list-title" style="margin-top: 20px;">
             <legend>同步列表</legend>
         </fieldset>
+        <button onclick="syncAll()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">一键同步</button>
         <table class="layui-table">
             <colgroup>
                 <col width="150">
