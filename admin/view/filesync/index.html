@@ -748,7 +748,7 @@
     }
 
     // 清空日志
-    function clearLog() {
+    function clearCurLog() {
         var url = baseUrl + "?m=admin&c=API_FileManager&a=clearLog&API=";
         get(url,true,true);
     }
@@ -777,7 +777,7 @@
         </fieldset>
         <div style="width: 100%;text-align: left">
             <button onclick="syncAll()" type="button" class="layui-btn layui-btn-primary layui-btn-lg">一键同步</button>
-            <button onclick="clearLog()" type="button" class="layui-btn layui-btn-primary">清空日志</button>
+            <button onclick="clearCurLog()" type="button" class="layui-btn layui-btn-primary">清空日志</button>
             <button onclick="downloadLog()" type="button" class="layui-btn layui-btn-primary">查看日志</button>
         </div>
         <table class="layui-table">
