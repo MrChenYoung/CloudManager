@@ -1,12 +1,14 @@
 <?php
 namespace framework\dao;
 use framework\dao\i_DAOPDO;
+use framework\tools\DatabaseBackupManager;
 use framework\tools\StringTool;
 use PDO;
 use PDOException;
 
 require_once "./framework/dao/i_DAOPDO.interface.php";
 require_once "./framework/tools/StringTool.class.php";
+require_once "./framework/tools/DatabaseBackupManager.class.php";
 /**
  * Class DAOPDO PDO封装类
  * 封装PDO的操作
@@ -86,9 +88,96 @@ class DAOPDO implements i_DAOPDO
     // 如果数据库不存在创建
     private function createDatabase(){
         $dbName = $this->dbname;
-        $result = $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$dbName} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;");
-        if (!$result) {
-            die('数据库创建失败');
+        $sql = "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='".$dbName."'";
+        echo "sql:".$sql;
+        $link = new mysqli("localhost","root","199156");
+        if (!$link->connect_error){
+            // 链接数据库成功
+            $result = $link -> query($sql);
+            if ($result){
+                // 获取所有行数据 只要关联数组
+                $res = $result -> fetch_all(MYSQLI_ASSOC);
+                // 释放资源
+                $result -> free();
+                if (!$res){
+                    // 数据库不存在 创建
+                    $result = $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$dbName} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;");
+                    if (!$result) {
+                        die('数据库创建失败');
+                    }else {
+                        // 数据库创建成功 导入备份
+                        $driveDbPath = "/www/wwwroot/cloudmount.yycode.ml/GDSuite/我的数据/备份数据/db/";
+                        $path = $driveDbPath.$dbName."/all/";
+                        $fileName = $this->getLastBackDb($path);
+                        $path .= $fileName;
+                        (new DatabaseBackupManager($GLOBALS["db_info"]))->restore($path);
+                    }
+                }
+            }
+        }
+    }
+
+    // 获取最后一次数据库备份
+    private function getLastBackDb($path){
+        // 获取所有文件名
+        $fileLists = [];
+        $handler = file_exists($path) ? opendir($path) : null;
+        if ($handler){
+            while (($filename = readdir($handler)) !== false) { //务必使用!==，防止目录下出现类似文件名“0”等情况
+                if ($filename != "." && $filename != ".." && substr($filename,0,1) != ".") {
+                    //获取文件修改日期
+                    date_default_timezone_set('PRC');
+                    $filetime = date('Y-m-d H:i:s', filemtime($path . "/" . $filename));
+                    //文件修改时间作为健值
+                    if (array_key_exists($filetime,$fileLists)){
+                        // 已经有相同时间文件
+                        $existsValue = $fileLists[$filetime];
+                        if (is_array($existsValue)){
+                            $existsValue[] = $filename;
+                            $fileLists[$filetime] = $existsValue;
+                        }else {
+                            $fileLists[$filetime] = [$existsValue,$filename];
+                        }
+                    }else {
+                        // 没有没有相同时间的文件
+                        $fileLists[$filetime] = $filename;
+                    }
+                }
+            }
+            closedir($handler);
+        }
+
+        // key按照时间排序
+        ksort($fileLists);
+        $data = [];
+        foreach ($fileLists as $key=>$item) {
+            $fileInfo = [];
+            if (is_array($item)){
+                foreach ($item as $newItem){
+                    // 获取文件大小
+                    $fileSize = FileManager::getFileSize($path."/".$newItem);
+                    $fileSize = FileManager::formatBytes($fileSize);
+                    $fileInfo["size"] = $fileSize;
+                    $fileInfo["name"] = $newItem;
+                    $fileInfo["time"] = $key;
+                    $data[] = $fileInfo;
+                }
+            }else {
+                // 获取文件大小
+                $fileSize = FileManager::getFileSize($path."/".$item);
+                $fileSize = FileManager::formatBytes($fileSize);
+                $fileInfo["size"] = $fileSize;
+                $fileInfo["name"] = $item;
+                $fileInfo["time"] = $key;
+                $data[] = $fileInfo;
+            }
+        }
+        // 倒序排列
+        $data = array_reverse($data);
+        if (count($data) > 0){
+            return $data[0]["name"];
+        }else {
+            return "";
         }
     }
 
