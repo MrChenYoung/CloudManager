@@ -25,6 +25,9 @@ class API_MyDriverController extends API_BaseController
         $driveData = [];
         $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
 
+        echo "<pre>";
+        var_dump($driveInfo);
+        die;
         if ($driveInfo){
             foreach ($driveInfo as $drive) {
                 $driveName = $drive["driver_name"];
