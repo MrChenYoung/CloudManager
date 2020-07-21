@@ -2,6 +2,7 @@
 namespace framework\dao;
 use framework\dao\i_DAOPDO;
 use framework\tools\DatabaseBackupManager;
+use framework\tools\FileManager;
 use framework\tools\StringTool;
 use PDO;
 use PDOException;
@@ -9,6 +10,7 @@ use PDOException;
 require_once "./framework/dao/i_DAOPDO.interface.php";
 require_once "./framework/tools/StringTool.class.php";
 require_once "./framework/tools/DatabaseBackupManager.class.php";
+require_once "./framework/tools/FileManager.class.php";
 /**
  * Class DAOPDO PDO封装类
  * 封装PDO的操作
@@ -89,7 +91,6 @@ class DAOPDO implements i_DAOPDO
     private function createDatabase(){
         $dbName = $this->dbname;
         $sql = "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='".$dbName."'";
-        echo "sql:".$sql;
         $link = new \mysqli("localhost","root","199156");
         if (!$link->connect_error){
             // 链接数据库成功
