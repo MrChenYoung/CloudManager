@@ -90,7 +90,7 @@ class DAOPDO implements i_DAOPDO
         $dbName = $this->dbname;
         $sql = "SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='".$dbName."'";
         echo "sql:".$sql;
-        $link = new mysqli("localhost","root","199156");
+        $link = new \mysqli("localhost","root","199156");
         if (!$link->connect_error){
             // 链接数据库成功
             $result = $link -> query($sql);
