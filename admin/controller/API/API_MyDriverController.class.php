@@ -24,10 +24,7 @@ class API_MyDriverController extends API_BaseController
         // 数据库查询云盘信息
         $driveData = [];
         $driveInfo = DatabaseDataManager::getSingleton()->find("driver_list");
-
-        echo "<pre>";
-        var_dump($driveInfo);
-        die;
+        
         if ($driveInfo){
             foreach ($driveInfo as $drive) {
                 $driveName = $drive["driver_name"];
