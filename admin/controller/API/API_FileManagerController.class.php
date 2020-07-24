@@ -363,6 +363,11 @@ class API_FileManagerController extends API_BaseController
         $cmd = 'rclone mkdir '.$driverName.":".$fullPath;
 
         $res = ShellManager::exec($cmd);
+        echo "命令:".$cmd;
+        echo "结果:";
+        echo "<pre>";
+        var_dump($res);
+        die;
         if (!$res["success"]){
             echo $this->failed("文件夹创建失败");
             die;
