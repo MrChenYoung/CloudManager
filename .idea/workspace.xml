@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controller/API/API_FileManagerController.class.php" afterDir="false" />
-    </list>
+    <list default="true" id="e8364487-db93-4c3b-b603-3e47a54a1d93" name="默认更改列表" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,6 +119,7 @@
       <workItem from="1595433797882" duration="155000" />
       <workItem from="1595437095751" duration="612000" />
       <workItem from="1595626644247" duration="319000" />
+      <workItem from="1595627367904" duration="52000" />
     </task>
     <servers />
   </component>
